@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Inter, Outfit } from "next/font/google";
-import { SiteHeader } from "@/components/layout/site-header";
-import { SiteFooter } from "@/components/layout/site-footer";
-import { WhatsAppButton } from "@/components/layout/whatsapp-button";
+import { SiteChrome } from "@/components/layout/site-chrome";
 import { JsonLd } from "@/components/seo/json-ld";
 import { siteConfig } from "@/content/site";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
@@ -113,10 +112,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${inter.variable} ${outfit.variable} h-full`}>
       <body className="flex min-h-full flex-col">
         <JsonLd data={organizationJsonLd} />
-        <SiteHeader />
-        <main className="flex-1">{children}</main>
-        <SiteFooter />
-        <WhatsAppButton />
+        <Suspense fallback={<main className="flex-1">{children}</main>}>
+          <SiteChrome>{children}</SiteChrome>
+        </Suspense>
       </body>
     </html>
   );

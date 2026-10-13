@@ -96,3 +96,80 @@ section[data-section].bg-charcoal + section[data-section].bg-charcoal {
   min-height: calc(100svh - var(--header-h));
   max-height: calc(100svh - var(--header-h));
 }
+
+/* Admin rich text editor */
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: var(--body-text);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.prose-admin {
+  color: var(--ink);
+  line-height: 1.65;
+}
+
+.prose-admin h1,
+.prose-admin h2,
+.prose-admin h3 {
+  font-family: var(--font-heading), sans-serif;
+  font-weight: 600;
+  margin: 1rem 0 0.5rem;
+}
+
+.prose-admin p {
+  margin: 0.65rem 0;
+}
+
+.prose-admin ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin: 0.65rem 0;
+}
+
+.prose-admin ol {
+  list-style: decimal;
+  padding-left: 1.25rem;
+  margin: 0.65rem 0;
+}
+
+.prose-admin blockquote {
+  border-left: 3px solid var(--brand);
+  margin: 0.75rem 0;
+  padding-left: 0.9rem;
+  color: var(--body-text);
+}
+
+.prose-admin a {
+  color: var(--brand);
+  text-decoration: underline;
+}
+
+.prose-admin table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75rem 0;
+  font-size: 0.875rem;
+}
+
+.prose-admin th,
+.prose-admin td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.prose-admin thead th {
+  background: #2563eb;
+  color: #fff;
+}
+
+.prose-admin tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+.ProseMirror {
+  min-height: 280px;
+}
