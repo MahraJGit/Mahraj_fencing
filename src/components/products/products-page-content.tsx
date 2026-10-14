@@ -32,15 +32,18 @@ export async function ProductsPageContent({
     : products;
 
   return (
-    <Section tone="alt">
-      <nav aria-label="Product categories" className="flex flex-wrap gap-2">
+    <Section>
+      <nav
+        aria-label="Product categories"
+        className="flex flex-wrap gap-x-1 gap-y-2 border-b border-border pb-1"
+      >
         <Link
           href="/products"
           className={cn(
-            "rounded-full border px-4 py-2 text-sm font-medium",
+            "border-b-2 px-3 py-2.5 text-sm font-semibold transition",
             !category
-              ? "border-brand bg-brand text-white"
-              : "border-border bg-background text-charcoal hover:border-brand/40",
+              ? "border-brand text-brand"
+              : "border-transparent text-body hover:text-ink",
           )}
         >
           All
@@ -50,10 +53,10 @@ export async function ProductsPageContent({
             key={key}
             href={`/products?category=${key}`}
             className={cn(
-              "rounded-full border px-4 py-2 text-sm font-medium",
+              "border-b-2 px-3 py-2.5 text-sm font-semibold transition",
               category === key
-                ? "border-brand bg-brand text-white"
-                : "border-border bg-background text-charcoal hover:border-brand/40",
+                ? "border-brand text-brand"
+                : "border-transparent text-body hover:text-ink",
             )}
           >
             {productCategories[key].label}
@@ -61,7 +64,7 @@ export async function ProductsPageContent({
         ))}
       </nav>
       {category ? (
-        <p className="mt-6 text-body">
+        <p className="mt-6 max-w-2xl text-body leading-relaxed">
           {productCategories[category].description}
         </p>
       ) : null}

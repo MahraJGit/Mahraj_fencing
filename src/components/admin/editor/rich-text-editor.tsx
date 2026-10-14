@@ -25,6 +25,7 @@ import {
 import { cn } from "@/lib/utils";
 import { HtmlBlock } from "./html-block-extension";
 import { HtmlBlockModal } from "./html-block-modal";
+import { ImageInsertModal } from "./image-insert-modal";
 
 type RichTextEditorProps = {
   value: string;
@@ -38,13 +39,19 @@ export function RichTextEditor({
   placeholder = "Write your article...",
 }: RichTextEditorProps) {
   const [htmlOpen, setHtmlOpen] = useState(false);
+  const [imageOpen, setImageOpen] = useState(false);
 
   const editor = useEditor({
     extensions: [
       StarterKit,
       Underline,
       Link.configure({ openOnClick: false }),
-      Image,
+      Image.configure({
+        allowBase64: true,
+        HTMLAttributes: {
+          class: "max-w-full h-auto rounded-md",
+        },
+      }),
       Placeholder.configure({ placeholder }),
       HtmlBlock,
     ],
@@ -152,13 +159,7 @@ export function RichTextEditor({
         <ToolBtn active={editor.isActive("link")} onClick={setLink} label="Link">
           <Link2 className="h-4 w-4" />
         </ToolBtn>
-        <ToolBtn
-          onClick={() => {
-            const url = window.prompt("Image URL");
-            if (url) editor.chain().focus().setImage({ src: url }).run();
-          }}
-          label="Image"
-        >
+        <ToolBtn onClick={() => setImageOpen(true)} label="Image">
           <ImageIcon className="h-4 w-4" />
         </ToolBtn>
         <ToolBtn
@@ -177,6 +178,17 @@ export function RichTextEditor({
         onClose={() => setHtmlOpen(false)}
         onInsert={(html) => {
           editor.chain().focus().insertHtmlBlock(html).run();
+        }}
+      />
+      <ImageInsertModal
+        open={imageOpen}
+        onClose={() => setImageOpen(false)}
+        onInsert={(src, alt) => {
+          editor
+            .chain()
+            .focus()
+            .setImage({ src, alt: alt || undefined })
+            .run();
         }}
       />
     </div>

@@ -1,35 +1,31 @@
 import { Section } from "@/components/layout/section";
 import { PageHero } from "@/components/layout/page-hero";
-import { siteConfig } from "@/content/site";
+import { LegalDocument } from "@/components/legal/legal-document";
+import { termsContent } from "@/content/terms";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Terms of use",
-  description: `Terms of use for ${siteConfig.name}.`,
+  title: termsContent.seo.title,
+  description: termsContent.seo.description,
   path: "/terms",
-  noIndex: true,
 });
 
 export default function TermsPage() {
   return (
     <>
-      <PageHero title="Terms of use" image="/images/heroes/terms-hero.png" />
+      <PageHero
+        title={termsContent.hero.title}
+        subtitle={termsContent.hero.subtitle}
+        image={termsContent.hero.image}
+      />
       <Section>
-        <div className="prose-content mx-auto max-w-3xl">
-          <p>
-            Content on {siteConfig.url} is provided for general information about
-            {siteConfig.name} products and services. Specifications on site must be
-            confirmed in writing before order.
-          </p>
-          <p>
-            Images may show representative installs; actual finishes and configurations
-            are confirmed against project drawings and local regulations.
-          </p>
-          <p>
-            Enquiries through this website do not constitute a binding contract until
-            both parties agree commercial terms.
-          </p>
-        </div>
+        <LegalDocument
+          intro={termsContent.intro}
+          privacyNote={termsContent.privacyNote}
+          sections={termsContent.sections}
+          lastUpdated={termsContent.lastUpdated}
+          entireAgreement={termsContent.entireAgreement}
+        />
       </Section>
     </>
   );

@@ -7,7 +7,7 @@ export function ClientsSection() {
   const copy = homeContent.clients;
 
   return (
-    <Section tone="alt">
+    <Section>
       <Reveal>
         <SectionHeading
           align="center"
@@ -15,13 +15,15 @@ export function ClientsSection() {
           description={copy.description}
         />
       </Reveal>
-      <ul className="mt-10 flex flex-wrap justify-center gap-3">
+      <ul className="mx-auto mt-12 grid max-w-4xl gap-px overflow-hidden rounded-xl bg-border sm:grid-cols-2 lg:grid-cols-3">
         {copy.names.map((name, i) => (
-          <li key={name}>
-            <Reveal delay={i * 0.03}>
-              <span className="inline-block rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-charcoal">
-                {name}
-              </span>
+          <li key={name} className="bg-background">
+            <Reveal delay={i * 0.03} className="h-full">
+              <div className="flex h-full min-h-[4.5rem] items-center justify-center px-5 py-6 text-center">
+                <span className="font-heading text-sm font-semibold tracking-wide text-charcoal sm:text-base">
+                  {name}
+                </span>
+              </div>
             </Reveal>
           </li>
         ))}

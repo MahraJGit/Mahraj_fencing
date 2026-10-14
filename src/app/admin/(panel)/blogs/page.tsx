@@ -20,7 +20,7 @@ export default function AdminBlogsPage() {
         <div>
           <h1 className="font-heading text-2xl font-semibold text-ink">Blogs</h1>
           <p className="mt-1 text-sm text-body">
-            Meta title, meta description, focus keyword, alt text, and rich HTML content.
+            SEO meta, author, category, FAQs, and rich HTML content.
           </p>
         </div>
         <ButtonLink href="/admin/blogs/new" size="sm">
@@ -34,7 +34,7 @@ export default function AdminBlogsPage() {
           slug: item.slug,
           title: item.title,
           status: item.status,
-          meta: `Keyword: ${item.seo.focusKeyword}`,
+          meta: `${item.category} · ${item.seo.focusKeyword || "No keyword"}`,
         }))}
         onDelete={(slug) => {
           deleteBlog(slug);

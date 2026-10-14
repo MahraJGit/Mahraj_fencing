@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { Inter, Outfit } from "next/font/google";
+import { Manrope, Outfit } from "next/font/google";
 import { SiteChrome } from "@/components/layout/site-chrome";
 import { JsonLd } from "@/components/seo/json-ld";
 import { siteConfig } from "@/content/site";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import "./globals.css";
 
-const inter = Inter({
+const manrope = Manrope({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
@@ -109,7 +109,7 @@ const organizationJsonLd = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} ${outfit.variable} h-full`}>
+    <html lang="en" className={`${manrope.variable} ${outfit.variable} h-full`}>
       <body className="flex min-h-full flex-col">
         <JsonLd data={organizationJsonLd} />
         <Suspense fallback={<main className="flex-1">{children}</main>}>

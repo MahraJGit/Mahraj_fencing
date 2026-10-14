@@ -29,23 +29,22 @@
 :root {
   --brand: #c8102e;
   --brand-dark: #8c1024;
-  --ink: #16181b;
-  --charcoal: #262a2e;
-  --body-text: #5c6066;
-  --surface-alt: #f4f5f6;
-  --border: #e4e6e8;
+  --ink: #121417;
+  --charcoal: #1c2126;
+  --body-text: #5a5f66;
+  --surface-alt: #f2f3f5;
+  --border: #e2e4e8;
 
-  /* Header bar height; heroes fill the rest of the screen */
   --header-h: 4rem;
 
-  --background: #ffffff;
+  --background: #fafbfc;
   --foreground: var(--ink);
   --primary: var(--brand);
   --primary-foreground: #ffffff;
   --muted: var(--surface-alt);
   --muted-foreground: var(--body-text);
   --ring: var(--brand);
-  --radius: 0.375rem;
+  --radius: 0.5rem;
 }
 
 @layer base {
@@ -57,6 +56,13 @@
   }
   body {
     @apply bg-background text-foreground overflow-x-clip antialiased;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 100% -10%, rgba(200, 16, 46, 0.04), transparent 55%),
+      radial-gradient(ellipse 60% 40% at -10% 30%, rgba(28, 33, 38, 0.03), transparent 50%);
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--brand) 22%, white);
+    color: var(--ink);
   }
   h1,
   h2,
@@ -71,12 +77,15 @@
   }
 }
 
-section[data-section].bg-surface-alt + section[data-section].bg-surface-alt,
-section[data-section].bg-background + section[data-section].bg-background,
+section[data-section].bg-surface-alt\/80 + section[data-section].bg-surface-alt\/80,
+section[data-section].bg-transparent + section[data-section].bg-transparent,
 section[data-section].bg-charcoal + section[data-section].bg-charcoal {
   padding-top: 0;
 }
 
+.prose-content h2 {
+  @apply font-heading font-bold text-ink tracking-tight;
+}
 .prose-content p {
   @apply text-body leading-relaxed;
 }
@@ -86,8 +95,10 @@ section[data-section].bg-charcoal + section[data-section].bg-charcoal {
 .prose-content ul {
   @apply mt-4 list-disc space-y-2 pl-5 text-body;
 }
+.prose-content strong {
+  @apply font-bold text-ink;
+}
 
-/* Hero starts under header and ends at the bottom of the viewport */
 .page-hero {
   box-sizing: border-box;
   height: calc(100vh - var(--header-h));
@@ -97,7 +108,15 @@ section[data-section].bg-charcoal + section[data-section].bg-charcoal {
   max-height: calc(100svh - var(--header-h));
 }
 
-/* Admin rich text editor */
+/* Soft steel mesh for dark sections */
+.surface-mesh {
+  background-image:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, transparent 40%),
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: auto, 28px 28px, 28px 28px;
+}
+
 .ProseMirror p.is-editor-empty:first-child::before {
   color: var(--body-text);
   content: attr(data-placeholder);
@@ -162,7 +181,7 @@ section[data-section].bg-charcoal + section[data-section].bg-charcoal {
 }
 
 .prose-admin thead th {
-  background: #2563eb;
+  background: var(--brand);
   color: #fff;
 }
 
@@ -172,4 +191,11 @@ section[data-section].bg-charcoal + section[data-section].bg-charcoal {
 
 .ProseMirror {
   min-height: 280px;
+}
+
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.375rem;
+  margin: 0.75rem 0;
 }

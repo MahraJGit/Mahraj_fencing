@@ -17,12 +17,15 @@ export function ProductShowcase() {
       <Reveal>
         <SectionHeading title={copy.title} description={copy.description} />
       </Reveal>
-      <Reveal className="mt-10" delay={0.05}>
+      <Reveal className="mt-12" delay={0.05}>
         <ProductGrid products={featured} />
       </Reveal>
-      <div className="mt-8 flex flex-wrap items-center gap-4">
+      <div className="mt-10 flex flex-wrap items-center gap-5">
         <ButtonLink href="/products">View full catalog</ButtonLink>
-        <Link href="/contact" className="text-sm font-semibold text-brand">
+        <Link
+          href="/contact"
+          className="text-sm font-semibold text-brand transition hover:text-brand-dark"
+        >
           Need a spec review? Contact us →
         </Link>
       </div>

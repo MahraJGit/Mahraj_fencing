@@ -13,29 +13,36 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
       href={`/products/${product.slug}`}
-      className="group flex flex-col overflow-hidden rounded-lg border border-border bg-background transition hover:border-brand/30 hover:shadow-md"
+      className="group flex flex-col overflow-hidden rounded-xl bg-background shadow-[0_1px_0_rgba(18,20,23,0.04),0_12px_32px_-18px_rgba(18,20,23,0.35)] ring-1 ring-border/80 transition duration-300 hover:-translate-y-1 hover:shadow-[0_1px_0_rgba(18,20,23,0.04),0_22px_40px_-16px_rgba(18,20,23,0.4)] hover:ring-brand/25"
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-surface-alt">
         <Image
           src={product.image}
           alt={product.title}
           fill
-          className="object-cover transition duration-500 group-hover:scale-105"
+          className="object-cover transition duration-700 group-hover:scale-105"
           sizes="(max-width:768px) 100vw, 33vw"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/25 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
       </div>
-      <div className="flex flex-1 flex-col p-5">
-        <p className="text-xs font-semibold uppercase tracking-wide text-brand">
+      <div className="flex flex-1 flex-col p-5 sm:p-6">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-brand">
           {categoryLabel}
         </p>
-        <h3 className="mt-1 text-lg font-semibold text-ink group-hover:text-brand">
+        <h3 className="mt-2 font-heading text-lg font-semibold text-ink transition group-hover:text-brand">
           {product.title}
         </h3>
         <p className="mt-2 flex-1 text-sm leading-relaxed text-body">
           {product.shortDescription}
         </p>
-        <span className="mt-4 text-sm font-semibold text-brand">
-          View details →
+        <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-brand">
+          View details
+          <span
+            aria-hidden
+            className="transition-transform duration-300 group-hover:translate-x-1"
+          >
+            →
+          </span>
         </span>
       </div>
     </Link>

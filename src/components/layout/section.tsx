@@ -10,9 +10,9 @@ type SectionProps = {
 };
 
 const toneClasses: Record<NonNullable<SectionProps["tone"]>, string> = {
-  default: "bg-background",
-  alt: "bg-surface-alt",
-  dark: "bg-charcoal text-white",
+  default: "bg-transparent",
+  alt: "bg-surface-alt/80",
+  dark: "bg-charcoal text-white surface-mesh",
   brand: "bg-brand-dark text-white",
 };
 
@@ -27,7 +27,7 @@ export function Section({
     <section
       id={id}
       data-section
-      className={cn("py-14 sm:py-16 lg:py-20", toneClasses[tone], className)}
+      className={cn("py-16 sm:py-20 lg:py-24", toneClasses[tone], className)}
     >
       <Container className={containerClassName}>{children}</Container>
     </section>
