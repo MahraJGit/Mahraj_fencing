@@ -1,3 +1,5 @@
+import { siteConfig } from "@/content/site";
+
 export const privacyContent = {
   hero: {
     title: "Privacy Policy",
@@ -102,10 +104,9 @@ export const privacyContent = {
   contact: {
     title: "Contact Information",
     intro: "For any privacy questions or requests, please contact us:",
-    email: "Waseem@mahraj.com",
-    phoneUae: "+971 50 882 2414",
-    phoneKsa: "+966 56 602 1891",
-    address: "Building 5207, Street 392, Al Malqa, Riyadh, Saudi Arabia",
+    email: siteConfig.emails[0],
+    phone: siteConfig.phones[0].display,
+    address: siteConfig.address.full,
   },
   seo: {
     title: "Privacy Policy",

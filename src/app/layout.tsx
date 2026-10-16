@@ -1,29 +1,43 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { Manrope, Outfit } from "next/font/google";
+import { Barlow_Condensed, Inter, Outfit, Public_Sans } from "next/font/google";
 import { SiteChrome } from "@/components/layout/site-chrome";
 import { JsonLd } from "@/components/seo/json-ld";
 import { siteConfig } from "@/content/site";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import "./globals.css";
 
-const manrope = Manrope({
+const publicSans = Public_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
 });
 
-const outfit = Outfit({
+const barlowCondensed = Barlow_Condensed({
   subsets: ["latin"],
+  weight: ["500", "600", "700", "800"],
   variable: "--font-heading",
+  display: "swap",
+});
+
+const footerBody = Inter({
+  subsets: ["latin"],
+  variable: "--font-footer-body",
+  display: "swap",
+});
+
+const footerHeading = Outfit({
+  subsets: ["latin"],
+  variable: "--font-footer-heading",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   ...buildMetadata({
-    title: `${siteConfig.name} | ${siteConfig.tagline}`,
+    title: siteConfig.tagline,
     description: siteConfig.description,
     path: "/",
+    image: "/images/logo.png",
   }),
   keywords: [
     "fencing company Dubai",
@@ -42,12 +56,8 @@ export const metadata: Metadata = {
   creator: siteConfig.name,
   category: "construction",
   icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/brand/mahraj-mark.png", type: "image/png" },
-    ],
-    apple: [{ url: "/brand/mahraj-mark.png", type: "image/png" }],
-    shortcut: "/favicon.ico",
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/images/logo.png", type: "image/png" }],
   },
 };
 
@@ -71,7 +81,7 @@ const organizationJsonLd = {
         "@type": "PostalAddress",
         streetAddress: siteConfig.address.street,
         addressLocality: siteConfig.address.city,
-        addressCountry: "SA",
+        addressCountry: siteConfig.address.country,
       },
       areaServed: siteConfig.regions.map((name) => ({
         "@type": "City",
@@ -100,7 +110,7 @@ const organizationJsonLd = {
         "@type": "PostalAddress",
         streetAddress: siteConfig.address.street,
         addressLocality: siteConfig.address.city,
-        addressCountry: "SA",
+        addressCountry: siteConfig.address.country,
       },
       parentOrganization: { "@id": `${siteConfig.url}/#organization` },
     },
@@ -109,7 +119,10 @@ const organizationJsonLd = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${manrope.variable} ${outfit.variable} h-full`}>
+    <html
+      lang="en"
+      className={`${publicSans.variable} ${barlowCondensed.variable} ${footerBody.variable} ${footerHeading.variable} h-full`}
+    >
       <body className="flex min-h-full flex-col">
         <JsonLd data={organizationJsonLd} />
         <Suspense fallback={<main className="flex-1">{children}</main>}>

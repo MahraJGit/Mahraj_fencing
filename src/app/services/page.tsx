@@ -1,8 +1,9 @@
-import Link from "next/link";
-import Image from "next/image";
-import { PageHero } from "@/components/layout/page-hero";
-import { Section } from "@/components/layout/section";
-import { services } from "@/content/services";
+import { ServicesHero } from "@/components/services/services-hero";
+import { ServicesQuickNav } from "@/components/services/quick-nav";
+import { ServiceCards } from "@/components/services/service-cards";
+import { ServicesProcess } from "@/components/services/process";
+import { TestimonialsSection } from "@/components/home/testimonials";
+import { CtaBanner } from "@/components/home/cta-banner";
 import { buildMetadata } from "@/lib/seo";
 import { BreadcrumbJsonLd } from "@/components/seo/breadcrumb-json-ld";
 
@@ -23,42 +24,12 @@ export default function ServicesPage() {
           { name: "Services", path: "/services" },
         ]}
       />
-      <PageHero
-        title="Fencing services"
-        subtitle="One partner from material supply through install, logistics, and phased shifting."
-        image="/images/heroes/service-hero.png"
-      />
-      <Section tone="alt">
-        <ul className="grid gap-8 md:grid-cols-2">
-          {services.map((service) => (
-            <li key={service.slug}>
-              <Link
-                href={`/services/${service.slug}`}
-                className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-background"
-              >
-                <div className="relative aspect-[16/9]">
-                  <Image
-                    src={service.image}
-                    alt=""
-                    fill
-                    className="object-cover transition group-hover:scale-105"
-                    sizes="50vw"
-                  />
-                </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <h2 className="text-xl font-semibold text-ink group-hover:text-brand">
-                    {service.title}
-                  </h2>
-                  <p className="mt-2 flex-1 text-sm text-body">{service.summary}</p>
-                  <span className="mt-4 text-sm font-semibold text-brand">
-                    View service →
-                  </span>
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </Section>
+      <ServicesHero />
+      <ServicesQuickNav />
+      <ServiceCards />
+      <ServicesProcess />
+      <TestimonialsSection className="bg-paper py-16 md:py-24" />
+      <CtaBanner />
     </>
   );
 }

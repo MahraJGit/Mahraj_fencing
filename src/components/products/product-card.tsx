@@ -13,7 +13,7 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
       href={`/products/${product.slug}`}
-      className="group flex flex-col overflow-hidden rounded-xl bg-background shadow-[0_1px_0_rgba(18,20,23,0.04),0_12px_32px_-18px_rgba(18,20,23,0.35)] ring-1 ring-border/80 transition duration-300 hover:-translate-y-1 hover:shadow-[0_1px_0_rgba(18,20,23,0.04),0_22px_40px_-16px_rgba(18,20,23,0.4)] hover:ring-brand/25"
+      className="group flex flex-col overflow-hidden rounded-lg border border-border bg-background transition duration-300 hover:-translate-y-0.5 hover:border-brand/35"
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-surface-alt">
         <Image

@@ -9,7 +9,8 @@ export type PageMetaInput = {
   noIndex?: boolean;
 };
 
-const defaultOgImage = `${siteConfig.url}/images/logo.png`;
+/** Always Mahraj Fencing brand mark for social / OG. */
+export const BRAND_OG_IMAGE = "/images/logo.png";
 
 export function absoluteUrl(path = ""): string {
   const base = siteConfig.url.replace(/\/$/, "");
@@ -25,15 +26,18 @@ export function buildMetadata({
   noIndex,
 }: PageMetaInput): Metadata {
   const url = absoluteUrl(path);
-  const ogImage = image ? absoluteUrl(image) : defaultOgImage;
+  const ogImage = absoluteUrl(image ?? BRAND_OG_IMAGE);
   const fullTitle =
     path === "" || path === "/"
-      ? title
+      ? title.includes(siteConfig.name)
+        ? title
+        : `${siteConfig.name} | ${title}`
       : `${title} | ${siteConfig.name}`;
 
   return {
     title: fullTitle,
     description,
+    applicationName: siteConfig.name,
     metadataBase: new URL(siteConfig.url),
     alternates: { canonical: url },
     openGraph: {
@@ -43,7 +47,14 @@ export function buildMetadata({
       siteName: siteConfig.name,
       title: fullTitle,
       description,
-      images: [{ url: ogImage, alt: siteConfig.name }],
+      images: [
+        {
+          url: ogImage,
+          alt: `${siteConfig.name} — fencing suppliers UAE & KSA`,
+          width: 1200,
+          height: 630,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",

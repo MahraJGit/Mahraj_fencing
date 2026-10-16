@@ -6,20 +6,19 @@ export const siteConfig = {
     "Mahraj Fencing is a trusted fencing company for fences, steel fabrication, concrete blocks, fence branding, gates, barriers, portable cabins, and installation across Dubai, Abu Dhabi, Sharjah, and Riyadh.",
   url: "https://mahrajfencing.com",
   locale: "en_AE",
-  emails: ["Waseem@mahraj.com"],
+  emails: ["Fencing@mahraj.com"],
   phones: [
-    { label: "KSA", display: "+966 56 602 1891", href: "tel:+966566021891" },
-    { label: "UAE", display: "+971 50 882 2414", href: "tel:+971508822414" },
+    { label: "UAE", display: "+971 55 765 7570", href: "tel:+971557657570" },
   ],
   whatsapp: {
-    display: "+971 50 882 2414",
-    href: "https://wa.me/971508822414",
+    display: "+971 55 765 7570",
+    href: "https://wa.me/971557657570",
   },
   address: {
-    street: "Building 5207 Street 392 Al Malqa",
-    city: "Riyadh",
-    country: "Saudi Arabia",
-    full: "Building 5207 Street 392 Al Malqa, Riyadh, Saudi Arabia",
+    street: "2204 B2B Tower, Business Bay",
+    city: "Dubai",
+    country: "United Arab Emirates",
+    full: "2204 B2B Tower, Business Bay, Dubai",
   },
   regions: ["Dubai", "Abu Dhabi", "Sharjah", "Riyadh"],
   social: {
@@ -112,7 +111,7 @@ export const footerNav = {
     { label: "Shifting", href: "/services/shifting-and-relocation" },
   ],
   legal: [
-    { label: "Privacy", href: "/privacy" },
-    { label: "Terms", href: "/terms" },
+    { label: "Privacy policy", href: "/privacy" },
+    { label: "Terms & Conditions", href: "/terms" },
   ],
 } as const;

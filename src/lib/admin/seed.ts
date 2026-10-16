@@ -28,7 +28,7 @@ export function seedBlogs(): AdminBlog[] {
     author: {
       name: post.author,
       role: "Technical writer, Mahraj Fencing",
-      image: "/brand/mahraj-mark.png",
+      image: "/images/logo.png",
       bio: "Writes practical guidance on fencing supply, installation, and site operations across the UAE and KSA.",
     },
     image: post.image,

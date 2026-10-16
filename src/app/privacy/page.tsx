@@ -17,6 +17,7 @@ export default function PrivacyPage() {
         title={privacyContent.hero.title}
         subtitle={privacyContent.hero.subtitle}
         image={privacyContent.hero.image}
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Privacy policy" }]}
       />
       <Section>
         <LegalDocument

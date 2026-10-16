@@ -63,6 +63,11 @@ export default async function ProductDetailPage(props: ProductPageProps) {
         title={product.title}
         subtitle={product.shortDescription}
         image={product.image}
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Products", href: "/products" },
+          { label: product.title },
+        ]}
       />
       <Section>
         <div className="grid gap-10 lg:grid-cols-2">

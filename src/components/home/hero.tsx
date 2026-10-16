@@ -1,89 +1,124 @@
-"use client";
-
 import Image from "next/image";
-import { motion, useReducedMotion } from "motion/react";
-import { homeContent } from "@/content/home";
-import { ButtonLink } from "@/components/ui/button";
-import { Container } from "@/components/layout/container";
+import { ArrowButtonLink } from "@/components/ui/arrow-button";
 
-/** Fills viewport below sticky header (header = 4rem). */
-const heroScreenStyle = {
-  height: "calc(100svh - 4rem)",
-  minHeight: "calc(100svh - 4rem)",
-  maxHeight: "calc(100svh - 4rem)",
-} as const;
+const STAT_ICON_GRADIENT =
+  "linear-gradient(262.56541078619387deg, rgba(255, 255, 255, 0.1) 24.42%, rgba(255, 255, 255, 0.5) 133.08%)";
+
+const stats = [
+  {
+    value: "4.95/5",
+    label: "Client Rating",
+    icon: (
+      <Image
+        src="/images/figma/home/icon-star.svg"
+        alt=""
+        width={24}
+        height={24}
+        className="h-6 w-6 brightness-0 invert"
+      />
+    ),
+  },
+  {
+    value: "100+",
+    label: "Projects Completed",
+    icon: (
+      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-6 w-6">
+        <path
+          fill="currentColor"
+          d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2h-2V5a.5.5 0 0 0-.5-.5h-3A.5.5 0 0 0 10 5v2H8Zm-4 0h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"
+        />
+        <path d="M2 11h20v2H2z" fill="rgba(0,0,0,.55)" />
+        <rect x="10.5" y="10.5" width="3" height="3" rx="0.7" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    value: "24/7",
+    label: "Site Support",
+    icon: (
+      <Image
+        src="/images/figma/home/icon-projects.svg"
+        alt=""
+        width={24}
+        height={24}
+        className="h-6 w-6 brightness-0 invert"
+      />
+    ),
+  },
+];
 
 export function HomeHero() {
-  const { hero } = homeContent;
-  const reduce = useReducedMotion();
-
   return (
-    <section
-      className="relative isolate flex shrink-0 flex-col overflow-hidden bg-charcoal text-white"
-      style={heroScreenStyle}
-    >
-      <Image
-        src={hero.image}
-        alt=""
-        fill
-        priority
-        className="object-cover"
-        sizes="100vw"
-      />
+    <section className="relative isolate h-[max(100svh,820px)] min-h-[560px] w-full overflow-hidden bg-black text-white sm:h-[760px] sm:max-h-[100svh]">
       <video
-        className="absolute inset-0 z-[1] size-full object-cover object-center motion-reduce:hidden"
+        src="/hero-image-video.mp4"
+        poster="/images/figma/home/hero.jpg"
         autoPlay
         muted
         loop
         playsInline
         preload="metadata"
-        poster={hero.image}
-        aria-hidden
-      >
-        <source src={hero.video} type="video/mp4" />
-      </video>
-      <div className="absolute inset-0 z-[2] bg-gradient-to-r from-ink via-ink/85 to-ink/30" />
-      <div className="absolute inset-0 z-[2] bg-gradient-to-t from-ink/90 via-ink/20 to-ink/40" />
+        aria-hidden="true"
+        tabIndex={-1}
+        className="absolute inset-0 z-0 h-full w-full object-cover object-center"
+      />
+      <div aria-hidden className="pointer-events-none absolute inset-0 z-[1] hero-image-overlay" />
 
-      <Container className="relative z-10 flex flex-1 flex-col justify-center py-10 sm:py-14 lg:py-16">
-        <motion.div
-          className="max-w-3xl"
-          initial={reduce ? false : { opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <p className="font-heading text-[2rem] font-semibold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl xl:text-[4rem]">
-            {hero.brand}
-          </p>
-          <h1 className="mt-3 max-w-2xl text-base font-medium leading-snug text-white/90 sm:mt-4 sm:text-xl lg:text-2xl">
-            {hero.title}
-          </h1>
-          <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/75 sm:mt-5 sm:text-base lg:text-lg">
-            {hero.subtitle}
-          </p>
-          <motion.div
-            className="mt-7 flex flex-wrap gap-3 sm:mt-9"
-            initial={reduce ? false : { opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.5,
-              delay: 0.15,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-          >
-            <ButtonLink href={hero.primaryCta.href} size="lg">
-              {hero.primaryCta.label}
-            </ButtonLink>
-            <ButtonLink
-              href={hero.secondaryCta.href}
-              variant="inverse-outline"
-              size="lg"
+      {/* Hero / Message and actions */}
+      <div className="absolute inset-x-0 top-[120px] z-10 flex justify-center px-5 md:top-[157px] md:px-10">
+        <div className="flex w-full max-w-[1283px] flex-col items-center gap-8 pt-8 md:gap-[60px] md:pt-[49px]">
+          <div className="flex w-full flex-col items-center gap-8">
+            <div className="flex w-full flex-col items-center gap-[26px] text-center">
+              <p className="w-full text-xs font-semibold uppercase leading-[150%] tracking-[1.8px] text-white">
+                Your trusted fencing partner
+              </p>
+              <h1 className="max-w-[771px] font-heading text-[clamp(2.75rem,5.5vw,64px)] font-bold uppercase leading-none text-white">
+                A stronger line of defence for every site
+              </h1>
+              <p className="max-w-[771px] text-base leading-[22px] text-white md:text-xl md:leading-[22px]">
+                Protect your site with strong, durable fencing solutions. From
+                fences and gates to site barriers, Mahraj Fencing supports
+                construction and industrial projects across the UAE and KSA.
+              </p>
+            </div>
+            <ArrowButtonLink
+              href="/contact"
+              className="h-[54px] rounded-md px-3 text-base font-semibold"
             >
-              {hero.secondaryCta.label}
-            </ButtonLink>
-          </motion.div>
-        </motion.div>
-      </Container>
+              Get a project quote
+            </ArrowButtonLink>
+          </div>
+
+          <ul className="flex w-full flex-col items-center justify-center sm:flex-row">
+            {stats.map((stat, i) => (
+              <li key={stat.label} className="flex items-center">
+                {i > 0 ? (
+                  <span
+                    aria-hidden
+                    className="mx-1 hidden h-[65px] w-px bg-[#767676] sm:block"
+                  />
+                ) : null}
+                <div className="flex items-center gap-3.5 rounded-2xl px-4 py-2.5">
+                  <span
+                    className="flex size-10 shrink-0 items-center justify-center rounded-full border border-white"
+                    style={{ backgroundImage: STAT_ICON_GRADIENT }}
+                  >
+                    {stat.icon}
+                  </span>
+                  <div className="text-left leading-[150%]">
+                    <p className="text-2xl font-bold tracking-[1.8px] text-white">
+                      {stat.value}
+                    </p>
+                    <p className="text-base font-medium text-white">
+                      {stat.label}
+                    </p>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </section>
   );
 }

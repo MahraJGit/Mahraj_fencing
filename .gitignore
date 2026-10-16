@@ -30,8 +30,11 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files / secrets
 .env*
+!.env.example
+credentials.json
+**/secrets/**
 
 # vercel
 .vercel
@@ -39,3 +42,22 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AI / editor agent files (local only — do not push)
+AGENTS.md
+CLAUDE.md
+.cursor/
+.claude/
+.codex/
+.gemini/
+.agent/
+.agents/
+*.canvas.tsx
+agent-transcripts/
+
+# OS / IDE noise
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo

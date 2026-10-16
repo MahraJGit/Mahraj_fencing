@@ -44,6 +44,11 @@ export default async function ServiceDetailPage(props: ServicePageProps) {
         title={service.title}
         subtitle={service.summary}
         image={service.image}
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Services", href: "/services" },
+          { label: service.title },
+        ]}
       />
       <Section>
         <div className="grid gap-10 lg:grid-cols-2">

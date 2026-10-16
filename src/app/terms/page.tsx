@@ -17,6 +17,7 @@ export default function TermsPage() {
         title={termsContent.hero.title}
         subtitle={termsContent.hero.subtitle}
         image={termsContent.hero.image}
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Terms & Conditions" }]}
       />
       <Section>
         <LegalDocument

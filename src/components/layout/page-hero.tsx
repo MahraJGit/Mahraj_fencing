@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Container } from "./container";
 import { cn } from "@/lib/utils";
 
@@ -7,20 +8,21 @@ type PageHeroProps = {
   subtitle?: string;
   image: string;
   align?: "left" | "center";
+  breadcrumbs?: { label: string; href?: string }[];
 };
 
-/** Fills viewport below sticky header (header = 4rem). */
+/** Fills the viewport behind the sticky frosted header. */
 const heroScreenStyle = {
-  height: "calc(100svh - 4rem)",
-  minHeight: "calc(100svh - 4rem)",
-  maxHeight: "calc(100svh - 4rem)",
+  height: "100svh",
+  minHeight: "100svh",
 } as const;
 
 export function PageHero({
   title,
   subtitle,
   image,
-  align = "left",
+  align = "center",
+  breadcrumbs,
 }: PageHeroProps) {
   return (
     <section
@@ -35,27 +37,46 @@ export function PageHero({
         className="object-cover"
         sizes="100vw"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/85 to-ink/35" />
-      <div className="absolute inset-0 bg-gradient-to-t from-ink/75 via-transparent to-ink/35" />
-      <Container className="relative z-10 flex flex-1 flex-col justify-center py-10 sm:py-14 lg:py-16">
+      <div aria-hidden className="pointer-events-none absolute inset-0 hero-image-overlay" />
+      <Container className="relative z-10 flex flex-1 flex-col justify-center pb-0 pt-[84px] md:pt-[108px]">
         <div
           className={cn(
-            "max-w-3xl",
+            "mx-auto w-full max-w-[1000px]",
             align === "center" && "mx-auto text-center",
           )}
         >
-          <span
-            aria-hidden
-            className={cn(
-              "mb-4 block h-1 w-12 rounded-full bg-brand sm:mb-5",
-              align === "center" && "mx-auto",
-            )}
-          />
-          <h1 className="font-heading text-3xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
+          {breadcrumbs?.length ? (
+            <nav
+              aria-label="Breadcrumb"
+              className={cn(
+                "mb-7 flex h-[18px] w-full flex-nowrap items-center gap-3 overflow-hidden whitespace-nowrap text-xs font-medium uppercase leading-[18px] tracking-[1.5px] text-white/85",
+                align === "center" && "justify-center",
+              )}
+            >
+              {breadcrumbs.map((item, index) => (
+                <span key={`${item.label}-${index}`} className="contents">
+                  {index > 0 ? <span aria-hidden="true">/</span> : null}
+                  {item.href && index < breadcrumbs.length - 1 ? (
+                    <Link href={item.href} className="transition hover:text-white">
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <span
+                      aria-current="page"
+                      className="min-w-0 max-w-[calc(100vw-11rem)] truncate lg:max-w-[800px]"
+                    >
+                      {item.label}
+                    </span>
+                  )}
+                </span>
+              ))}
+            </nav>
+          ) : null}
+          <h1 className="font-heading text-[clamp(2.5rem,4.45vw,64px)] font-bold uppercase leading-none tracking-tight text-white">
             {title}
           </h1>
           {subtitle ? (
-            <p className="mt-4 max-w-2xl text-base leading-relaxed text-white/78 sm:mt-5 sm:text-lg">
+            <p className="mx-auto mt-6 max-w-[760px] text-base leading-relaxed text-white/85 sm:text-lg lg:text-xl">
               {subtitle}
             </p>
           ) : null}

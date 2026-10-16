@@ -36,8 +36,7 @@ export function LegalDocument({
     title: string;
     intro: string;
     email: string;
-    phoneUae: string;
-    phoneKsa: string;
+    phone: string;
     address: string;
   };
   entireAgreement?: {
@@ -115,12 +114,8 @@ export function LegalDocument({
               </a>
             </li>
             <li>
-              <strong className="font-bold text-ink">Phone (UAE):</strong>{" "}
-              {contact.phoneUae}
-            </li>
-            <li>
-              <strong className="font-bold text-ink">Phone (KSA):</strong>{" "}
-              {contact.phoneKsa}
+              <strong className="font-bold text-ink">Phone:</strong>{" "}
+              {contact.phone}
             </li>
             <li>
               <strong className="font-bold text-ink">Address:</strong>{" "}

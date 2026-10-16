@@ -1,44 +1,24 @@
-import { homeContent } from "@/content/home";
-import { Section } from "@/components/layout/section";
-import { Reveal } from "@/components/motion/reveal";
-import { ButtonLink } from "@/components/ui/button";
+import { Wrap } from "@/components/layout/wrap";
+import { ArrowButtonLink } from "@/components/ui/arrow-button";
 
 export function CtaBanner() {
-  const copy = homeContent.cta;
-
   return (
-    <Section
-      tone="brand"
-      className="relative overflow-hidden bg-gradient-to-br from-brand via-brand-dark to-ink surface-mesh"
-    >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-16 top-0 h-64 w-64 rounded-full bg-white/10 blur-3xl"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -left-10 bottom-0 h-48 w-48 rounded-full bg-black/20 blur-3xl"
-      />
-      <Reveal className="relative mx-auto max-w-3xl text-center">
-        <span
-          aria-hidden
-          className="mx-auto mb-5 block h-1 w-12 rounded-full bg-white/70"
-        />
-        <h2 className="font-heading text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
-          {copy.title}
+    <section className="bg-brand text-white">
+      <Wrap className="flex flex-col gap-8 py-16 md:py-20 lg:flex-row lg:items-start lg:justify-between lg:gap-20 lg:py-[80px]">
+        <h2 className="max-w-[680px] font-heading text-[clamp(2.75rem,5vw,3.875rem)] font-bold uppercase leading-none text-white">
+          Let&apos;s secure
+          <br />
+          your next project.
         </h2>
-        <p className="mt-5 text-lg leading-relaxed text-white/80">
-          {copy.description}
-        </p>
-        <ButtonLink
-          href={copy.button.href}
-          variant="inverse"
-          size="lg"
-          className="mt-9"
-        >
-          {copy.button.label}
-        </ButtonLink>
-      </Reveal>
-    </Section>
+        <div className="flex max-w-[520px] flex-col items-start gap-6">
+          <p className="text-lg leading-relaxed text-white">
+            Share your drawings, site location or approximate fence length.
+          </p>
+          <ArrowButtonLink href="/contact" variant="inverse">
+            Request a quote
+          </ArrowButtonLink>
+        </div>
+      </Wrap>
+    </section>
   );
 }

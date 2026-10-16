@@ -12,7 +12,7 @@ export function MobileNav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="lg:hidden">
+    <div className="xl:hidden">
       <button
         type="button"
         className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-white/25 text-white"
@@ -27,12 +27,12 @@ export function MobileNav() {
       <div
         id="mobile-nav-panel"
         className={cn(
-          "fixed inset-0 z-50 bg-background transition-opacity",
+          "fixed inset-0 z-50 overflow-y-auto bg-paper transition-opacity",
           open ? "visible opacity-100" : "invisible opacity-0 pointer-events-none",
         )}
       >
         <div className="flex h-[var(--header-h)] items-center justify-between border-b border-border bg-ink px-4">
-          <Logo />
+          <Logo priority={false} />
           <button
             type="button"
             className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-white/25 text-white"

@@ -52,7 +52,16 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
           { name: post.title, path: `/blog/${post.slug}` },
         ]}
       />
-      <PageHero title={post.title} subtitle={post.excerpt} image={post.image} />
+      <PageHero
+        title={post.title}
+        subtitle={post.excerpt}
+        image={post.image}
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Blog", href: "/blog" },
+          { label: post.title },
+        ]}
+      />
       <Section>
         <div className="mx-auto max-w-3xl">
           <p className="text-sm text-body">

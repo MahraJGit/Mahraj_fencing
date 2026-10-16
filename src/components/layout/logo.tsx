@@ -3,30 +3,36 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/content/site";
 
+/** Canonical Mahraj Fencing logo — use everywhere. */
+export const BRAND_LOGO = "/images/logo.png";
+
 type LogoProps = {
-  variant?: "header" | "footer";
+  variant?: "header" | "headerOverlay" | "footer";
   className?: string;
+  priority?: boolean;
 };
 
-const LOGO_SRC = "/images/logo.png";
-
-export function Logo({ variant = "header", className }: LogoProps) {
+export function Logo({ variant = "header", className, priority }: LogoProps) {
   return (
     <Link
       href="/"
-      className={cn("inline-flex items-center", className)}
+      className={cn("inline-flex shrink-0 items-center", className)}
       aria-label={`${siteConfig.name} home`}
     >
       <Image
-        src={LOGO_SRC}
+        src={BRAND_LOGO}
         alt={siteConfig.name}
-        width={220}
+        width={252}
         height={56}
         className={cn(
           "w-auto",
-          variant === "footer" ? "h-11 sm:h-12" : "h-10 sm:h-11",
+          variant === "footer"
+            ? "h-14"
+            : variant === "headerOverlay"
+              ? "h-14"
+              : "h-10 sm:h-11",
         )}
-        priority={variant === "header"}
+        priority={priority ?? (variant === "header" || variant === "headerOverlay")}
       />
     </Link>
   );

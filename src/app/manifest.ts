@@ -8,13 +8,14 @@ export default function manifest(): MetadataRoute.Manifest {
     description: siteConfig.description,
     start_url: "/",
     display: "standalone",
-    background_color: "#ffffff",
-    theme_color: "#c8102e",
+    background_color: "#191819",
+    theme_color: "#8c1024",
     icons: [
       {
-        src: "/brand/mahraj-mark.png",
+        src: "/images/logo.png",
         sizes: "512x512",
         type: "image/png",
+        purpose: "any",
       },
     ],
   };

@@ -30,6 +30,10 @@ export default function AboutPage() {
         title={aboutContent.hero.title}
         subtitle={aboutContent.hero.subtitle}
         image={aboutContent.hero.image}
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Our company" },
+        ]}
       />
       <ChairmanMessage />
       <AboutIntroduction />

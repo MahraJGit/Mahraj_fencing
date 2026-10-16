@@ -13,10 +13,16 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
     return <>{children}</>;
   }
 
+  const overlay = true;
+
   return (
     <>
-      <SiteHeader />
-      <main className="flex-1">{children}</main>
+      {/* Overlay header is absolutely positioned inside a relative wrapper so
+          it adds no height to the document flow. */}
+      <div className={overlay ? "relative flex flex-1 flex-col" : "contents"}>
+        <SiteHeader overlay={overlay} activePath={pathname} />
+        <main className="flex-1">{children}</main>
+      </div>
       <SiteFooter />
       <WhatsAppButton />
     </>

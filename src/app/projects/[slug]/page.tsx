@@ -44,6 +44,11 @@ export default async function ProjectDetailPage(props: ProjectPageProps) {
         title={project.title}
         subtitle={`${project.location} · ${project.sector}`}
         image={project.image}
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Projects", href: "/projects" },
+          { label: project.title },
+        ]}
       />
       <Section>
         <div className="grid gap-10 lg:grid-cols-2">
