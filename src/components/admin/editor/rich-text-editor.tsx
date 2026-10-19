@@ -7,7 +7,12 @@ import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
+import TextAlign from "@tiptap/extension-text-align";
 import {
+  AlignCenter,
+  AlignJustify,
+  AlignLeft,
+  AlignRight,
   Bold,
   Italic,
   Underline as UnderlineIcon,
@@ -46,6 +51,7 @@ export function RichTextEditor({
       StarterKit,
       Underline,
       Link.configure({ openOnClick: false }),
+      TextAlign.configure({ types: ["heading", "paragraph"] }),
       Image.configure({
         allowBase64: true,
         HTMLAttributes: {
@@ -61,7 +67,7 @@ export function RichTextEditor({
     editorProps: {
       attributes: {
         class:
-          "prose-admin min-h-[280px] max-w-none px-4 py-3 outline-none focus:outline-none",
+          "prose-admin h-[420px] max-w-none overflow-y-auto px-4 py-3 outline-none focus:outline-none",
       },
     },
   });
@@ -79,6 +85,10 @@ export function RichTextEditor({
   }, [editor]);
 
   if (!editor) return null;
+
+  const isTextAligned = (alignment: string) =>
+    editor.isActive("paragraph", { textAlign: alignment }) ||
+    editor.isActive("heading", { textAlign: alignment });
 
   return (
     <div className="overflow-hidden rounded-xl border border-[#c5c9a8] bg-background">
@@ -125,6 +135,35 @@ export function RichTextEditor({
           label="Heading 3"
         >
           <Heading3 className="h-4 w-4" />
+        </ToolBtn>
+        <Sep />
+        <ToolBtn
+          active={isTextAligned("left")}
+          onClick={() => editor.chain().focus().setTextAlign("left").run()}
+          label="Align left"
+        >
+          <AlignLeft className="h-4 w-4" />
+        </ToolBtn>
+        <ToolBtn
+          active={isTextAligned("center")}
+          onClick={() => editor.chain().focus().setTextAlign("center").run()}
+          label="Align center"
+        >
+          <AlignCenter className="h-4 w-4" />
+        </ToolBtn>
+        <ToolBtn
+          active={isTextAligned("right")}
+          onClick={() => editor.chain().focus().setTextAlign("right").run()}
+          label="Align right"
+        >
+          <AlignRight className="h-4 w-4" />
+        </ToolBtn>
+        <ToolBtn
+          active={isTextAligned("justify")}
+          onClick={() => editor.chain().focus().setTextAlign("justify").run()}
+          label="Justify"
+        >
+          <AlignJustify className="h-4 w-4" />
         </ToolBtn>
         <Sep />
         <ToolBtn
@@ -217,6 +256,7 @@ function ToolBtn({
       type="button"
       title={label}
       aria-label={label}
+      onMouseDown={(event) => event.preventDefault()}
       onClick={onClick}
       className={cn(
         "inline-flex items-center gap-1 rounded-md px-2 py-1.5 text-xs text-ink hover:bg-background",

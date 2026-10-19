@@ -1,17 +1,11 @@
 "use client";
 
-import { seedBlogs, seedProducts, seedServices } from "./seed";
-import type {
-  AdminBlog,
-  AdminBlogAuthor,
-  AdminProduct,
-  AdminService,
-} from "./types";
+import { seedProducts, seedServices } from "./seed";
+import type { AdminProduct, AdminService } from "./types";
 
 const KEYS = {
   products: "mahraj-admin-products",
   services: "mahraj-admin-services",
-  blogs: "mahraj-admin-blogs",
 } as const;
 
 function read<T>(key: string, fallback: T): T {
@@ -27,49 +21,6 @@ function read<T>(key: string, fallback: T): T {
 
 function write<T>(key: string, value: T) {
   window.localStorage.setItem(key, JSON.stringify(value));
-}
-
-/** Migrate older blog records (author as string, missing category/faqs). */
-function normalizeBlog(raw: unknown): AdminBlog {
-  const post = raw as Partial<AdminBlog> & {
-    author?: AdminBlogAuthor | string;
-    seo?: Partial<AdminBlog["seo"]>;
-  };
-
-  const author: AdminBlogAuthor =
-    typeof post.author === "string"
-      ? {
-          name: post.author,
-          role: "",
-          image: "",
-          bio: "",
-        }
-      : {
-          name: post.author?.name ?? "Mahraj Fencing Team",
-          role: post.author?.role ?? "",
-          image: post.author?.image ?? "",
-          bio: post.author?.bio ?? "",
-        };
-
-  return {
-    slug: post.slug ?? "",
-    title: post.title ?? "",
-    excerpt: post.excerpt ?? "",
-    bodyHtml: post.bodyHtml ?? "",
-    publishedAt: post.publishedAt ?? new Date().toISOString().slice(0, 10),
-    category: post.category ?? "Specifying",
-    author,
-    image: post.image ?? "",
-    imageAlt: post.imageAlt ?? "",
-    tags: Array.isArray(post.tags) ? post.tags : [],
-    faqs: Array.isArray(post.faqs) ? post.faqs : [],
-    status: post.status === "published" ? "published" : "draft",
-    seo: {
-      metaTitle: post.seo?.metaTitle ?? post.title ?? "",
-      metaDescription: post.seo?.metaDescription ?? post.excerpt ?? "",
-      focusKeyword: post.seo?.focusKeyword ?? "",
-    },
-  };
 }
 
 export function listProducts(): AdminProduct[] {
@@ -110,25 +61,4 @@ export function upsertService(item: AdminService) {
 
 export function deleteService(slug: string) {
   saveServices(listServices().filter((s) => s.slug !== slug));
-}
-
-export function listBlogs(): AdminBlog[] {
-  const items = read<unknown[]>(KEYS.blogs, seedBlogs());
-  return items.map(normalizeBlog);
-}
-
-export function saveBlogs(items: AdminBlog[]) {
-  write(KEYS.blogs, items);
-}
-
-export function upsertBlog(item: AdminBlog) {
-  const items = listBlogs();
-  const idx = items.findIndex((b) => b.slug === item.slug);
-  if (idx >= 0) items[idx] = item;
-  else items.unshift(item);
-  saveBlogs(items);
-}
-
-export function deleteBlog(slug: string) {
-  saveBlogs(listBlogs().filter((b) => b.slug !== slug));
 }

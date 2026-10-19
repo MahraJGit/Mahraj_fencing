@@ -13,6 +13,7 @@ export type PageMetaInput = {
 export const BRAND_OG_IMAGE = "/images/logo.png";
 
 export function absoluteUrl(path = ""): string {
+  if (/^https?:\/\//i.test(path)) return path;
   const base = siteConfig.url.replace(/\/$/, "");
   const normalized = path.startsWith("/") ? path : `/${path}`;
   return path ? `${base}${normalized}` : base;

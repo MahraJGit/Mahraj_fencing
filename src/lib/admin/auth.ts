@@ -1,44 +1,45 @@
-const STORAGE_KEY = "mahraj-admin-session";
+import type { User } from "@supabase/supabase-js";
+import { getAdminEmail, getSupabaseClient } from "@/lib/supabase/client";
 
-export const DEMO_ADMIN = {
-  email: "admin@mahrajfencing.com",
-  password: "admin123",
-  name: "Admin",
-} as const;
-
-export type AdminSession = {
-  email: string;
-  name: string;
-  signedInAt: string;
-};
-
-export function getAdminSession(): AdminSession | null {
-  if (typeof window === "undefined") return null;
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return null;
-    return JSON.parse(raw) as AdminSession;
-  } catch {
-    return null;
-  }
+function isAdmin(user: User) {
+  return user.email?.toLowerCase() === getAdminEmail();
 }
 
-export function signInAdmin(email: string, password: string): AdminSession | null {
-  if (
-    email.trim().toLowerCase() !== DEMO_ADMIN.email ||
-    password !== DEMO_ADMIN.password
-  ) {
-    return null;
-  }
-  const session: AdminSession = {
-    email: DEMO_ADMIN.email,
-    name: DEMO_ADMIN.name,
-    signedInAt: new Date().toISOString(),
-  };
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
-  return session;
+export async function getAdminSession(): Promise<User | null> {
+  const client = getSupabaseClient();
+  const {
+    data: { session },
+    error: sessionError,
+  } = await client.auth.getSession();
+
+  if (sessionError) throw sessionError;
+  if (!session) return null;
+
+  const { data, error } = await client.auth.getUser();
+  if (error) throw error;
+  if (!data.user) return null;
+  if (isAdmin(data.user)) return data.user;
+
+  const { error: signOutError } = await client.auth.signOut();
+  if (signOutError) throw signOutError;
+  return null;
 }
 
-export function signOutAdmin() {
-  window.localStorage.removeItem(STORAGE_KEY);
+export async function signInAdmin(email: string, password: string) {
+  const { data, error } = await getSupabaseClient().auth.signInWithPassword({
+    email: email.trim(),
+    password,
+  });
+
+  if (error) throw error;
+  if (isAdmin(data.user)) return data.user;
+
+  const { error: signOutError } = await getSupabaseClient().auth.signOut();
+  if (signOutError) throw signOutError;
+  throw new Error("This account is not authorized to access the admin panel.");
+}
+
+export async function signOutAdmin() {
+  const { error } = await getSupabaseClient().auth.signOut();
+  if (error) throw error;
 }

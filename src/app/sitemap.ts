@@ -1,13 +1,16 @@
 import type { MetadataRoute } from "next";
+import { io } from "next/cache";
 import { siteConfig } from "@/content/site";
 import { products } from "@/content/products";
 import { services } from "@/content/services";
 import { projects } from "@/content/projects";
-import { blogPosts } from "@/content/blog";
+import { getPublishedBlogs } from "@/lib/admin/blogs";
 
 const base = siteConfig.url.replace(/\/$/, "");
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  await io();
+  const blogPosts = await getPublishedBlogs();
   const staticRoutes = [
     "",
     "/about",

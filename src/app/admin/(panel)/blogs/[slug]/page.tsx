@@ -3,17 +3,42 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { BlogForm } from "@/components/admin/blog-form";
-import { listBlogs } from "@/lib/admin/storage";
+import { getAdminBlog } from "@/lib/admin/blogs";
 import type { AdminBlog } from "@/lib/admin/types";
 
 export default function EditBlogPage() {
   const params = useParams<{ slug: string }>();
   const [item, setItem] = useState<AdminBlog | null | undefined>(undefined);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const found = listBlogs().find((b) => b.slug === params.slug) ?? null;
-    setItem(found);
+    let active = true;
+    getAdminBlog(params.slug)
+      .then((blog) => {
+        if (active) setItem(blog);
+      })
+      .catch((loadError: unknown) => {
+        if (active) {
+          setError(
+            loadError instanceof Error
+              ? loadError.message
+              : "Could not load the blog post.",
+          );
+        }
+      });
+
+    return () => {
+      active = false;
+    };
   }, [params.slug]);
+
+  if (error) {
+    return (
+      <p className="text-sm text-red-600" role="alert">
+        {error}
+      </p>
+    );
+  }
 
   if (item === undefined) {
     return <p className="text-sm text-body">Loading…</p>;

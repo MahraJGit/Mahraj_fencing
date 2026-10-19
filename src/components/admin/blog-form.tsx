@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import type { AdminBlog, BlogFormValues } from "@/lib/admin/types";
 import { slugify } from "@/lib/admin/types";
 import { BLOG_CATEGORIES } from "@/lib/admin/blog-categories";
-import { upsertBlog } from "@/lib/admin/storage";
+import { deleteAdminBlog, saveAdminBlog } from "@/lib/admin/blogs";
 import { Field, AdminCard } from "@/components/admin/field";
 import { FaqEditor } from "@/components/admin/faq-editor";
 import { ImageUploadField } from "@/components/admin/image-upload-field";
@@ -79,17 +79,16 @@ export function BlogForm({
 }) {
   const router = useRouter();
   const [values, setValues] = useState<BlogFormValues>(() => toValues(initial));
-  const [saved, setSaved] = useState(false);
+  const [pending, setPending] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const checks = useMemo(() => checklist(values), [values]);
 
   function set<K extends keyof BlogFormValues>(key: K, value: BlogFormValues[K]) {
     setValues((prev) => ({ ...prev, [key]: value }));
-    setSaved(false);
     setFormError(null);
   }
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!values.image.trim()) {
       setFormError("Add a main image (upload from PC or paste a URL).");
@@ -123,9 +122,20 @@ export function BlogForm({
         focusKeyword: values.focusKeyword,
       },
     };
-    upsertBlog(item);
-    setSaved(true);
-    if (mode === "create") router.push(`/admin/blogs/${slug}`);
+    setPending(true);
+    try {
+      await saveAdminBlog(item);
+      if (initial && initial.slug !== slug) {
+        await deleteAdminBlog(initial.slug);
+      }
+      router.push("/admin/blogs");
+    } catch (error) {
+      setFormError(
+        error instanceof Error ? error.message : "Could not save the blog post.",
+      );
+    } finally {
+      setPending(false);
+    }
   }
 
   return (
@@ -246,6 +256,7 @@ export function BlogForm({
                 id="image"
                 value={values.image}
                 onChange={(src) => set("image", src)}
+                uploadFolder="blogs"
                 onAltFromFile={(alt) => {
                   if (!values.imageAlt.trim()) set("imageAlt", alt);
                 }}
@@ -294,6 +305,7 @@ export function BlogForm({
                 id="authorImage"
                 value={values.authorImage}
                 onChange={(src) => set("authorImage", src)}
+                uploadFolder="authors"
                 hint="Square photo works best · max 2MB"
                 previewClassName="max-h-32"
               />
@@ -367,8 +379,12 @@ export function BlogForm({
         </AdminCard>
 
         <div className="flex flex-col gap-2">
-          <Button type="submit">
-            {mode === "create" ? "Create blog post" : "Save changes"}
+          <Button type="submit" disabled={pending}>
+            {pending
+              ? "Saving…"
+              : mode === "create"
+                ? "Create blog post"
+                : "Save changes"}
           </Button>
           <Button
             type="button"
@@ -380,11 +396,6 @@ export function BlogForm({
           {formError ? (
             <span className="text-center text-sm font-medium text-red-600">
               {formError}
-            </span>
-          ) : null}
-          {saved ? (
-            <span className="text-center text-sm font-medium text-emerald-700">
-              Saved locally.
             </span>
           ) : null}
         </div>

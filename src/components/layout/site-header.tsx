@@ -66,23 +66,23 @@ export function SiteHeader({ overlay = false, activePath = "" }: SiteHeaderProps
                 </Link>
                 <div
                   className={cn(
-                    "invisible absolute left-0 top-full z-50 min-w-[17rem] translate-y-2 rounded-xl border border-line bg-paper p-2 opacity-0 shadow-xl transition duration-200",
+                    "invisible absolute left-0 top-full z-50 w-[233px] translate-y-2 overflow-hidden rounded-b-2xl border border-white/20 bg-black/40 opacity-0 shadow-[0_4px_50px_rgba(0,0,0,0.45)] backdrop-blur-xl transition duration-200",
                     "group-hover:visible group-hover:translate-y-1 group-hover:opacity-100",
                     "group-focus-within:visible group-focus-within:translate-y-1 group-focus-within:opacity-100",
                   )}
                 >
-                  <ul className="space-y-0.5">
+                  <ul>
                     {item.children.map((child) => (
-                      <li key={child.href}>
+                      <li key={child.label} className="border-b border-white/10 last:border-b-0">
                         <Link
                           href={child.href}
-                          className="block rounded-lg px-3 py-2.5 transition hover:bg-warm"
+                          className="flex min-h-14 flex-col justify-center px-3 py-2 transition hover:bg-white/10 focus-visible:bg-white/10 focus-visible:outline-none"
                         >
-                          <span className="block text-sm font-semibold text-ink">
+                          <span className="block text-sm font-semibold text-white">
                             {child.label}
                           </span>
                           {child.description ? (
-                            <span className="mt-0.5 block text-xs leading-snug text-body">
+                            <span className="mt-0.5 block text-[10px] leading-5 text-white/85">
                               {child.description}
                             </span>
                           ) : null}

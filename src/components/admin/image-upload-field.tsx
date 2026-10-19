@@ -5,13 +5,15 @@ import { Upload, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { getSupabaseClient } from "@/lib/supabase/client";
 
-const MAX_BYTES = 2 * 1024 * 1024; // 2MB for local demo
+const MAX_BYTES = 2 * 1024 * 1024;
 
 type ImageUploadFieldProps = {
   id: string;
   value: string;
   onChange: (value: string) => void;
+  uploadFolder?: string;
   /** Optional: set alt from filename when empty */
   onAltFromFile?: (alt: string) => void;
   placeholder?: string;
@@ -23,6 +25,7 @@ export function ImageUploadField({
   id,
   value,
   onChange,
+  uploadFolder,
   onAltFromFile,
   placeholder = "/images/… or https://…",
   hint = "JPG, PNG, WebP, GIF · max 2MB",
@@ -32,17 +35,46 @@ export function ImageUploadField({
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
-  function handleFile(file: File | undefined) {
+  async function handleFile(file: File | undefined) {
     if (!file) return;
     setError(null);
-    if (!file.type.startsWith("image/")) {
+    if (!["image/jpeg", "image/png", "image/webp", "image/gif"].includes(file.type)) {
       setError("Please choose an image file (JPG, PNG, WebP, GIF).");
       return;
     }
     if (file.size > MAX_BYTES) {
-      setError("Image must be under 2MB for this demo upload.");
+      setError("Image must be under 2MB.");
       return;
     }
+
+    if (uploadFolder) {
+      setPending(true);
+      try {
+        const extension = file.name.split(".").pop()?.toLowerCase() || "img";
+        const path = `${uploadFolder}/${crypto.randomUUID()}.${extension}`;
+        const { data, error: uploadError } = await getSupabaseClient()
+          .storage.from("blog-images")
+          .upload(path, file, { contentType: file.type, cacheControl: "3600" });
+
+        if (uploadError) throw uploadError;
+        const { data: publicUrl } = getSupabaseClient()
+          .storage.from("blog-images")
+          .getPublicUrl(data.path);
+        onChange(publicUrl.publicUrl);
+        onAltFromFile?.(file.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " "));
+        if (fileRef.current) fileRef.current.value = "";
+      } catch (uploadError) {
+        setError(
+          uploadError instanceof Error
+            ? uploadError.message
+            : "Could not upload that image. Try again.",
+        );
+      } finally {
+        setPending(false);
+      }
+      return;
+    }
+
     setPending(true);
     const reader = new FileReader();
     reader.onload = () => {
@@ -79,7 +111,7 @@ export function ImageUploadField({
       >
         <Upload className="h-5 w-5 text-brand" />
         <span className="font-semibold text-ink">
-          {pending ? "Reading image…" : "Upload from PC"}
+          {pending ? (uploadFolder ? "Uploading image…" : "Reading image…") : "Upload from PC"}
         </span>
         <span className="text-xs">{hint}</span>
       </button>

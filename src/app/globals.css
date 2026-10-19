@@ -144,7 +144,20 @@ section[data-section].bg-charcoal + section[data-section].bg-charcoal {
 .prose-admin h3 {
   font-family: var(--font-heading), sans-serif;
   font-weight: 600;
-  margin: 1rem 0 0.5rem;
+  line-height: 1.2;
+  margin: 1.5rem 0 0.65rem;
+}
+
+.prose-admin h1 {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+}
+
+.prose-admin h2 {
+  font-size: clamp(1.65rem, 3vw, 2.125rem);
+}
+
+.prose-admin h3 {
+  font-size: clamp(1.35rem, 2.5vw, 1.625rem);
 }
 
 .prose-admin p {

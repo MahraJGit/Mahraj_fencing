@@ -3,30 +3,51 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { DEMO_ADMIN, getAdminSession, signInAdmin } from "@/lib/admin/auth";
+import { getAdminSession, signInAdmin } from "@/lib/admin/auth";
 
 export function LoginForm() {
   const router = useRouter();
-  const [email, setEmail] = useState<string>(DEMO_ADMIN.email);
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
   useEffect(() => {
-    if (getAdminSession()) router.replace("/admin");
+    let active = true;
+    getAdminSession()
+      .then((user) => {
+        if (active && user) router.replace("/admin");
+      })
+      .catch((error: unknown) => {
+        if (active) {
+          setError(
+            error instanceof Error
+              ? error.message
+              : "Unable to verify your admin session.",
+          );
+        }
+      });
+
+    return () => {
+      active = false;
+    };
   }, [router]);
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setPending(true);
     setError(null);
-    const session = signInAdmin(email, password);
-    setPending(false);
-    if (!session) {
-      setError("Invalid email or password.");
-      return;
+
+    try {
+      await signInAdmin(email, password);
+      router.replace("/admin");
+    } catch (error) {
+      setError(
+        error instanceof Error ? error.message : "Unable to sign in.",
+      );
+    } finally {
+      setPending(false);
     }
-    router.replace("/admin");
   }
 
   return (
@@ -73,12 +94,6 @@ export function LoginForm() {
       <Button type="submit" className="h-11 w-full" disabled={pending}>
         {pending ? "Signing in…" : "Sign in"}
       </Button>
-      <p className="rounded-lg border border-white/10 bg-ink/50 px-3 py-3 text-xs leading-relaxed text-white/60">
-        Demo access (frontend only):{" "}
-        <span className="font-semibold text-white">{DEMO_ADMIN.email}</span>
-        {" / "}
-        <span className="font-semibold text-white">{DEMO_ADMIN.password}</span>
-      </p>
     </form>
   );
 }

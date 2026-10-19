@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { getAdminSession, signOutAdmin, type AdminSession } from "@/lib/admin/auth";
+import { getAdminSession, signOutAdmin } from "@/lib/admin/auth";
 import { Logo } from "@/components/layout/logo";
 
 const nav = [
@@ -25,23 +25,48 @@ const nav = [
 export function AdminShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const [session, setSession] = useState<AdminSession | null>(null);
+  const [email, setEmail] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const s = getAdminSession();
-    if (!s) {
-      router.replace("/admin/login");
-      return;
-    }
-    setSession(s);
-    setReady(true);
+    let active = true;
+    getAdminSession()
+      .then((user) => {
+        if (!active) return;
+        if (!user) {
+          router.replace("/admin/login");
+          return;
+        }
+        setEmail(user.email ?? null);
+        setReady(true);
+      })
+      .catch(() => {
+        if (!active) return;
+        setError("Unable to verify your admin session. Please sign in again.");
+        setReady(true);
+      });
+
+    return () => {
+      active = false;
+    };
   }, [router]);
 
   if (!ready) {
     return (
       <div className="flex min-h-svh items-center justify-center bg-surface-alt text-sm text-body">
         Loading admin…
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex min-h-svh flex-col items-center justify-center gap-4 bg-surface-alt px-4 text-center text-sm text-body">
+        <p role="alert">{error}</p>
+        <Link href="/admin/login" className="font-semibold text-brand hover:underline">
+          Go to admin sign in
+        </Link>
       </div>
     );
   }
@@ -81,9 +106,14 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         <div className="border-t border-white/10 p-3">
           <button
             type="button"
-            onClick={() => {
-              signOutAdmin();
-              router.replace("/admin/login");
+            onClick={async () => {
+              setError(null);
+              try {
+                await signOutAdmin();
+                router.replace("/admin/login");
+              } catch {
+                setError("Unable to sign out. Please try again.");
+              }
             }}
             className="flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-sm text-white/75 hover:bg-white/10 hover:text-white"
           >
@@ -99,7 +129,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             <Logo />
           </div>
           <p className="hidden text-sm text-body sm:block">
-            Signed in as <span className="font-semibold text-ink">{session?.email}</span>
+            Signed in as <span className="font-semibold text-ink">{email}</span>
           </p>
           <div className="flex items-center gap-2">
             <Link

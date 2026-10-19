@@ -1,9 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import { FileText, Layers3, Package, Plus } from "lucide-react";
+import { useEffect, useState } from "react";
 import { products } from "@/content/products";
 import { services } from "@/content/services";
-import { blogPosts } from "@/content/blog";
 import { ButtonLink } from "@/components/ui/button";
+import { listAdminBlogs } from "@/lib/admin/blogs";
 
 const cards = [
   {
@@ -20,16 +23,27 @@ const cards = [
     createHref: "/admin/services/new",
     icon: Layers3,
   },
-  {
-    label: "Blogs",
-    count: blogPosts.length,
-    href: "/admin/blogs",
-    createHref: "/admin/blogs/new",
-    icon: FileText,
-  },
 ];
 
 export default function AdminDashboardPage() {
+  const [blogCount, setBlogCount] = useState<number | null>(null);
+  const [blogError, setBlogError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    listAdminBlogs()
+      .then((blogs) => {
+        if (active) setBlogCount(blogs.length);
+      })
+      .catch(() => {
+        if (active) setBlogError("Could not load the blog count.");
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
   return (
     <div className="space-y-8">
       <div>
@@ -37,8 +51,8 @@ export default function AdminDashboardPage() {
           Dashboard
         </h1>
         <p className="mt-2 text-sm text-body">
-          Frontend-only CMS preview. Changes stay in this browser session until a
-          backend is connected.
+          Manage website blog posts. Product and service previews are stored in
+          this browser.
         </p>
       </div>
 
@@ -69,6 +83,31 @@ export default function AdminDashboardPage() {
             </div>
           );
         })}
+        <div className="rounded-xl border border-border bg-background p-5 shadow-sm">
+          <div className="flex items-start justify-between">
+            <div className="rounded-lg bg-brand/10 p-2.5 text-brand">
+              <FileText className="h-5 w-5" />
+            </div>
+            <ButtonLink href="/admin/blogs/new" size="sm" variant="outline">
+              <Plus className="h-3.5 w-3.5" />
+              New
+            </ButtonLink>
+          </div>
+          <p className="mt-4 text-3xl font-semibold text-ink">
+            {blogCount ?? "—"}
+          </p>
+          <Link
+            href="/admin/blogs"
+            className="mt-1 inline-block text-sm font-semibold text-brand hover:underline"
+          >
+            Blogs
+          </Link>
+          {blogError ? (
+            <p className="mt-2 text-xs text-red-600" role="alert">
+              {blogError}
+            </p>
+          ) : null}
+        </div>
       </div>
     </div>
   );
