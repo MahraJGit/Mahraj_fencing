@@ -3,14 +3,14 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ChevronDown, Menu, X } from "lucide-react";
-import { mainNav } from "@/content/site";
+import type { NavItem } from "@/content/site";
 import { Logo } from "./logo";
 import { ButtonLink } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-export function MobileNav() {
+export function MobileNav({ items }: { items: NavItem[] }) {
   const [open, setOpen] = useState(false);
-  const [productsOpen, setProductsOpen] = useState(true);
+  const [openDropdown, setOpenDropdown] = useState<string | null>("Products");
 
   return (
     <div className="xl:hidden">
@@ -44,25 +44,29 @@ export function MobileNav() {
           </button>
         </div>
         <nav className="flex flex-col gap-1 p-4" aria-label="Mobile">
-          {mainNav.map((item) => (
+          {items.map((item) => (
             <div key={item.href} className="border-b border-border py-2">
               {item.children ? (
                 <>
                   <button
                     type="button"
                     className="flex w-full items-center justify-between py-2 text-left text-base font-semibold text-ink"
-                    aria-expanded={productsOpen}
-                    onClick={() => setProductsOpen((expanded) => !expanded)}
+                    aria-expanded={openDropdown === item.label}
+                    onClick={() =>
+                      setOpenDropdown((current) =>
+                        current === item.label ? null : item.label,
+                      )
+                    }
                   >
                     {item.label}
                     <ChevronDown
                       className={cn(
                         "h-4 w-4 transition-transform",
-                        productsOpen && "rotate-180",
+                        openDropdown === item.label && "rotate-180",
                       )}
                     />
                   </button>
-                  {productsOpen ? (
+                  {openDropdown === item.label ? (
                     <ul className="mb-2 overflow-hidden rounded-b-2xl border border-white/20 bg-black/40 shadow-[0_4px_50px_rgba(0,0,0,0.3)] backdrop-blur-xl">
                       {item.children.map((child) => (
                         <li
@@ -99,7 +103,7 @@ export function MobileNav() {
               )}
             </div>
           ))}
-          <ButtonLink href="/contact" className="mt-4 w-full">
+          <ButtonLink href="/contact#quote-form" className="mt-4 w-full">
             Get a quote
           </ButtonLink>
         </nav>

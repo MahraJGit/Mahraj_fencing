@@ -69,7 +69,7 @@ export const mainNav: NavItem[] = [
       },
       {
         label: "Portable cabin",
-        href: "/products/portable-site-cabins",
+        href: "/products?category=portable-structures",
         description: "Site offices & storage units",
       },
       {
@@ -86,7 +86,6 @@ export const mainNav: NavItem[] = [
   },
   { label: "Projects", href: "/projects" },
   { label: "Contact us", href: "/contact" },
-  { label: "Gallery", href: "/gallery" },
   { label: "Blog", href: "/blog" },
 ];
 
@@ -94,21 +93,8 @@ export const footerNav = {
   company: [
     { label: "Our company", href: "/about" },
     { label: "Projects", href: "/projects" },
-    { label: "Gallery", href: "/gallery" },
     { label: "Blog", href: "/blog" },
     { label: "Contact us", href: "/contact" },
-  ],
-  products: [
-    { label: "Fences", href: "/products?category=perimeter-fencing" },
-    { label: "Gates", href: "/products?category=gates-access" },
-    { label: "Barriers", href: "/products?category=barriers-security" },
-    { label: "Portable cabin", href: "/products/portable-site-cabins" },
-  ],
-  services: [
-    { label: "Fence branding", href: "/services/supply-and-branding" },
-    { label: "Installation", href: "/services/installation" },
-    { label: "Transportation", href: "/services/transport-and-logistics" },
-    { label: "Shifting", href: "/services/shifting-and-relocation" },
   ],
   legal: [
     { label: "Privacy policy", href: "/privacy" },

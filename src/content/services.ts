@@ -4,6 +4,7 @@ export type Service = {
   summary: string;
   description: string;
   image: string;
+  imageAlt?: string;
   highlights: string[];
   seo: { title: string; description: string };
 };

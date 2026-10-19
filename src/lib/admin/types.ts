@@ -3,10 +3,16 @@ import type { Service } from "@/content/services";
 
 export type AdminProduct = Product & {
   status: "draft" | "published";
+  isFeatured: boolean;
+  imageAlt: string;
+  sortOrder: number;
 };
 
 export type AdminService = Service & {
   status: "draft" | "published";
+  isFeatured: boolean;
+  imageAlt: string;
+  sortOrder: number;
 };
 
 export type AdminBlogFaq = {
@@ -34,6 +40,7 @@ export type AdminBlog = {
   tags: string[];
   faqs: AdminBlogFaq[];
   status: "draft" | "published";
+  isFeatured: boolean;
   seo: {
     metaTitle: string;
     metaDescription: string;
@@ -49,7 +56,8 @@ export type ProductFormValues = {
   category: ProductCategory;
   image: string;
   imageAlt: string;
-  gallery: string;
+  isFeatured: boolean;
+  gallery: string[];
   features: string;
   applications: string;
   seoTitle: string;
@@ -64,6 +72,7 @@ export type ServiceFormValues = {
   descriptionHtml: string;
   image: string;
   imageAlt: string;
+  isFeatured: boolean;
   highlights: string;
   seoTitle: string;
   seoDescription: string;
@@ -89,6 +98,7 @@ export type BlogFormValues = {
   focusKeyword: string;
   faqs: AdminBlogFaq[];
   status: "draft" | "published";
+  isFeatured: boolean;
 };
 
 export function slugify(value: string) {

@@ -19,6 +19,7 @@ function fromRow(row: BlogPostRow): AdminBlog {
     tags: row.tags,
     faqs: row.faqs,
     status: row.status,
+    isFeatured: row.is_featured,
     seo: row.seo,
   };
 }
@@ -37,6 +38,7 @@ function toRow(blog: AdminBlog) {
     tags: blog.tags,
     faqs: blog.faqs,
     status: blog.status,
+    is_featured: blog.isFeatured,
     seo: blog.seo,
   };
 }
@@ -84,6 +86,18 @@ export async function getPublishedBlogs(): Promise<AdminBlog[]> {
     .from("blog_posts")
     .select("*")
     .eq("status", "published")
+    .order("published_at", { ascending: false });
+
+  if (error) throw error;
+  return data.map(fromRow);
+}
+
+export async function getFeaturedBlogs(): Promise<AdminBlog[]> {
+  const { data, error } = await createPublicSupabaseClient()
+    .from("blog_posts")
+    .select("*")
+    .eq("status", "published")
+    .eq("is_featured", true)
     .order("published_at", { ascending: false });
 
   if (error) throw error;

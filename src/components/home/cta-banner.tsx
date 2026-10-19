@@ -14,7 +14,7 @@ export function CtaBanner() {
           <p className="text-lg leading-relaxed text-white">
             Share your drawings, site location or approximate fence length.
           </p>
-          <ArrowButtonLink href="/contact" variant="inverse">
+          <ArrowButtonLink href="/contact#quote-form" variant="inverse">
             Request a quote
           </ArrowButtonLink>
         </div>

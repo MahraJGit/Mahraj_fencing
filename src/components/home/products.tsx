@@ -3,35 +3,20 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Eyebrow, Wrap } from "@/components/layout/wrap";
 import { ArrowButtonLink } from "@/components/ui/arrow-button";
+import { io } from "next/cache";
+import { getPublishedProducts } from "@/lib/catalog-data";
 
-const cards = [
-  {
-    title: "Welded mesh fencing",
-    text: "Rigid panels for permanent security and a clean perimeter.",
-    image: "/images/figma/home/product-1.png",
-    href: "/products/welded-mesh-fencing",
-  },
-  {
-    title: "Chain link fencing",
-    text: "Bulk material supply with branded mesh banners and project boards.",
-    image: "/images/figma/home/product-2.png",
-    href: "/products/chain-link-fencing",
-  },
-  {
-    title: "Temporary fencing",
-    text: "Flexible site boundaries that move as your project grows.",
-    image: "/images/figma/home/product-3.png",
-    href: "/products/temporary-fencing",
-  },
-];
+export async function ProductsSection() {
+  await io();
+  const products = await getPublishedProducts();
+  const featuredProducts = products
+    .filter((product) => product.isFeatured)
+    .slice(0, 6);
+  if (featuredProducts.length === 0) return null;
 
-const chips = [
-  { label: "Security gates", href: "/products/security-gates" },
-  { label: "Palisade fencing", href: "/products/palisade-fencing" },
-  { label: "Anti-climb fencing", href: "/products/anti-climb-fencing" },
-];
+  const primaryProducts = featuredProducts.slice(0, 3);
+  const additionalProducts = featuredProducts.slice(3, 6);
 
-export function ProductsSection() {
   return (
     <section className="bg-paper py-16 md:py-20 lg:py-[80px]">
       <Wrap className="flex flex-col gap-10 lg:gap-10">
@@ -51,25 +36,25 @@ export function ProductsSection() {
         </div>
 
         <ul className="grid gap-6 md:grid-cols-3">
-          {cards.map((card) => (
-            <li key={card.title}>
+          {primaryProducts.map((product) => (
+            <li key={product.slug}>
               <Link
-                href={card.href}
+                href={`/products/${product.slug}`}
                 className="group relative flex h-[470px] flex-col justify-end overflow-hidden rounded-lg"
               >
                 <Image
-                  src={card.image}
-                  alt={card.title}
+                  src={product.image}
+                  alt={product.imageAlt}
                   fill
                   className="object-cover transition duration-500 group-hover:scale-105"
                   sizes="(min-width:768px) 33vw, 100vw"
                 />
                 <div className="relative z-10 flex h-[208px] flex-col gap-3 border border-white/50 bg-white/91 px-7 py-6 backdrop-blur-[10px]">
                   <h3 className="font-heading text-[27px] font-bold uppercase leading-none text-ink">
-                    {card.title}
+                    {product.title}
                   </h3>
                   <p className="text-[15px] leading-relaxed text-body">
-                    {card.text}
+                    {product.shortDescription}
                   </p>
                 </div>
               </Link>
@@ -78,13 +63,13 @@ export function ProductsSection() {
         </ul>
 
         <ul className="grid gap-6 md:grid-cols-3">
-          {chips.map((chip) => (
-            <li key={chip.label}>
+          {additionalProducts.map((product) => (
+            <li key={product.slug}>
               <Link
-                href={chip.href}
+                href={`/products/${product.slug}`}
                 className="flex items-center justify-between gap-3 rounded-md border border-line p-[18px] text-[15px] font-medium text-ink transition hover:border-brand hover:text-brand"
               >
-                {chip.label}
+                {product.title}
                 <ArrowRight
                   className="h-7 w-7 shrink-0 text-brand"
                   strokeWidth={3.5}

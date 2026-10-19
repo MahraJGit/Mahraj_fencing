@@ -37,7 +37,7 @@ export function ServicesHero() {
           shifting.
         </p>
         <ArrowButtonLink
-          href="/contact"
+          href="/contact#quote-form"
           className="h-[54px] w-[230px] justify-center gap-2 rounded-md px-3 text-base"
         >
           Get a project quote

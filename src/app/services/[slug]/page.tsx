@@ -1,22 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { io } from "next/cache";
+import { Suspense } from "react";
 import { PageHero } from "@/components/layout/page-hero";
 import { Section } from "@/components/layout/section";
 import { ButtonLink } from "@/components/ui/button";
-import { getServiceBySlug, services } from "@/content/services";
+import { getPublishedService } from "@/lib/catalog-data";
 import { buildMetadata } from "@/lib/seo";
 import { BreadcrumbJsonLd } from "@/components/seo/breadcrumb-json-ld";
 
 type ServicePageProps = PageProps<"/services/[slug]">;
 
-export function generateStaticParams() {
-  return services.map((service) => ({ slug: service.slug }));
-}
-
 export async function generateMetadata(props: ServicePageProps) {
   const { slug } = await props.params;
-  const service = getServiceBySlug(slug);
+  const service = await getPublishedService(slug);
   if (!service) return {};
   return buildMetadata({
     title: service.seo.title,
@@ -26,9 +24,28 @@ export async function generateMetadata(props: ServicePageProps) {
   });
 }
 
-export default async function ServiceDetailPage(props: ServicePageProps) {
-  const { slug } = await props.params;
-  const service = getServiceBySlug(slug);
+export default function ServiceDetailPage(props: ServicePageProps) {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-40 items-center justify-center text-sm text-body">
+          Loading service…
+        </div>
+      }
+    >
+      <ServiceDetailContent params={props.params} />
+    </Suspense>
+  );
+}
+
+async function ServiceDetailContent({
+  params,
+}: {
+  params: ServicePageProps["params"];
+}) {
+  await io();
+  const { slug } = await params;
+  const service = await getPublishedService(slug);
   if (!service) notFound();
 
   return (
@@ -55,14 +72,21 @@ export default async function ServiceDetailPage(props: ServicePageProps) {
           <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
             <Image
               src={service.image}
-              alt=""
+              alt={service.imageAlt}
               fill
               className="object-cover"
               sizes="50vw"
             />
           </div>
           <div>
-            <p className="text-body leading-relaxed">{service.description}</p>
+            {service.description.trimStart().startsWith("<") ? (
+              <div
+                className="prose-content text-body leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: service.description }}
+              />
+            ) : (
+              <p className="text-body leading-relaxed">{service.description}</p>
+            )}
             <ul className="mt-6 space-y-2">
               {service.highlights.map((item) => (
                 <li
@@ -73,7 +97,7 @@ export default async function ServiceDetailPage(props: ServicePageProps) {
                 </li>
               ))}
             </ul>
-            <ButtonLink href="/contact" className="mt-8">
+            <ButtonLink href="/contact#quote-form" className="mt-8">
               Discuss this service
             </ButtonLink>
           </div>

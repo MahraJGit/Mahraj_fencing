@@ -4,12 +4,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { AdminService, ServiceFormValues } from "@/lib/admin/types";
 import { slugify } from "@/lib/admin/types";
-import { upsertService } from "@/lib/admin/storage";
+import { saveAdminService } from "@/lib/admin/catalog";
 import { Field, AdminCard } from "@/components/admin/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { RichTextEditor } from "@/components/admin/editor/rich-text-editor";
+import { ImageUploadField } from "@/components/admin/image-upload-field";
 
 function toValues(service?: AdminService): ServiceFormValues {
   return {
@@ -17,10 +18,13 @@ function toValues(service?: AdminService): ServiceFormValues {
     slug: service?.slug ?? "",
     summary: service?.summary ?? "",
     descriptionHtml: service?.description
-      ? `<p>${service.description}</p>`
+      ? service.description.startsWith("<")
+        ? service.description
+        : `<p>${service.description}</p>`
       : "",
     image: service?.image ?? "",
-    imageAlt: service?.title ?? "",
+    imageAlt: service?.imageAlt ?? service?.title ?? "",
+    isFeatured: service?.isFeatured ?? false,
     highlights: (service?.highlights ?? []).join("\n"),
     seoTitle: service?.seo.title ?? "",
     seoDescription: service?.seo.description ?? "",
@@ -38,21 +42,27 @@ export function ServiceForm({
   const router = useRouter();
   const [values, setValues] = useState<ServiceFormValues>(() => toValues(initial));
   const [saved, setSaved] = useState(false);
+  const [pending, setPending] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
 
   function set<K extends keyof ServiceFormValues>(key: K, value: ServiceFormValues[K]) {
     setValues((prev) => ({ ...prev, [key]: value }));
     setSaved(false);
+    setFormError(null);
   }
 
-  function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     const slug = values.slug || slugify(values.title);
+    setPending(true);
     const item: AdminService = {
       title: values.title,
       slug,
       summary: values.summary,
-      description: values.descriptionHtml.replace(/<[^>]+>/g, " ").trim(),
+      description: values.descriptionHtml,
       image: values.image,
+      imageAlt: values.imageAlt,
+      isFeatured: values.isFeatured,
       highlights: values.highlights
         .split("\n")
         .map((s) => s.trim())
@@ -62,10 +72,19 @@ export function ServiceForm({
         description: values.seoDescription || values.summary,
       },
       status: values.status,
+      sortOrder: initial?.sortOrder ?? 9999,
     };
-    upsertService(item);
-    setSaved(true);
-    if (mode === "create") router.push(`/admin/services/${slug}`);
+    try {
+      await saveAdminService(item, initial?.slug);
+      setSaved(true);
+      if (mode === "create") router.push(`/admin/services/${slug}`);
+    } catch (error) {
+      setFormError(
+        error instanceof Error ? error.message : "Could not save the service.",
+      );
+    } finally {
+      setPending(false);
+    }
   }
 
   return (
@@ -104,6 +123,15 @@ export function ServiceForm({
               <option value="published">Published</option>
             </select>
           </Field>
+          <label className="flex items-center gap-2 self-end pb-3 text-sm font-medium text-ink">
+            <input
+              type="checkbox"
+              checked={values.isFeatured}
+              onChange={(e) => set("isFeatured", e.target.checked)}
+              className="h-4 w-4 rounded border-border accent-brand"
+            />
+            Feature on homepage
+          </label>
           <Field label="Summary" htmlFor="summary" className="md:col-span-2">
             <Textarea
               id="summary"
@@ -125,36 +153,49 @@ export function ServiceForm({
       </AdminCard>
 
       <AdminCard title="Media & highlights">
-        <div className="grid gap-4 md:grid-cols-2">
-          <Field label="Image URL" htmlFor="image">
-            <Input
-              id="image"
-              required
-              value={values.image}
-              onChange={(e) => set("image", e.target.value)}
-            />
-          </Field>
-          <Field label="Image alt text" htmlFor="imageAlt">
-            <Input
-              id="imageAlt"
-              required
-              value={values.imageAlt}
-              onChange={(e) => set("imageAlt", e.target.value)}
-            />
-          </Field>
-          <Field
-            label="Highlights"
-            htmlFor="highlights"
-            hint="One per line"
-            className="md:col-span-2"
-          >
-            <Textarea
-              id="highlights"
-              rows={5}
-              value={values.highlights}
-              onChange={(e) => set("highlights", e.target.value)}
-            />
-          </Field>
+        <div className="space-y-6">
+          <div className="grid items-start gap-6 lg:grid-cols-2">
+            <Field label="Cover image" htmlFor="image">
+              <ImageUploadField
+                id="image"
+                required
+                value={values.image}
+                onChange={(image) => set("image", image)}
+                uploadFolder="services"
+                onAltFromFile={(alt) => {
+                  if (!values.imageAlt.trim()) set("imageAlt", alt);
+                }}
+                placeholder="/images/services/… or https://…"
+              />
+            </Field>
+            <Field
+              label="Image alt text"
+              htmlFor="imageAlt"
+              hint="Briefly describe the image for screen readers and search engines."
+            >
+              <Input
+                id="imageAlt"
+                required
+                value={values.imageAlt}
+                onChange={(e) => set("imageAlt", e.target.value)}
+              />
+            </Field>
+          </div>
+
+          <div className="border-t border-border pt-5">
+            <Field
+              label="Highlights"
+              htmlFor="highlights"
+              hint="One highlight per line."
+            >
+              <Textarea
+                id="highlights"
+                rows={5}
+                value={values.highlights}
+                onChange={(e) => set("highlights", e.target.value)}
+              />
+            </Field>
+          </div>
         </div>
       </AdminCard>
 
@@ -179,12 +220,19 @@ export function ServiceForm({
       </AdminCard>
 
       <div className="flex flex-wrap items-center gap-3">
-        <Button type="submit">{mode === "create" ? "Create service" : "Save changes"}</Button>
+        <Button type="submit" disabled={pending}>
+          {pending ? "Saving…" : mode === "create" ? "Create service" : "Save changes"}
+        </Button>
         <Button type="button" variant="outline" onClick={() => router.push("/admin/services")}>
           Cancel
         </Button>
         {saved ? (
-          <span className="text-sm font-medium text-emerald-700">Saved locally.</span>
+          <span className="text-sm font-medium text-emerald-700">Saved.</span>
+        ) : null}
+        {formError ? (
+          <span role="alert" className="text-sm font-medium text-red-600">
+            {formError}
+          </span>
         ) : null}
       </div>
     </form>

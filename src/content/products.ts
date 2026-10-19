@@ -14,6 +14,7 @@ export type Product = {
   description: string;
   category: ProductCategory;
   image: string;
+  imageAlt?: string;
   gallery?: string[];
   features: string[];
   applications: string[];

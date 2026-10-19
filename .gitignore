@@ -36,6 +36,9 @@ yarn-error.log*
 credentials.json
 **/secrets/**
 /supabase/
+!/supabase/
+/supabase/*
+!/supabase/catalog.sql
 
 # vercel
 .vercel

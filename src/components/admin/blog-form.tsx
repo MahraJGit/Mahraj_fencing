@@ -36,6 +36,7 @@ function toValues(post?: AdminBlog): BlogFormValues {
     focusKeyword: post?.seo.focusKeyword ?? "",
     faqs: post?.faqs ?? [],
     status: post?.status ?? "draft",
+    isFeatured: post?.isFeatured ?? false,
   };
 }
 
@@ -116,6 +117,7 @@ export function BlogForm({
         .filter(Boolean),
       faqs: values.faqs.filter((f) => f.question.trim() && f.answer.trim()),
       status: values.status,
+      isFeatured: values.isFeatured,
       seo: {
         metaTitle: values.metaTitle || values.title,
         metaDescription: values.metaDescription || values.excerpt,
@@ -349,6 +351,24 @@ export function BlogForm({
                 <option value="published">Published</option>
               </select>
             </Field>
+            <div>
+              <label
+                htmlFor="isFeatured"
+                className="flex cursor-pointer items-center gap-3 text-sm font-medium text-ink"
+              >
+                <input
+                  id="isFeatured"
+                  type="checkbox"
+                  className="size-4 accent-brand"
+                  checked={values.isFeatured}
+                  onChange={(e) => set("isFeatured", e.target.checked)}
+                />
+                Feature on homepage
+              </label>
+              <p className="mt-1 pl-7 text-xs text-body">
+                Only published featured posts appear on the homepage.
+              </p>
+            </div>
             <Field label="Published date" htmlFor="publishedAt">
               <Input
                 id="publishedAt"

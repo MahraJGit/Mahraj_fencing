@@ -1,14 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { io } from "next/cache";
+import { Suspense } from "react";
 import { PageHero } from "@/components/layout/page-hero";
 import { Section } from "@/components/layout/section";
 import { ButtonLink } from "@/components/ui/button";
 import {
-  getProductBySlug,
   productCategories,
-  products,
 } from "@/content/products";
+import { getPublishedProduct } from "@/lib/catalog-data";
 import { buildMetadata } from "@/lib/seo";
 import { BreadcrumbJsonLd } from "@/components/seo/breadcrumb-json-ld";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -16,13 +17,9 @@ import { absoluteUrl } from "@/lib/seo";
 
 type ProductPageProps = PageProps<"/products/[slug]">;
 
-export function generateStaticParams() {
-  return products.map((product) => ({ slug: product.slug }));
-}
-
 export async function generateMetadata(props: ProductPageProps) {
   const { slug } = await props.params;
-  const product = getProductBySlug(slug);
+  const product = await getPublishedProduct(slug);
   if (!product) return {};
   return buildMetadata({
     title: product.seo.title,
@@ -32,9 +29,28 @@ export async function generateMetadata(props: ProductPageProps) {
   });
 }
 
-export default async function ProductDetailPage(props: ProductPageProps) {
-  const { slug } = await props.params;
-  const product = getProductBySlug(slug);
+export default function ProductDetailPage(props: ProductPageProps) {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-40 items-center justify-center text-sm text-body">
+          Loading product…
+        </div>
+      }
+    >
+      <ProductDetailContent params={props.params} />
+    </Suspense>
+  );
+}
+
+async function ProductDetailContent({
+  params,
+}: {
+  params: ProductPageProps["params"];
+}) {
+  await io();
+  const { slug } = await params;
+  const product = await getPublishedProduct(slug);
   if (!product) notFound();
 
   const categoryLabel = productCategories[product.category].label;
@@ -74,7 +90,7 @@ export default async function ProductDetailPage(props: ProductPageProps) {
           <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border">
             <Image
               src={product.image}
-              alt={product.title}
+              alt={product.imageAlt}
               fill
               className="object-cover"
               sizes="(max-width:1024px) 100vw, 50vw"
@@ -85,8 +101,17 @@ export default async function ProductDetailPage(props: ProductPageProps) {
             <p className="text-sm font-semibold uppercase text-brand">
               {categoryLabel}
             </p>
-            <p className="mt-4 text-body leading-relaxed">{product.description}</p>
-            <ButtonLink href="/contact" className="mt-8">
+            {product.description.trimStart().startsWith("<") ? (
+              <div
+                className="prose-content mt-4 text-body leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: product.description }}
+              />
+            ) : (
+              <p className="mt-4 text-body leading-relaxed">
+                {product.description}
+              </p>
+            )}
+            <ButtonLink href="/contact#quote-form" className="mt-8">
               Request a quote
             </ButtonLink>
           </div>

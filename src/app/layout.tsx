@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Barlow_Condensed, Inter, Outfit, Public_Sans } from "next/font/google";
-import { SiteChrome } from "@/components/layout/site-chrome";
+import { SiteChromeData } from "@/components/layout/site-chrome-data";
 import { JsonLd } from "@/components/seo/json-ld";
 import { siteConfig } from "@/content/site";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
@@ -123,10 +123,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${publicSans.variable} ${barlowCondensed.variable} ${footerBody.variable} ${footerHeading.variable} h-full`}
     >
-      <body className="flex min-h-full flex-col">
+      <body className="flex min-h-full flex-col" suppressHydrationWarning>
         <JsonLd data={organizationJsonLd} />
         <Suspense fallback={<main className="flex-1">{children}</main>}>
-          <SiteChrome>{children}</SiteChrome>
+          <SiteChromeData>{children}</SiteChromeData>
         </Suspense>
       </body>
     </html>

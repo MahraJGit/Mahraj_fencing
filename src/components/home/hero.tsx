@@ -2,7 +2,7 @@ import Image from "next/image";
 import { ArrowButtonLink } from "@/components/ui/arrow-button";
 
 const STAT_ICON_GRADIENT =
-  "linear-gradient(262.56541078619387deg, rgba(255, 255, 255, 0.1) 24.42%, rgba(255, 255, 255, 0.5) 133.08%)";
+  "linear-gradient(262.57deg, rgba(255, 255, 255, 0.01) 24.42%, rgba(255, 255, 255, 0.05) 133.08%)";
 
 const stats = [
   {
@@ -12,9 +12,9 @@ const stats = [
       <Image
         src="/images/figma/home/icon-star.svg"
         alt=""
-        width={24}
-        height={24}
-        className="h-6 w-6 brightness-0 invert"
+        width={20}
+        height={20}
+        className="h-5 w-5 brightness-0 invert"
       />
     ),
   },
@@ -22,7 +22,7 @@ const stats = [
     value: "100+",
     label: "Projects Completed",
     icon: (
-      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-6 w-6">
+      <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5">
         <path
           fill="currentColor"
           d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2h-2V5a.5.5 0 0 0-.5-.5h-3A.5.5 0 0 0 10 5v2H8Zm-4 0h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"
@@ -39,9 +39,9 @@ const stats = [
       <Image
         src="/images/figma/home/icon-projects.svg"
         alt=""
-        width={24}
-        height={24}
-        className="h-6 w-6 brightness-0 invert"
+        width={20}
+        height={20}
+        className="h-5 w-5 brightness-0 invert"
       />
     ),
   },
@@ -49,7 +49,7 @@ const stats = [
 
 export function HomeHero() {
   return (
-    <section className="relative isolate h-[max(100svh,820px)] min-h-[560px] w-full overflow-hidden bg-black text-white sm:h-[760px] sm:max-h-[100svh]">
+    <section className="relative isolate h-svh w-full overflow-hidden bg-black text-white">
       <video
         src="/hero-image-video.mp4"
         poster="/images/figma/home/hero.jpg"
@@ -82,34 +82,55 @@ export function HomeHero() {
               </p>
             </div>
             <ArrowButtonLink
-              href="/contact"
+              href="/contact#quote-form"
               className="h-[54px] rounded-md px-3 text-base font-semibold"
             >
               Get a project quote
             </ArrowButtonLink>
           </div>
 
-          <ul className="flex w-full flex-col items-center justify-center sm:flex-row">
+          <ul
+            className="relative grid w-full max-w-[725px] grid-cols-1 items-center overflow-hidden rounded-[12px] ring-1 ring-inset ring-white/20 backdrop-blur-[25px] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-[2px] before:rounded-t-[12px] before:bg-gradient-to-r before:from-white/10 before:via-white/90 before:to-white/10 min-[821px]:h-[85px] min-[821px]:grid-cols-[251fr_237fr_237fr]"
+            style={{
+              background:
+                "linear-gradient(93.78deg, rgba(0, 0, 0, 0.4) 68.78%, #FFFFFF 132.34%)",
+            }}
+          >
             {stats.map((stat, i) => (
-              <li key={stat.label} className="flex items-center">
-                {i > 0 ? (
+              <li
+                key={stat.label}
+                className={`relative flex min-h-[72px] items-center rounded-2xl px-4 py-2.5 min-[821px]:min-h-0 ${
+                  i === 0
+                    ? "min-[821px]:h-[85px]"
+                    : "min-[821px]:h-[80px]"
+                }`}
+              >
+                {i < stats.length - 1 ? (
                   <span
                     aria-hidden
-                    className="mx-1 hidden h-[65px] w-px bg-[#767676] sm:block"
+                    className="absolute inset-x-4 bottom-0 h-px bg-white/30 min-[821px]:inset-x-auto min-[821px]:bottom-auto min-[821px]:right-0 min-[821px]:top-1/2 min-[821px]:h-[65px] min-[821px]:w-px min-[821px]:-translate-y-1/2"
                   />
                 ) : null}
-                <div className="flex items-center gap-3.5 rounded-2xl px-4 py-2.5">
+                <div className="flex items-center gap-3.5">
                   <span
-                    className="flex size-10 shrink-0 items-center justify-center rounded-full border border-white"
-                    style={{ backgroundImage: STAT_ICON_GRADIENT }}
+                    className={`flex size-10 shrink-0 items-center justify-center rounded-full border border-white/35 ${
+                      i === 0
+                        ? "drop-shadow-[0_-1px_30px_rgba(103,100,100,0.5)]"
+                        : "shadow-[0_-1px_30px_rgba(103,100,100,0.5)]"
+                    }`}
+                    style={
+                      i === 0
+                        ? undefined
+                        : { backgroundImage: STAT_ICON_GRADIENT }
+                    }
                   >
                     {stat.icon}
                   </span>
                   <div className="text-left leading-[150%]">
-                    <p className="text-2xl font-bold tracking-[1.8px] text-white">
+                    <p className="text-2xl font-bold leading-[150%] tracking-[1.8px] text-white">
                       {stat.value}
                     </p>
-                    <p className="text-base font-medium text-white">
+                    <p className="text-base font-medium leading-[150%] text-white">
                       {stat.label}
                     </p>
                   </div>

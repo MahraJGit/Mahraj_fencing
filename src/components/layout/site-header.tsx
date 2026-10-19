@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
-import { mainNav } from "@/content/site";
+import type { NavItem } from "@/content/site";
 import { Logo } from "./logo";
 import { MobileNav } from "./mobile-nav";
 import { ArrowButtonLink } from "@/components/ui/arrow-button";
@@ -9,15 +9,20 @@ import { cn } from "@/lib/utils";
 const linkClass =
   "relative inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium text-white/85 transition hover:bg-white/10 hover:text-white";
 const activeLinkClass =
-  "font-bold text-white after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:bg-white";
+  "font-black text-white after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:bg-white";
 
 type SiteHeaderProps = {
   /** Floats the frosted nav over the page hero (Home, Services). */
   overlay?: boolean;
   activePath?: string;
+  navItems: NavItem[];
 };
 
-export function SiteHeader({ overlay = false, activePath = "" }: SiteHeaderProps) {
+export function SiteHeader({
+  overlay = false,
+  activePath = "",
+  navItems,
+}: SiteHeaderProps) {
   return (
     <header
       className={cn(
@@ -31,7 +36,7 @@ export function SiteHeader({ overlay = false, activePath = "" }: SiteHeaderProps
         className={cn(
           "relative mx-auto flex items-center justify-between gap-4 text-white md:gap-8",
           overlay
-            ? "h-16 w-full max-w-[1280px] rounded-xl border border-white/20 p-4 md:h-20 md:gap-8 md:p-5 xl:w-[calc(100vw_-_160px)]"
+            ? "h-16 w-full max-w-[1280px] rounded-xl border border-white/20 px-4 md:h-20 md:gap-8 md:px-5 xl:w-[calc(100vw_-_160px)]"
             : "h-16 max-w-[1440px] border-b border-white/10 px-4 md:px-10 xl:px-20",
         )}
       >
@@ -46,29 +51,34 @@ export function SiteHeader({ overlay = false, activePath = "" }: SiteHeaderProps
           priority={!overlay}
         />
         <nav
-          className="hidden items-center gap-1 xl:flex"
+          className="hidden h-full items-center gap-1 xl:flex"
           aria-label="Primary"
         >
-          {mainNav.map((item) => {
+          {navItems.map((item) => {
             const active =
               activePath === item.href || activePath.startsWith(`${item.href}/`);
             const itemClass = cn(linkClass, active && activeLinkClass);
 
             return item.children ? (
-              <div key={item.label} className="group relative">
+              <div key={item.label} className="group relative flex h-full items-center">
                 <Link
                   href={item.href}
                   className={itemClass}
                   aria-current={active ? "page" : undefined}
                 >
                   {item.label}
-                  <ChevronDown className="h-4 w-4 opacity-60 transition group-hover:opacity-100" />
+                  <ChevronDown
+                    className={cn(
+                      "h-4 w-4 opacity-60 transition group-hover:opacity-100",
+                      active && "opacity-100",
+                    )}
+                  />
                 </Link>
                 <div
                   className={cn(
-                    "invisible absolute left-0 top-full z-50 w-[233px] translate-y-2 overflow-hidden rounded-b-2xl border border-white/20 bg-black/40 opacity-0 shadow-[0_4px_50px_rgba(0,0,0,0.45)] backdrop-blur-xl transition duration-200",
-                    "group-hover:visible group-hover:translate-y-1 group-hover:opacity-100",
-                    "group-focus-within:visible group-focus-within:translate-y-1 group-focus-within:opacity-100",
+                    "invisible absolute left-0 top-[calc(100%+1px)] z-50 w-[306px] overflow-hidden rounded-b-2xl border border-t-0 border-white/20 bg-black/40 opacity-0 shadow-[0_4px_50px_rgba(0,0,0,0.45)] backdrop-blur-xl transition-[visibility,opacity] duration-200",
+                    "group-hover:visible group-hover:opacity-100",
+                    "group-focus-within:visible group-focus-within:opacity-100",
                   )}
                 >
                   <ul>
@@ -106,13 +116,13 @@ export function SiteHeader({ overlay = false, activePath = "" }: SiteHeaderProps
         </nav>
         <div className="flex items-center gap-2">
           <ArrowButtonLink
-            href="/contact"
+            href="/contact#quote-form"
             size="sm"
             className="hidden h-[54px] w-[166px] justify-center gap-2 rounded-md px-3 text-base sm:inline-flex"
           >
             Get a quote
           </ArrowButtonLink>
-          <MobileNav />
+          <MobileNav items={navItems} />
         </div>
       </div>
     </header>

@@ -1,25 +1,19 @@
 import { Wrap } from "@/components/layout/wrap";
+import type { AdminService } from "@/lib/admin/types";
 
-const items = [
-  { n: "01", label: "Supply & branding", href: "#supply-and-branding" },
-  { n: "02", label: "Installation", href: "#installation" },
-  { n: "03", label: "Transportation", href: "#transport-and-logistics" },
-  { n: "04", label: "Fence shifting", href: "#shifting-and-relocation" },
-];
-
-export function ServicesQuickNav() {
+export function ServicesQuickNav({ services }: { services: AdminService[] }) {
   return (
     <nav aria-label="Services" className="bg-white py-7">
       <Wrap>
         <ul className="grid gap-4 font-semibold text-ink sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-          {items.map((item) => (
-            <li key={item.href}>
+          {services.map((service, index) => (
+            <li key={service.slug}>
               <a
-                href={item.href}
+                href={`#${service.slug}`}
                 className="block text-base leading-[1.5] transition hover:text-brand"
               >
-                {item.n}{"   "}
-                {item.label}
+                {String(index + 1).padStart(2, "0")}{"   "}
+                {service.title}
               </a>
             </li>
           ))}

@@ -3,46 +3,59 @@
 import Link from "next/link";
 import { FileText, Layers3, Package, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
-import { products } from "@/content/products";
-import { services } from "@/content/services";
 import { ButtonLink } from "@/components/ui/button";
 import { listAdminBlogs } from "@/lib/admin/blogs";
-
-const cards = [
-  {
-    label: "Products",
-    count: products.length,
-    href: "/admin/products",
-    createHref: "/admin/products/new",
-    icon: Package,
-  },
-  {
-    label: "Services",
-    count: services.length,
-    href: "/admin/services",
-    createHref: "/admin/services/new",
-    icon: Layers3,
-  },
-];
+import { listAdminProducts, listAdminServices } from "@/lib/admin/catalog";
 
 export default function AdminDashboardPage() {
   const [blogCount, setBlogCount] = useState<number | null>(null);
   const [blogError, setBlogError] = useState<string | null>(null);
+  const [productCount, setProductCount] = useState<number | null>(null);
+  const [serviceCount, setServiceCount] = useState<number | null>(null);
+  const [catalogError, setCatalogError] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
-    listAdminBlogs()
-      .then((blogs) => {
-        if (active) setBlogCount(blogs.length);
+    void Promise.all([
+      listAdminBlogs(),
+      listAdminProducts(),
+      listAdminServices(),
+    ])
+      .then(([blogs, products, services]) => {
+        if (!active) return;
+        setBlogCount(blogs.length);
+        setProductCount(products.length);
+        setServiceCount(services.length);
       })
-      .catch(() => {
-        if (active) setBlogError("Could not load the blog count.");
+      .catch((error: unknown) => {
+        if (!active) return;
+        const message =
+          error instanceof Error ? error.message : "Could not load dashboard data.";
+        setBlogError(message);
+        setCatalogError(message);
       });
 
     return () => {
       active = false;
     };
   }, []);
+
+  const cards = [
+    {
+      label: "Products",
+      count: productCount,
+      href: "/admin/products",
+      createHref: "/admin/products/new",
+      icon: Package,
+    },
+    {
+      label: "Services",
+      count: serviceCount,
+      href: "/admin/services",
+      createHref: "/admin/services/new",
+      icon: Layers3,
+    },
+  ];
 
   return (
     <div className="space-y-8">
@@ -51,8 +64,7 @@ export default function AdminDashboardPage() {
           Dashboard
         </h1>
         <p className="mt-2 text-sm text-body">
-          Manage website blog posts. Product and service previews are stored in
-          this browser.
+          Manage website content shared with the public site.
         </p>
       </div>
 
@@ -73,7 +85,9 @@ export default function AdminDashboardPage() {
                   New
                 </ButtonLink>
               </div>
-              <p className="mt-4 text-3xl font-semibold text-ink">{card.count}</p>
+              <p className="mt-4 text-3xl font-semibold text-ink">
+                {card.count ?? "—"}
+              </p>
               <Link
                 href={card.href}
                 className="mt-1 inline-block text-sm font-semibold text-brand hover:underline"
@@ -109,6 +123,11 @@ export default function AdminDashboardPage() {
           ) : null}
         </div>
       </div>
+      {catalogError && !blogError ? (
+        <p role="alert" className="text-sm text-red-700">
+          {catalogError}
+        </p>
+      ) : null}
     </div>
   );
 }

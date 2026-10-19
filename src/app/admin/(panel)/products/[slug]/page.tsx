@@ -3,17 +3,38 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { ProductForm } from "@/components/admin/product-form";
-import { listProducts } from "@/lib/admin/storage";
+import { getAdminProduct } from "@/lib/admin/catalog";
 import type { AdminProduct } from "@/lib/admin/types";
 
 export default function EditProductPage() {
   const params = useParams<{ slug: string }>();
   const [item, setItem] = useState<AdminProduct | null | undefined>(undefined);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const found = listProducts().find((p) => p.slug === params.slug) ?? null;
-    setItem(found);
+    let active = true;
+    void getAdminProduct(params.slug)
+      .then((product) => {
+        if (active) setItem(product);
+      })
+      .catch((loadError: unknown) => {
+        if (active) {
+          setError(
+            loadError instanceof Error
+              ? loadError.message
+              : "Could not load this product.",
+          );
+          setItem(null);
+        }
+      });
+    return () => {
+      active = false;
+    };
   }, [params.slug]);
+
+  if (error) {
+    return <p role="alert" className="text-sm text-red-700">{error}</p>;
+  }
 
   if (item === undefined) {
     return <p className="text-sm text-body">Loading…</p>;

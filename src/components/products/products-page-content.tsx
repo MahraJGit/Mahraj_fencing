@@ -1,11 +1,11 @@
 import Link from "next/link";
+import { io } from "next/cache";
 import { Section } from "@/components/layout/section";
 import { ProductGrid } from "@/components/products/product-grid";
 import {
   productCategories,
-  products,
-  type ProductCategory,
 } from "@/content/products";
+import { getPublishedProducts } from "@/lib/catalog-data";
 import { cn } from "@/lib/utils";
 
 type ProductsPageContentProps = {
@@ -15,7 +15,10 @@ type ProductsPageContentProps = {
 export async function ProductsPageContent({
   searchParams,
 }: ProductsPageContentProps) {
+  await io();
   const resolved = await searchParams;
+  const products = await getPublishedProducts();
+  const categories = [...new Set(products.map((product) => product.category))];
   const categoryParam = resolved?.category;
   const raw =
     typeof categoryParam === "string"
@@ -24,15 +27,15 @@ export async function ProductsPageContent({
         ? categoryParam[0]
         : undefined;
 
-  const category =
-    raw && raw in productCategories ? (raw as ProductCategory) : undefined;
+  const category = categories.find((item) => item === raw);
 
   const filtered = category
     ? products.filter((p) => p.category === category)
     : products;
 
   return (
-    <Section>
+    <>
+      <Section>
       <nav
         aria-label="Product categories"
         className="flex flex-wrap gap-x-1 gap-y-2 border-b border-border pb-1"
@@ -48,7 +51,7 @@ export async function ProductsPageContent({
         >
           All
         </Link>
-        {(Object.keys(productCategories) as ProductCategory[]).map((key) => (
+        {categories.map((key) => (
           <Link
             key={key}
             href={`/products?category=${key}`}
@@ -71,6 +74,42 @@ export async function ProductsPageContent({
       <div className="mt-10">
         <ProductGrid products={filtered} />
       </div>
-    </Section>
+      </Section>
+      {!category && categories.length > 0 ? (
+        <Section tone="alt">
+          <div className="max-w-2xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-brand">
+              Find a system
+            </p>
+            <h2 className="mt-3 font-heading text-3xl font-bold uppercase text-ink sm:text-4xl">
+              Start with your site need
+            </h2>
+            <p className="mt-3 text-body leading-relaxed">
+              Explore the systems currently available in our product catalog.
+            </p>
+          </div>
+          <ul className="mt-8 grid gap-4 md:grid-cols-3">
+            {categories.slice(0, 3).map((key) => (
+              <li key={key}>
+                <Link
+                  href={`/products?category=${key}`}
+                  className="flex h-full flex-col rounded-md border border-line bg-white p-5 transition hover:border-brand"
+                >
+                  <h3 className="font-heading text-xl font-bold uppercase text-ink">
+                    {productCategories[key].label}
+                  </h3>
+                  <p className="mt-2 flex-1 text-sm leading-relaxed text-body">
+                    {productCategories[key].description}
+                  </p>
+                  <span className="mt-5 text-sm font-semibold text-brand">
+                    Browse systems <span aria-hidden="true">→</span>
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      ) : null}
+    </>
   );
 }

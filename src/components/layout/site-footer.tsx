@@ -47,13 +47,19 @@ function SocialMark({ network }: { network: SocialNetwork }) {
   );
 }
 
-export function SiteFooter() {
+export function SiteFooter({
+  productLinks,
+  serviceLinks,
+}: {
+  productLinks: { label: string; href: string }[];
+  serviceLinks: { label: string; href: string }[];
+}) {
   return (
     <footer
       className="bg-[#131313] text-white"
       style={{ fontFamily: "var(--font-footer-body)" }}
     >
-      <Wrap className="max-w-[1440px] px-5 py-8 md:px-10 xl:h-[322px] xl:px-[100px] xl:pt-[42px] xl:pb-0">
+      <Wrap className="max-w-[1440px] px-5 py-8 md:px-10 xl:min-h-[322px] xl:px-[100px] xl:pt-[42px] xl:pb-8">
         <div className="grid gap-x-8 gap-y-10 md:grid-cols-2 xl:grid-cols-[1.48fr_0.5fr_0.53fr_0.85fr] xl:gap-x-12">
           <div>
             <Logo variant="footer" />
@@ -101,7 +107,7 @@ export function SiteFooter() {
               Products
             </h3>
             <ul className="mt-4 space-y-2">
-              {footerNav.products.map((link) => (
+              {productLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className={colLink}>
                     {link.label}
@@ -116,7 +122,7 @@ export function SiteFooter() {
               Services
             </h3>
             <ul className="mt-4 space-y-2">
-              {footerNav.services.map((link) => (
+              {serviceLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className={colLink}>
                     {link.label}

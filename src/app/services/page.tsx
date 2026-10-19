@@ -1,6 +1,6 @@
+import { Suspense } from "react";
 import { ServicesHero } from "@/components/services/services-hero";
-import { ServicesQuickNav } from "@/components/services/quick-nav";
-import { ServiceCards } from "@/components/services/service-cards";
+import { ServicesCatalog } from "@/components/services/services-catalog";
 import { ServicesProcess } from "@/components/services/process";
 import { TestimonialsSection } from "@/components/home/testimonials";
 import { CtaBanner } from "@/components/home/cta-banner";
@@ -25,8 +25,9 @@ export default function ServicesPage() {
         ]}
       />
       <ServicesHero />
-      <ServicesQuickNav />
-      <ServiceCards />
+      <Suspense fallback={<p className="py-12 text-center text-body">Loading services…</p>}>
+        <ServicesCatalog />
+      </Suspense>
       <ServicesProcess />
       <TestimonialsSection className="bg-paper py-16 md:py-24" />
       <CtaBanner />

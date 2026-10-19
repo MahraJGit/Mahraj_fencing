@@ -47,7 +47,7 @@ export default function ContactPage() {
         image="/images/heroes/contact-hero.png"
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Contact us" }]}
       />
-      <Section>
+      <Section id="quote-form" className="scroll-mt-24 md:scroll-mt-28">
         <div className="grid gap-12 lg:grid-cols-2">
           <ContactDetails />
           <ContactForm />

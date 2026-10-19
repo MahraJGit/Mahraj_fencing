@@ -19,6 +19,8 @@ type ImageUploadFieldProps = {
   placeholder?: string;
   hint?: string;
   previewClassName?: string;
+  required?: boolean;
+  compact?: boolean;
 };
 
 export function ImageUploadField({
@@ -30,6 +32,8 @@ export function ImageUploadField({
   placeholder = "/images/… or https://…",
   hint = "JPG, PNG, WebP, GIF · max 2MB",
   previewClassName,
+  required = false,
+  compact = false,
 }: ImageUploadFieldProps) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string | null>(null);
@@ -50,7 +54,13 @@ export function ImageUploadField({
     if (uploadFolder) {
       setPending(true);
       try {
-        const extension = file.name.split(".").pop()?.toLowerCase() || "img";
+        const extensionByType: Record<string, string> = {
+          "image/jpeg": "jpg",
+          "image/png": "png",
+          "image/webp": "webp",
+          "image/gif": "gif",
+        };
+        const extension = extensionByType[file.type];
         const path = `${uploadFolder}/${crypto.randomUUID()}.${extension}`;
         const { data, error: uploadError } = await getSupabaseClient()
           .storage.from("blog-images")
@@ -107,13 +117,18 @@ export function ImageUploadField({
         type="button"
         onClick={() => fileRef.current?.click()}
         disabled={pending}
-        className="flex w-full flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-border bg-surface-alt px-4 py-6 text-sm text-body transition hover:border-brand/40 hover:bg-brand/5 disabled:opacity-60"
+        className={cn(
+          "flex w-full items-center rounded-lg border border-dashed border-border bg-surface-alt text-sm text-body transition hover:border-brand/40 hover:bg-brand/5 disabled:opacity-60",
+          compact
+            ? "justify-start gap-3 px-4 py-3"
+            : "flex-col justify-center gap-2 px-4 py-6",
+        )}
       >
-        <Upload className="h-5 w-5 text-brand" />
+        <Upload className={cn("shrink-0 text-brand", compact ? "h-4 w-4" : "h-5 w-5")} />
         <span className="font-semibold text-ink">
           {pending ? (uploadFolder ? "Uploading image…" : "Reading image…") : "Upload from PC"}
         </span>
-        <span className="text-xs">{hint}</span>
+        <span className={cn("text-xs", compact && "ml-auto text-right")}>{hint}</span>
       </button>
 
       <div className="relative text-center text-[10px] font-semibold uppercase tracking-wide text-body">
@@ -123,6 +138,7 @@ export function ImageUploadField({
 
       <Input
         id={id}
+        required={required}
         value={value.startsWith("data:") ? "" : value}
         placeholder={value.startsWith("data:") ? "Uploaded from PC" : placeholder}
         disabled={value.startsWith("data:")}

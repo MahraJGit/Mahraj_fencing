@@ -7,14 +7,14 @@ const items = [
   {
     title: "Industrial perimeters",
     text: "Warehouses, logistics hubs and industrial facilities",
-    image: "/images/figma/home/hero.jpg",
+    image: "/images/figma/home/hero-photo.png",
     href: "/products?category=perimeter-fencing",
   },
   {
     title: "Construction sites",
     text: "Secure, adaptable boundaries for active projects",
     image: "/images/figma/home/product-3.png",
-    href: "/products/temporary-fencing",
+    href: "/products?category=perimeter-fencing",
   },
 ];
 

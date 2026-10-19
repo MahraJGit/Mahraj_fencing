@@ -1,14 +1,25 @@
 import type { FaqItem } from "@/content/faq";
+import { ChevronDown } from "lucide-react";
 
 export function FaqList({ items }: { items: FaqItem[] }) {
   return (
-    <dl className="divide-y divide-border rounded-lg border border-border bg-background">
+    <ul className="divide-y divide-border rounded-lg border border-border bg-background">
       {items.map((item) => (
-        <div key={item.question} className="p-5 sm:p-6">
-          <dt className="text-base font-semibold text-ink">{item.question}</dt>
-          <dd className="mt-2 text-sm leading-relaxed text-body">{item.answer}</dd>
-        </div>
+        <li key={item.question}>
+          <details open className="group p-5 sm:p-6">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-semibold text-ink marker:content-none [&::-webkit-details-marker]:hidden">
+              {item.question}
+              <ChevronDown
+                aria-hidden="true"
+                className="size-4 shrink-0 transition-transform group-open:rotate-180"
+              />
+            </summary>
+            <p className="mt-2 text-sm leading-relaxed text-body">
+              {item.answer}
+            </p>
+          </details>
+        </li>
       ))}
-    </dl>
+    </ul>
   );
 }
