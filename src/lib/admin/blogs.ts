@@ -98,7 +98,8 @@ export async function getFeaturedBlogs(): Promise<AdminBlog[]> {
     .select("*")
     .eq("status", "published")
     .eq("is_featured", true)
-    .order("published_at", { ascending: false });
+    .order("published_at", { ascending: false })
+    .limit(9);
 
   if (error) throw error;
   return data.map(fromRow);

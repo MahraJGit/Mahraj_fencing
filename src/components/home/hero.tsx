@@ -90,7 +90,7 @@ export function HomeHero() {
           </div>
 
           <ul
-            className="relative grid w-full max-w-[725px] grid-cols-1 items-center overflow-hidden rounded-[12px] ring-1 ring-inset ring-white/20 backdrop-blur-[25px] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-[2px] before:rounded-t-[12px] before:bg-gradient-to-r before:from-white/10 before:via-white/90 before:to-white/10 min-[821px]:h-[85px] min-[821px]:grid-cols-[251fr_237fr_237fr]"
+            className="relative grid w-full max-w-[725px] grid-cols-1 items-center overflow-hidden rounded-[12px] border-b border-white/10 backdrop-blur-[25px] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-[2px] before:rounded-t-[12px] before:bg-gradient-to-r before:from-white/10 before:via-white/90 before:to-white/10 after:pointer-events-none after:absolute after:bottom-0 after:left-0 after:z-10 after:h-4 after:w-4 after:rounded-bl-[12px] after:border-b after:border-l after:border-white/10 min-[821px]:h-[85px] min-[821px]:grid-cols-[251fr_237fr_237fr]"
             style={{
               background:
                 "linear-gradient(93.78deg, rgba(0, 0, 0, 0.4) 68.78%, #FFFFFF 132.34%)",
@@ -108,12 +108,12 @@ export function HomeHero() {
                 {i < stats.length - 1 ? (
                   <span
                     aria-hidden
-                    className="absolute inset-x-4 bottom-0 h-px bg-white/30 min-[821px]:inset-x-auto min-[821px]:bottom-auto min-[821px]:right-0 min-[821px]:top-1/2 min-[821px]:h-[65px] min-[821px]:w-px min-[821px]:-translate-y-1/2"
+                    className="absolute inset-x-6 bottom-0 h-px bg-white/20 min-[821px]:inset-x-auto min-[821px]:bottom-auto min-[821px]:right-0 min-[821px]:top-1/2 min-[821px]:h-[70px] min-[821px]:w-px min-[821px]:-translate-y-1/2 min-[821px]:bg-white/35"
                   />
                 ) : null}
                 <div className="flex items-center gap-3.5">
                   <span
-                    className={`flex size-10 shrink-0 items-center justify-center rounded-full border border-white/35 ${
+                    className={`flex size-10 shrink-0 items-center justify-center rounded-full ${
                       i === 0
                         ? "drop-shadow-[0_-1px_30px_rgba(103,100,100,0.5)]"
                         : "shadow-[0_-1px_30px_rgba(103,100,100,0.5)]"

@@ -15,10 +15,10 @@ export const siteConfig = {
     href: "https://wa.me/971557657570",
   },
   address: {
-    street: "2204 B2B Tower, Business Bay",
+    street: "2204 B2B Tower, Marasi Drive Street, Business Bay",
     city: "Dubai",
     country: "United Arab Emirates",
-    full: "2204 B2B Tower, Business Bay, Dubai",
+    full: "2204 B2B Tower, Marasi Drive Street, Business Bay, Dubai, UAE",
   },
   regions: ["Dubai", "Abu Dhabi", "Sharjah", "Riyadh"],
   social: {

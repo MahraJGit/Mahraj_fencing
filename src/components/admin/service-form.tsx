@@ -76,8 +76,11 @@ export function ServiceForm({
     };
     try {
       await saveAdminService(item, initial?.slug);
-      setSaved(true);
-      if (mode === "create") router.push(`/admin/services/${slug}`);
+      if (mode === "create") {
+        router.push("/admin/services");
+      } else {
+        setSaved(true);
+      }
     } catch (error) {
       setFormError(
         error instanceof Error ? error.message : "Could not save the service.",

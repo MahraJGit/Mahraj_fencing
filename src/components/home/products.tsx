@@ -11,11 +11,11 @@ export async function ProductsSection() {
   const products = await getPublishedProducts();
   const featuredProducts = products
     .filter((product) => product.isFeatured)
-    .slice(0, 6);
+    .slice(0, 9);
   if (featuredProducts.length === 0) return null;
 
   const primaryProducts = featuredProducts.slice(0, 3);
-  const additionalProducts = featuredProducts.slice(3, 6);
+  const additionalProducts = featuredProducts.slice(3, 9);
 
   return (
     <section className="bg-paper py-16 md:py-20 lg:py-[80px]">

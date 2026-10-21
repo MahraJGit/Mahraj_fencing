@@ -46,6 +46,7 @@ export function ProductForm({
 }) {
   const router = useRouter();
   const [values, setValues] = useState<ProductFormValues>(() => toValues(initial));
+  const [editorResetKey, setEditorResetKey] = useState(0);
   const [saved, setSaved] = useState(false);
   const [pending, setPending] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
@@ -87,8 +88,14 @@ export function ProductForm({
     };
     try {
       await saveAdminProduct(item, initial?.slug);
-      setSaved(true);
-      if (mode === "create") router.push(`/admin/products/${slug}`);
+      if (mode === "create") {
+        setValues(toValues());
+        setEditorResetKey((key) => key + 1);
+        setSaved(false);
+        router.push("/admin/products");
+      } else {
+        setSaved(true);
+      }
     } catch (error) {
       setFormError(
         error instanceof Error ? error.message : "Could not save the product.",
@@ -171,6 +178,7 @@ export function ProductForm({
 
       <AdminCard title="Full description" description="Rich text with HTML blocks for tables and custom markup.">
         <RichTextEditor
+          key={editorResetKey}
           value={values.description}
           onChange={(html) => set("description", html)}
           placeholder="Write the product description..."

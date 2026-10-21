@@ -79,6 +79,7 @@ export default function AdminBlogsPage() {
             title: item.title,
             status: item.status,
             meta: `${item.category} · ${item.seo.focusKeyword || "No keyword"}`,
+            featured: item.isFeatured,
           }))}
           onDelete={deleteBlog}
         />
