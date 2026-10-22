@@ -38,7 +38,7 @@ export function ServicesProcess() {
           </div>
           <p className="max-w-[550px] text-lg leading-relaxed text-ink">
             Coordinated supply, site delivery, installation and phased support
-            across the UAE and Saudi Arabia.
+            across Dubai.
           </p>
         </div>
 

@@ -1,11 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { io } from "next/cache";
 import { Suspense } from "react";
+import { getProjectBySlug, projects } from "@/content/projects";
 import { PageHero } from "@/components/layout/page-hero";
 import { Section } from "@/components/layout/section";
-import { getProjectBySlug, projects } from "@/content/projects";
 import { getPublishedProducts } from "@/lib/catalog-data";
 import { buildMetadata } from "@/lib/seo";
 import { BreadcrumbJsonLd } from "@/components/seo/breadcrumb-json-ld";
@@ -13,7 +12,7 @@ import { BreadcrumbJsonLd } from "@/components/seo/breadcrumb-json-ld";
 type ProjectPageProps = PageProps<"/projects/[slug]">;
 
 export function generateStaticParams() {
-  return projects.map((project) => ({ slug: project.slug }));
+  return projects.map(({ slug }) => ({ slug }));
 }
 
 export async function generateMetadata(props: ProjectPageProps) {
@@ -47,7 +46,6 @@ async function ProjectDetailContent({
 }: {
   params: ProjectPageProps["params"];
 }) {
-  await io();
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) notFound();

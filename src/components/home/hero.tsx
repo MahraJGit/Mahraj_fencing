@@ -78,7 +78,7 @@ export function HomeHero() {
               <p className="max-w-[771px] text-base leading-[22px] text-white md:text-xl md:leading-[22px]">
                 Protect your site with strong, durable fencing solutions. From
                 fences and gates to site barriers, Mahraj Fencing supports
-                construction and industrial projects across the UAE and KSA.
+                construction and industrial projects across Dubai.
               </p>
             </div>
             <ArrowButtonLink

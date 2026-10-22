@@ -4,6 +4,7 @@ export type Service = {
   summary: string;
   description: string;
   image: string;
+  featuredImage?: string;
   imageAlt?: string;
   highlights: string[];
   seo: { title: string; description: string };
@@ -21,12 +22,12 @@ export const services: Service[] = [
       "Bulk panel & post supply",
       "Branded mesh banners",
       "Material scheduling to site",
-      "GCC-wide logistics partners",
+      "Dubai site delivery coordination",
     ],
     seo: {
       title: "Fencing supply & branding",
       description:
-        "Fence material supply and site branding for projects in UAE and Saudi Arabia.",
+        "Fence material supply and site branding for construction and industrial projects in Dubai.",
     },
   },
   {
@@ -45,7 +46,7 @@ export const services: Service[] = [
     seo: {
       title: "Fence installation services",
       description:
-        "Professional fence installation across Dubai, Abu Dhabi, Sharjah, and Riyadh.",
+        "Professional fence installation for construction and industrial sites in Dubai.",
     },
   },
   {
@@ -59,12 +60,12 @@ export const services: Service[] = [
       "Panel and block haulage",
       "Cabins and wide loads",
       "Off-loading coordination",
-      "Cross-emirate routing",
+      "Dubai-wide site delivery",
     ],
     seo: {
       title: "Fence transport & logistics",
       description:
-        "Transport and logistics for fencing materials and site cabins in the GCC.",
+        "Transport and logistics for fencing materials and site cabins across Dubai.",
     },
   },
   {

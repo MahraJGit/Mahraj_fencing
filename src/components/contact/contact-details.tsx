@@ -46,7 +46,7 @@ export function ContactDetails() {
             <p className="text-xs font-semibold uppercase text-body">Office</p>
             <p className="text-sm text-charcoal">{siteConfig.address.full}</p>
             <p className="mt-2 text-xs text-body">
-              Regions: {siteConfig.regions.join(", ")}
+              Service area: {siteConfig.regions.join(", ")}
             </p>
           </div>
         </li>

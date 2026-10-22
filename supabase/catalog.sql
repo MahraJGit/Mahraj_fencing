@@ -15,6 +15,7 @@ create table if not exists public.products (
     )
   ),
   image text not null,
+  featured_image text not null default '',
   image_alt text not null default '',
   gallery text[] not null default '{}',
   features text[] not null default '{}',
@@ -34,6 +35,7 @@ create table if not exists public.services (
   summary text not null,
   description text not null default '',
   image text not null,
+  featured_image text not null default '',
   image_alt text not null default '',
   highlights text[] not null default '{}',
   seo jsonb not null default '{"title":"","description":""}'::jsonb,
@@ -52,9 +54,13 @@ create table if not exists public.catalog_seed_state (
 
 alter table public.products
   add column if not exists is_featured boolean not null default false;
+alter table public.products
+  add column if not exists featured_image text not null default '';
 
 alter table public.services
   add column if not exists is_featured boolean not null default false;
+alter table public.services
+  add column if not exists featured_image text not null default '';
 
 alter table public.products enable row level security;
 alter table public.services enable row level security;
@@ -188,7 +194,7 @@ from jsonb_to_recordset($catalog_products$[
       "Hot-dip galvanized mesh",
       "Multiple heights and gauges",
       "Compatible with barbed wire toppers",
-      "Fast supply across UAE & KSA"
+      "Fast supply across Dubai"
     ],
     "applications": [
       "Industrial yards",
@@ -197,7 +203,7 @@ from jsonb_to_recordset($catalog_products$[
     ],
     "seo": {
       "title": "Chain link fencing supply & installation",
-      "description": "Chain link fencing supplied and installed in Dubai, Abu Dhabi, Sharjah, and Riyadh. Galvanized mesh, posts, and accessories from Mahraj Fencing."
+      "description": "Chain link fencing supplied and installed in Dubai. Galvanized mesh, posts, and accessories from Mahraj Fencing."
     },
     "status": "published",
     "is_featured": true,
@@ -225,7 +231,7 @@ from jsonb_to_recordset($catalog_products$[
     ],
     "seo": {
       "title": "Welded mesh fencing panels",
-      "description": "Welded mesh fencing for secure perimeters in the GCC. Supply, transport, and installation by Mahraj Fencing."
+      "description": "Welded mesh fencing for secure perimeters in Dubai. Supply, transport, and installation by Mahraj Fencing."
     },
     "status": "published",
     "is_featured": true,
@@ -253,7 +259,7 @@ from jsonb_to_recordset($catalog_products$[
     ],
     "seo": {
       "title": "Palisade security fencing",
-      "description": "Palisade fencing supply and installation across UAE and Saudi Arabia. High-security perimeter systems from Mahraj Fencing."
+      "description": "Palisade fencing supply and installation in Dubai. High-security perimeter systems from Mahraj Fencing."
     },
     "status": "published",
     "is_featured": true,
@@ -281,7 +287,7 @@ from jsonb_to_recordset($catalog_products$[
     ],
     "seo": {
       "title": "Anti-climb security fencing",
-      "description": "Anti-climb mesh and high-security fencing in Dubai and Riyadh. Spec-ready systems from Mahraj Fencing."
+      "description": "Anti-climb mesh and high-security fencing in Dubai. Spec-ready systems from Mahraj Fencing."
     },
     "status": "published",
     "is_featured": true,
@@ -309,7 +315,7 @@ from jsonb_to_recordset($catalog_products$[
     ],
     "seo": {
       "title": "Temporary construction fencing",
-      "description": "Temporary fencing hire and supply with installation and shifting across UAE & KSA."
+      "description": "Temporary fencing hire and supply with installation and shifting across Dubai."
     },
     "status": "published",
     "is_featured": true,
@@ -337,7 +343,7 @@ from jsonb_to_recordset($catalog_products$[
     ],
     "seo": {
       "title": "Security gates & automation",
-      "description": "Security gate supply and installation (sliding and swing) across the GCC."
+      "description": "Security gate supply and installation (sliding and swing) across Dubai."
     },
     "status": "published",
     "is_featured": true,
@@ -365,7 +371,7 @@ from jsonb_to_recordset($catalog_products$[
     ],
     "seo": {
       "title": "Crash barriers & guardrails",
-      "description": "Road and crash barrier supply with installation in UAE and KSA."
+      "description": "Road and crash barrier supply with installation in Dubai."
     },
     "status": "published",
     "is_featured": false,
@@ -393,7 +399,7 @@ from jsonb_to_recordset($catalog_products$[
     ],
     "seo": {
       "title": "Portable site cabins",
-      "description": "Portable cabins for construction and industrial sites, with supply and transport across the GCC."
+      "description": "Portable cabins for construction and industrial sites, with supply and transport across Dubai."
     },
     "status": "published",
     "is_featured": false,
@@ -421,7 +427,7 @@ from jsonb_to_recordset($catalog_products$[
     ],
     "seo": {
       "title": "Construction signage & fence branding",
-      "description": "Project signage and fence branding for sites in Dubai, Abu Dhabi, Sharjah, and Riyadh."
+      "description": "Project signage and fence branding for construction and industrial sites in Dubai."
     },
     "status": "published",
     "is_featured": false,
@@ -449,7 +455,7 @@ from jsonb_to_recordset($catalog_products$[
     ],
     "seo": {
       "title": "Interlocking concrete blocks",
-      "description": "Concrete blocks for fence ballast and site segregation, supplied across UAE & KSA."
+      "description": "Concrete blocks for fence ballast and site segregation, supplied across Dubai."
     },
     "status": "published",
     "is_featured": false,
@@ -502,6 +508,43 @@ as seed (
 )
 on conflict (slug) do nothing;
 
+update public.products
+set features = array_replace(
+      features,
+      'Fast supply across UAE & KSA',
+      'Fast supply across Dubai'
+    ),
+    seo = jsonb_set(
+      seo,
+      '{description}',
+      to_jsonb(
+        case slug
+          when 'chain-link-fencing' then 'Chain link fencing supplied and installed in Dubai. Galvanized mesh, posts, and accessories from Mahraj Fencing.'
+          when 'welded-mesh-fencing' then 'Welded mesh fencing for secure perimeters in Dubai. Supply, transport, and installation by Mahraj Fencing.'
+          when 'palisade-fencing' then 'Palisade fencing supply and installation in Dubai. High-security perimeter systems from Mahraj Fencing.'
+          when 'anti-climb-fencing' then 'Anti-climb mesh and high-security fencing in Dubai. Spec-ready systems from Mahraj Fencing.'
+          when 'temporary-fencing' then 'Temporary fencing hire and supply with installation and shifting across Dubai.'
+          when 'security-gates' then 'Security gate supply and installation (sliding and swing) across Dubai.'
+          when 'crash-barriers' then 'Road and crash barrier supply with installation in Dubai.'
+          when 'portable-site-cabins' then 'Portable cabins for construction and industrial sites, with supply and transport across Dubai.'
+          when 'project-signage' then 'Project signage and fence branding for construction and industrial sites in Dubai.'
+          when 'interlocking-concrete-blocks' then 'Concrete blocks for fence ballast and site segregation, supplied across Dubai.'
+        end
+      )
+    )
+where slug in (
+  'chain-link-fencing',
+  'welded-mesh-fencing',
+  'palisade-fencing',
+  'anti-climb-fencing',
+  'temporary-fencing',
+  'security-gates',
+  'crash-barriers',
+  'portable-site-cabins',
+  'project-signage',
+  'interlocking-concrete-blocks'
+);
+
 insert into public.services (
   slug, title, summary, description, image, image_alt, highlights, seo, status, is_featured, sort_order
 )
@@ -518,11 +561,11 @@ from jsonb_to_recordset($catalog_services$[
       "Bulk panel & post supply",
       "Branded mesh banners",
       "Material scheduling to site",
-      "GCC-wide logistics partners"
+      "Dubai site delivery coordination"
     ],
     "seo": {
       "title": "Fencing supply & branding",
-      "description": "Fence material supply and site branding for projects in UAE and Saudi Arabia."
+      "description": "Fence material supply and site branding for construction and industrial projects in Dubai."
     },
     "status": "published",
     "is_featured": true,
@@ -543,7 +586,7 @@ from jsonb_to_recordset($catalog_services$[
     ],
     "seo": {
       "title": "Fence installation services",
-      "description": "Professional fence installation across Dubai, Abu Dhabi, Sharjah, and Riyadh."
+      "description": "Professional fence installation for construction and industrial sites in Dubai."
     },
     "status": "published",
     "is_featured": true,
@@ -560,11 +603,11 @@ from jsonb_to_recordset($catalog_services$[
       "Panel and block haulage",
       "Cabins and wide loads",
       "Off-loading coordination",
-      "Cross-emirate routing"
+      "Dubai-wide site delivery"
     ],
     "seo": {
       "title": "Fence transport & logistics",
-      "description": "Transport and logistics for fencing materials and site cabins in the GCC."
+      "description": "Transport and logistics for fencing materials and site cabins across Dubai."
     },
     "status": "published",
     "is_featured": true,
@@ -606,3 +649,27 @@ as seed (
   sort_order integer
 )
 on conflict (slug) do nothing;
+
+update public.services
+set highlights = array_replace(
+      array_replace(highlights, 'GCC-wide logistics partners', 'Dubai site delivery coordination'),
+      'Cross-emirate routing',
+      'Dubai-wide site delivery'
+    ),
+    seo = jsonb_set(
+      seo,
+      '{description}',
+      to_jsonb(
+        case slug
+          when 'supply-and-branding' then 'Fence material supply and site branding for construction and industrial projects in Dubai.'
+          when 'installation' then 'Professional fence installation for construction and industrial sites in Dubai.'
+          when 'transport-and-logistics' then 'Transport and logistics for fencing materials and site cabins across Dubai.'
+          else seo->>'description'
+        end
+      )
+    )
+where slug in (
+  'supply-and-branding',
+  'installation',
+  'transport-and-logistics'
+);

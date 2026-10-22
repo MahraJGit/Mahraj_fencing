@@ -67,6 +67,7 @@ async function ensureCatalogSeeded() {
   const productItems = legacyProducts.length
     ? legacyProducts.map((item, index) => ({
         ...item,
+        featuredImage: item.featuredImage || item.image,
         imageAlt: item.imageAlt || item.title,
         isFeatured:
           item.isFeatured ??
@@ -82,6 +83,7 @@ async function ensureCatalogSeeded() {
       }))
     : staticProducts.map((item, sortOrder) => ({
         ...item,
+        featuredImage: item.featuredImage ?? item.image,
         imageAlt: item.imageAlt ?? item.title,
         isFeatured: [
           "welded-mesh-fencing",
@@ -97,12 +99,14 @@ async function ensureCatalogSeeded() {
   const serviceItems = legacyServices.length
     ? legacyServices.map((item, index) => ({
         ...item,
+        featuredImage: item.featuredImage || item.image,
         imageAlt: item.imageAlt || item.title,
         isFeatured: item.isFeatured ?? true,
         sortOrder: item.sortOrder ?? index,
       }))
     : staticServices.map((item, sortOrder) => ({
         ...item,
+        featuredImage: item.featuredImage ?? item.image,
         imageAlt: item.imageAlt ?? item.title,
         isFeatured: true,
         status: "published" as const,

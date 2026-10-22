@@ -10,6 +10,7 @@ export type BlogPostRow = {
   category: string;
   author: AdminBlog["author"];
   image: string;
+  featured_image: string;
   image_alt: string;
   tags: string[];
   faqs: AdminBlog["faqs"];
@@ -46,6 +47,7 @@ export type ProductRow = CatalogRow<{
   description: string;
   category: AdminProduct["category"];
   image: string;
+  featured_image: string;
   image_alt: string;
   gallery: string[];
   features: string[];
@@ -61,6 +63,7 @@ export type ServiceRow = CatalogRow<{
   summary: string;
   description: string;
   image: string;
+  featured_image: string;
   image_alt: string;
   highlights: string[];
   seo: AdminService["seo"];
@@ -68,7 +71,6 @@ export type ServiceRow = CatalogRow<{
   is_featured: boolean;
   sort_order: number;
 }>;
-
 export type ProductInsert = CatalogInsert<Omit<ProductRow, "created_at" | "updated_at">>;
 export type ServiceInsert = CatalogInsert<Omit<ServiceRow, "created_at" | "updated_at">>;
 

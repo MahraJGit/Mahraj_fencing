@@ -2,6 +2,7 @@ import type { Product, ProductCategory } from "@/content/products";
 import type { Service } from "@/content/services";
 
 export type AdminProduct = Product & {
+  featuredImage: string;
   status: "draft" | "published";
   isFeatured: boolean;
   imageAlt: string;
@@ -9,6 +10,7 @@ export type AdminProduct = Product & {
 };
 
 export type AdminService = Service & {
+  featuredImage: string;
   status: "draft" | "published";
   isFeatured: boolean;
   imageAlt: string;
@@ -36,6 +38,7 @@ export type AdminBlog = {
   category: string;
   author: AdminBlogAuthor;
   image: string;
+  featuredImage: string;
   imageAlt: string;
   tags: string[];
   faqs: AdminBlogFaq[];
@@ -55,6 +58,7 @@ export type ProductFormValues = {
   description: string;
   category: ProductCategory;
   image: string;
+  featuredImage: string;
   imageAlt: string;
   isFeatured: boolean;
   gallery: string[];
@@ -71,6 +75,7 @@ export type ServiceFormValues = {
   summary: string;
   descriptionHtml: string;
   image: string;
+  featuredImage: string;
   imageAlt: string;
   isFeatured: boolean;
   highlights: string;
@@ -91,6 +96,7 @@ export type BlogFormValues = {
   authorImage: string;
   authorBio: string;
   image: string;
+  featuredImage: string;
   imageAlt: string;
   tags: string;
   metaTitle: string;

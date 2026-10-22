@@ -71,10 +71,10 @@ async function ServiceDetailContent({
         <div className="grid gap-10 lg:grid-cols-2">
           <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
             <Image
-              src={service.image}
-              alt={service.imageAlt}
+              src={service.featuredImage || service.image}
+              alt={service.title}
               fill
-              className="object-cover"
+              className="object-cover object-center"
               sizes="50vw"
             />
           </div>

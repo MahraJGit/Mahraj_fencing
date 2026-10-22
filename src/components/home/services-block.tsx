@@ -16,8 +16,8 @@ export async function ServicesBlock() {
       <Wrap className="grid items-start gap-12 lg:grid-cols-[566px_1fr] lg:gap-16">
         <div className="relative aspect-[566/600] overflow-hidden rounded-[10px]">
           <Image
-            src="/images/figma/home/services-photo.png"
-            alt="Fence installation on site"
+            src="/images/gallery/07.png"
+            alt="Worker installing a metal fence on site"
             fill
             className="object-cover"
             sizes="(min-width:1024px) 566px, 100vw"

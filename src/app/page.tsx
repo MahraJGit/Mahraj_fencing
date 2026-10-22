@@ -19,7 +19,9 @@ export default function HomePage() {
       <Suspense fallback={<div className="min-h-96" />}>
         <ServicesBlock />
       </Suspense>
-      <Applications />
+      <Suspense fallback={<div className="min-h-96" />}>
+        <Applications />
+      </Suspense>
       <TestimonialsSection />
       <CertificationsSection />
       <HomeFeaturedBlogs />

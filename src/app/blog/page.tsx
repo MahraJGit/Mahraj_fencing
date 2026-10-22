@@ -12,7 +12,7 @@ import { CtaBanner } from "@/components/home/cta-banner";
 export const metadata = buildMetadata({
   title: "Fencing insights",
   description:
-    "Guides on perimeter specification, temporary fence operations, and gate automation for GCC sites.",
+    "Guides on perimeter specification, temporary fence operations, and gate automation for Dubai construction and industrial sites.",
   path: "/blog",
   image: "/images/heroes/blogs-hero.png",
 });
@@ -58,11 +58,11 @@ async function BlogListing() {
           <article className="grid overflow-hidden rounded-lg border border-border bg-white md:grid-cols-2">
             <div className="relative min-h-[240px] md:min-h-[360px]">
               <Image
-                src={featuredPost.image}
-                alt={featuredPost.imageAlt}
+                src={featuredPost.featuredImage || featuredPost.image}
+                alt={featuredPost.title}
                 fill
                 priority
-                className="object-cover"
+                className="object-cover object-center"
                 sizes="(min-width:768px) 50vw, 100vw"
               />
             </div>
@@ -121,10 +121,10 @@ async function BlogListing() {
                 <article className="flex h-full flex-col overflow-hidden rounded-lg border border-line bg-white">
                   <div className="relative aspect-[16/9] overflow-hidden">
                     <Image
-                      src={post.image}
-                      alt={post.imageAlt}
+                      src={post.featuredImage || post.image}
+                      alt={post.title}
                       fill
-                      className="object-cover"
+                      className="object-cover object-center"
                       sizes="(min-width:768px) 50vw, 100vw"
                     />
                   </div>

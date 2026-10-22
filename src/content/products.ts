@@ -14,6 +14,7 @@ export type Product = {
   description: string;
   category: ProductCategory;
   image: string;
+  featuredImage?: string;
   imageAlt?: string;
   gallery?: string[];
   features: string[];
@@ -68,13 +69,13 @@ export const products: Product[] = [
       "Hot-dip galvanized mesh",
       "Multiple heights and gauges",
       "Compatible with barbed wire toppers",
-      "Fast supply across UAE & KSA",
+      "Fast supply across Dubai",
     ],
     applications: ["Industrial yards", "Sports courts", "Utility substations"],
     seo: {
       title: "Chain link fencing supply & installation",
       description:
-        "Chain link fencing supplied and installed in Dubai, Abu Dhabi, Sharjah, and Riyadh. Galvanized mesh, posts, and accessories from Mahraj Fencing.",
+        "Chain link fencing supplied and installed in Dubai. Galvanized mesh, posts, and accessories from Mahraj Fencing.",
     },
   },
   {
@@ -95,7 +96,7 @@ export const products: Product[] = [
     seo: {
       title: "Welded mesh fencing panels",
       description:
-        "Welded mesh fencing for secure perimeters in the GCC. Supply, transport, and installation by Mahraj Fencing.",
+        "Welded mesh fencing for secure perimeters in Dubai. Supply, transport, and installation by Mahraj Fencing.",
     },
   },
   {
@@ -116,7 +117,7 @@ export const products: Product[] = [
     seo: {
       title: "Palisade security fencing",
       description:
-        "Palisade fencing supply and installation across UAE and Saudi Arabia. High-security perimeter systems from Mahraj Fencing.",
+        "Palisade fencing supply and installation in Dubai. High-security perimeter systems from Mahraj Fencing.",
     },
   },
   {
@@ -137,7 +138,7 @@ export const products: Product[] = [
     seo: {
       title: "Anti-climb security fencing",
       description:
-        "Anti-climb mesh and high-security fencing in Dubai and Riyadh. Spec-ready systems from Mahraj Fencing.",
+        "Anti-climb mesh and high-security fencing in Dubai. Spec-ready systems from Mahraj Fencing.",
     },
   },
   {
@@ -158,7 +159,7 @@ export const products: Product[] = [
     seo: {
       title: "Temporary construction fencing",
       description:
-        "Temporary fencing hire and supply with installation and shifting across UAE & KSA.",
+        "Temporary fencing hire and supply with installation and shifting across Dubai.",
     },
   },
   {
@@ -179,7 +180,7 @@ export const products: Product[] = [
     seo: {
       title: "Security gates & automation",
       description:
-        "Security gate supply and installation (sliding and swing) across the GCC.",
+        "Security gate supply and installation (sliding and swing) across Dubai.",
     },
   },
   {
@@ -200,7 +201,7 @@ export const products: Product[] = [
     seo: {
       title: "Crash barriers & guardrails",
       description:
-        "Road and crash barrier supply with installation in UAE and KSA.",
+        "Road and crash barrier supply with installation in Dubai.",
     },
   },
   {
@@ -221,7 +222,7 @@ export const products: Product[] = [
     seo: {
       title: "Portable site cabins",
       description:
-        "Portable cabins for construction and industrial sites, with supply and transport across the GCC.",
+        "Portable cabins for construction and industrial sites, with supply and transport across Dubai.",
     },
   },
   {
@@ -242,7 +243,7 @@ export const products: Product[] = [
     seo: {
       title: "Construction signage & fence branding",
       description:
-        "Project signage and fence branding for sites in Dubai, Abu Dhabi, Sharjah, and Riyadh.",
+        "Project signage and fence branding for construction and industrial sites in Dubai.",
     },
   },
   {
@@ -263,7 +264,7 @@ export const products: Product[] = [
     seo: {
       title: "Interlocking concrete blocks",
       description:
-        "Concrete blocks for fence ballast and site segregation, supplied across UAE & KSA.",
+        "Concrete blocks for fence ballast and site segregation, supplied across Dubai.",
     },
   },
   {

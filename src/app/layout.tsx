@@ -41,10 +41,8 @@ export const metadata: Metadata = {
   }),
   keywords: [
     "fencing company Dubai",
-    "fencing suppliers Abu Dhabi",
-    "fencing Sharjah",
-    "fencing contractors UAE",
-    "fencing Riyadh",
+    "fencing suppliers Dubai",
+    "fencing contractors Dubai",
     "chain link fence",
     "temporary fencing",
     "palisade fence",

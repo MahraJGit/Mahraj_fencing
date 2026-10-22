@@ -73,10 +73,7 @@ export function SiteFooter({
               barriers, portable cabins, and installation
               <br className="hidden xl:block" />
               {" "}
-              across Dubai, Abu Dhabi, Sharjah, and
-              <br className="hidden xl:block" />
-              {" "}
-              Riyadh.
+              across Dubai.
             </p>
             <div className="mt-4 flex gap-3 pt-1 xl:mt-[15px]">
               {socials.map(({ label, href, network }) => {

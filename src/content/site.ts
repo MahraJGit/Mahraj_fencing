@@ -1,14 +1,14 @@
 export const siteConfig = {
   name: "Mahraj Fencing",
   legalName: "Mahraj Fencing",
-  tagline: "Best fencing suppliers in Dubai | Abu Dhabi | Sharjah | UAE & KSA",
+  tagline: "Fencing suppliers and contractors in Dubai",
   description:
-    "Mahraj Fencing is a trusted fencing company for fences, steel fabrication, concrete blocks, fence branding, gates, barriers, portable cabins, and installation across Dubai, Abu Dhabi, Sharjah, and Riyadh.",
+    "Mahraj Fencing supplies and installs fences, steel fabrication, concrete blocks, fence branding, gates, barriers, and portable cabins for construction and industrial projects in Dubai.",
   url: "https://mahrajfencing.com",
   locale: "en_AE",
   emails: ["Fencing@mahraj.com"],
   phones: [
-    { label: "UAE", display: "+971 55 765 7570", href: "tel:+971557657570" },
+    { label: "Dubai", display: "+971 55 765 7570", href: "tel:+971557657570" },
   ],
   whatsapp: {
     display: "+971 55 765 7570",
@@ -20,7 +20,7 @@ export const siteConfig = {
     country: "United Arab Emirates",
     full: "2204 B2B Tower, Marasi Drive Street, Business Bay, Dubai, UAE",
   },
-  regions: ["Dubai", "Abu Dhabi", "Sharjah", "Riyadh"],
+  regions: ["Dubai"],
   social: {
     instagram: "https://www.instagram.com/mahrajarabia/",
     facebook: "https://www.facebook.com/mahrajarabia/",

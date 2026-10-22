@@ -15,7 +15,7 @@ export const termsContent = {
     {
       title: "Services Overview",
       paragraphs: [
-        "Mahraj Fencing provides fencing supply, steel fabrication, concrete blocks, gates, barriers, fence branding, signage, portable cabins, installation, transportation, and shifting services across Dubai, Abu Dhabi, Sharjah, and Riyadh.",
+        "Mahraj Fencing provides fencing supply, steel fabrication, concrete blocks, gates, barriers, fence branding, signage, portable cabins, installation, transportation, and shifting services in Dubai.",
         "Products and services are subject to availability and may change or be discontinued without prior notice.",
       ],
     },
@@ -131,7 +131,7 @@ export const termsContent = {
     {
       title: "Governing Law & Disputes",
       paragraphs: [
-        "These terms are governed by UAE law for services provided in the UAE and Saudi Arabian law for services provided in Saudi Arabia. We will first try to settle any dispute through discussion. If that fails, it will go to the competent courts of the relevant country.",
+        "These terms are governed by the laws of the United Arab Emirates. We will first try to settle any dispute through discussion. If that fails, it will go to the competent courts in Dubai.",
       ],
     },
     {

@@ -11,7 +11,7 @@ import { BreadcrumbJsonLd } from "@/components/seo/breadcrumb-json-ld";
 export const metadata = buildMetadata({
   title: "Contact Mahraj Fencing",
   description:
-    "Request a fencing quote for UAE or KSA sites. Phone, email, WhatsApp, and project enquiry form.",
+    "Request a fencing quote for construction and industrial sites in Dubai. Phone, email, WhatsApp, and project enquiry form.",
   path: "/contact",
   image: "/images/heroes/contact-hero.png",
 });

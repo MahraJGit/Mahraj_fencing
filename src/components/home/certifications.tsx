@@ -8,7 +8,7 @@ const items = [
   },
   {
     name: "ICV aligned",
-    detail: "Local value contribution for regional programmes",
+    detail: "Local value contribution for Dubai projects",
   },
   {
     name: "HSE ready",

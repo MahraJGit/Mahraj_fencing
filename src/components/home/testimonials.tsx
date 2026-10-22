@@ -7,24 +7,6 @@ const items = [
       "Mahraj kept our temporary lines moving across three phases without slowing civil works. Branding swaps were handled overnight.",
     role: "Project Manager · Tier-1 contractor · Dubai",
   },
-  {
-    name: "Sarah K.",
-    quote:
-      "Palisade and gate packages arrived on schedule with clean documentation. Installation crew understood utility security requirements.",
-    role: "Facilities Lead · Energy operator · Abu Dhabi",
-  },
-  {
-    name: "Faisal A.",
-    quote:
-      "From welded mesh supply to sliding gate prep, one team coordinated deliveries across Riyadh traffic windows.",
-    role: "Construction Director · Logistics developer · Riyadh",
-  },
-  {
-    name: "Leena M.",
-    quote:
-      "Responsive on WhatsApp, accurate quantities, and fair pricing on accessories and block feet for our hoarding.",
-    role: "Procurement · Infrastructure JV · Sharjah",
-  },
 ];
 
 type TestimonialsSectionProps = {
@@ -45,8 +27,8 @@ export function TestimonialsSection({ className }: TestimonialsSectionProps) {
             </h2>
           </div>
           <p className="max-w-[550px] text-lg leading-relaxed text-ink">
-            Contractors and facility owners across UAE &amp; KSA rely on Mahraj
-            for responsive supply and disciplined field work.
+            Dubai contractors and facility owners rely on Mahraj for responsive
+            supply and disciplined field work.
           </p>
         </div>
 

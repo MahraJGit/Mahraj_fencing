@@ -10,7 +10,7 @@ import { BreadcrumbJsonLd } from "@/components/seo/breadcrumb-json-ld";
 export const metadata = buildMetadata({
   title: "Fencing services",
   description:
-    "Supply, branding, installation, transport, and shifting for fence lines and site cabins across the GCC.",
+    "Supply, branding, installation, transport, and shifting for fence lines and site cabins across Dubai.",
   path: "/services",
   image: "/images/heroes/service-hero.png",
 });

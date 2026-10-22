@@ -51,7 +51,7 @@ export function buildMetadata({
       images: [
         {
           url: ogImage,
-          alt: `${siteConfig.name} — fencing suppliers UAE & KSA`,
+          alt: `${siteConfig.name} — fencing suppliers in Dubai`,
           width: 1200,
           height: 630,
         },

@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { RichTextEditor } from "@/components/admin/editor/rich-text-editor";
 import { ImageUploadField } from "@/components/admin/image-upload-field";
+import { parseListItems } from "@/lib/list-items";
 
 function toValues(product?: AdminProduct): ProductFormValues {
   return {
@@ -26,6 +27,7 @@ function toValues(product?: AdminProduct): ProductFormValues {
       : "",
     category: product?.category ?? "perimeter-fencing",
     image: product?.image ?? "",
+    featuredImage: product?.featuredImage ?? "",
     imageAlt: product?.imageAlt ?? product?.title ?? "",
     isFeatured: product?.isFeatured ?? false,
     gallery: product?.gallery ?? [],
@@ -68,17 +70,12 @@ export function ProductForm({
       description: values.description,
       category: values.category,
       image: values.image,
+      featuredImage: values.featuredImage,
       imageAlt: values.imageAlt,
       isFeatured: values.isFeatured,
       gallery: values.gallery.map((image) => image.trim()).filter(Boolean),
-      features: values.features
-        .split("\n")
-        .map((s) => s.trim())
-        .filter(Boolean),
-      applications: values.applications
-        .split("\n")
-        .map((s) => s.trim())
-        .filter(Boolean),
+      features: parseListItems(values.features),
+      applications: parseListItems(values.applications),
       seo: {
         title: values.seoTitle || values.title,
         description: values.seoDescription || values.shortDescription,
@@ -202,6 +199,19 @@ export function ProductForm({
               />
             </Field>
             <Field
+              label="Featured image (product cards)"
+              htmlFor="featuredImage"
+              hint="Optional. If blank, the cover image is used. Recommended ratio: 4:3 landscape; the card crops to fill."
+            >
+              <ImageUploadField
+                id="featuredImage"
+                value={values.featuredImage}
+                onChange={(image) => set("featuredImage", image)}
+                uploadFolder="products/featured"
+                placeholder="/images/products/… or https://…"
+              />
+            </Field>
+            <Field
               label="Image alt text"
               htmlFor="imageAlt"
               hint="Briefly describe the image for screen readers and search engines."
@@ -286,7 +296,11 @@ export function ProductForm({
 
       <AdminCard title="Features & applications">
         <div className="grid gap-4 md:grid-cols-2">
-          <Field label="Features" htmlFor="features" hint="One per line">
+          <Field
+            label="Features"
+            htmlFor="features"
+            hint="Paste one point per line. Bullet markers are cleaned and saved as separate points."
+          >
             <Textarea
               id="features"
               rows={5}
@@ -294,7 +308,11 @@ export function ProductForm({
               onChange={(e) => set("features", e.target.value)}
             />
           </Field>
-          <Field label="Applications" htmlFor="apps" hint="One per line">
+          <Field
+            label="Applications"
+            htmlFor="apps"
+            hint="Paste one point per line. Bullet markers are cleaned and saved as separate points."
+          >
             <Textarea
               id="apps"
               rows={5}

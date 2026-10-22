@@ -31,6 +31,7 @@ import { cn } from "@/lib/utils";
 import { HtmlBlock } from "./html-block-extension";
 import { HtmlBlockModal } from "./html-block-modal";
 import { ImageInsertModal } from "./image-insert-modal";
+import { parseListItems } from "@/lib/list-items";
 
 type RichTextEditorProps = {
   value: string;
@@ -68,6 +69,51 @@ export function RichTextEditor({
       attributes: {
         class:
           "prose-admin h-[420px] max-w-none overflow-y-auto px-4 py-3 outline-none focus:outline-none",
+      },
+      handlePaste: (view, event) => {
+        const clipboard = event.clipboardData;
+        if (!clipboard || clipboard.getData("text/html")) return false;
+
+        const text = clipboard.getData("text/plain");
+        const sourceLines = text
+          .split(/\r\n?|\n/)
+          .map((line) => line.trim())
+          .filter(Boolean);
+        const isSingleLineBulletRun =
+          sourceLines.length === 1 &&
+          (sourceLines[0].match(/(?:^|\s)[•·▪◦‣⁃]\s*/gu)?.length ?? 0) > 1;
+        const isMarkedList =
+          sourceLines.length > 0 &&
+          sourceLines.every((line) =>
+            /^\s*(?:[•·▪◦‣⁃*-]|\d+[.)])\s+/u.test(line),
+          );
+        if (!isMarkedList && !isSingleLineBulletRun) return false;
+
+        const items = parseListItems(text);
+        if (items.length === 0) return false;
+
+        const schema = view.state.schema;
+        const listItem = schema.nodes.listItem;
+        const paragraph = schema.nodes.paragraph;
+        const allOrdered = sourceLines.every((line) =>
+          /^\s*\d+[.)]\s+/u.test(line),
+        );
+        const listType = schema.nodes[allOrdered ? "orderedList" : "bulletList"];
+        if (!listItem || !paragraph || !listType) return false;
+
+        const listNodes = items.map((item) =>
+          listItem.create(
+            null,
+            paragraph.create(null, schema.text(item)),
+          ),
+        );
+        view.dispatch(
+          view.state.tr
+            .replaceSelectionWith(listType.create(null, listNodes))
+            .scrollIntoView(),
+        );
+        event.preventDefault();
+        return true;
       },
     },
   });

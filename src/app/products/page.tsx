@@ -8,7 +8,7 @@ import { BreadcrumbJsonLd } from "@/components/seo/breadcrumb-json-ld";
 export const metadata = buildMetadata({
   title: "Fencing products",
   description:
-    "Chain link, welded mesh, palisade, gates, barriers, portable cabins, signage, and accessories, supplied across UAE & KSA.",
+    "Chain link, welded mesh, palisade, gates, barriers, portable cabins, signage, and accessories, supplied and installed in Dubai.",
   path: "/products",
   image: "/images/products/welded-mesh.jpg",
 });

@@ -13,19 +13,19 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    slug: "riyadh-logistics-perimeter",
-    title: "Riyadh logistics hub perimeter",
-    location: "Riyadh, KSA",
+    slug: "dubai-logistics-perimeter",
+    title: "Dubai logistics hub perimeter",
+    location: "Dubai, UAE",
     sector: "Logistics",
     summary: "2.4 km welded mesh with automated sliding gates.",
     description:
       "Full perimeter upgrade with welded mesh panels, anti-climb toppings, and dual automated sliding gates integrated with access control conduits.",
-    image: "/images/projects/steel-structures-fabrication-works.jpg",
+    image: "/images/figma/home/hero-photo.png",
     scope: ["Survey & layout", "Panel install", "Gate automation prep"],
     products: ["welded-mesh-fencing", "security-gates", "anti-climb-fencing"],
     seo: {
-      title: "Riyadh logistics perimeter project",
-      description: "Welded mesh perimeter and gates delivered in Riyadh.",
+      title: "Dubai logistics perimeter project",
+      description: "Welded mesh perimeter and gates delivered in Dubai.",
     },
   },
   {
@@ -36,7 +36,7 @@ export const projects: Project[] = [
     summary: "Temporary fencing with branded mesh and block feet.",
     description:
       "Phased temporary fence lines with interlocking block feet, storm braces, and full-height branded mesh banners swapped per campaign.",
-    image: "/images/projects/custom-steel-fabrication.jpg",
+    image: "/images/figma/home/product-3.png",
     scope: ["Supply", "Branding", "Shifting across phases"],
     products: ["temporary-fencing", "interlocking-concrete-blocks", "project-signage"],
     seo: {
@@ -45,9 +45,9 @@ export const projects: Project[] = [
     },
   },
   {
-    slug: "abudhabi-substation-palisade",
-    title: "Abu Dhabi substation palisade",
-    location: "Abu Dhabi, UAE",
+    slug: "dubai-substation-palisade",
+    title: "Dubai substation palisade",
+    location: "Dubai, UAE",
     sector: "Utilities",
     summary: "Palisade with razor wire and monitored gates.",
     description:
@@ -56,14 +56,14 @@ export const projects: Project[] = [
     scope: ["Palisade install", "Razor wire", "Gate alignment"],
     products: ["palisade-fencing", "security-gates", "fence-accessories"],
     seo: {
-      title: "Abu Dhabi substation fencing",
-      description: "Palisade perimeter for a utility substation in Abu Dhabi.",
+      title: "Dubai substation fencing",
+      description: "Palisade perimeter for a utility substation in Dubai.",
     },
   },
   {
-    slug: "sharjah-industrial-yard",
-    title: "Sharjah industrial yard upgrade",
-    location: "Sharjah, UAE",
+    slug: "dubai-industrial-yard",
+    title: "Dubai industrial yard upgrade",
+    location: "Dubai, UAE",
     sector: "Industrial",
     summary: "Chain link with privacy slats and crash barriers.",
     description:
@@ -72,8 +72,8 @@ export const projects: Project[] = [
     scope: ["Demolition", "New fence line", "Barrier install"],
     products: ["chain-link-fencing", "crash-barriers", "fence-accessories"],
     seo: {
-      title: "Sharjah industrial fencing",
-      description: "Chain link and crash barriers for an industrial yard in Sharjah.",
+      title: "Dubai industrial fencing",
+      description: "Chain link and crash barriers for an industrial yard in Dubai.",
     },
   },
 ];

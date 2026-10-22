@@ -39,6 +39,7 @@ credentials.json
 !/supabase/
 /supabase/*
 !/supabase/catalog.sql
+!/supabase/featured-images.sql
 
 # vercel
 .vercel

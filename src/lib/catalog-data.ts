@@ -1,6 +1,7 @@
 import type { AdminProduct, AdminService } from "@/lib/admin/types";
 import type { ProductRow, ServiceRow } from "@/lib/supabase/database";
 import { createPublicSupabaseClient } from "@/lib/supabase/client";
+import { parseListItems } from "@/lib/list-items";
 
 type CatalogQueryError = {
   code: string;
@@ -47,10 +48,11 @@ export function productFromRow(row: ProductRow): AdminProduct {
     description: row.description,
     category: row.category,
     image: row.image,
+    featuredImage: row.featured_image || row.image,
     imageAlt: row.image_alt,
     gallery: row.gallery,
-    features: row.features,
-    applications: row.applications,
+    features: parseListItems(row.features),
+    applications: parseListItems(row.applications),
     seo: row.seo,
     status: row.status,
     isFeatured: row.is_featured,
@@ -65,8 +67,9 @@ export function serviceFromRow(row: ServiceRow): AdminService {
     summary: row.summary,
     description: row.description,
     image: row.image,
+    featuredImage: row.featured_image || row.image,
     imageAlt: row.image_alt,
-    highlights: row.highlights,
+    highlights: parseListItems(row.highlights),
     seo: row.seo,
     status: row.status,
     isFeatured: row.is_featured,
@@ -82,6 +85,7 @@ export function productToRow(product: AdminProduct) {
     description: product.description,
     category: product.category,
     image: product.image,
+    featured_image: product.featuredImage || product.image,
     image_alt: product.imageAlt,
     gallery: product.gallery ?? [],
     features: product.features,
@@ -100,6 +104,7 @@ export function serviceToRow(service: AdminService) {
     summary: service.summary,
     description: service.description,
     image: service.image,
+    featured_image: service.featuredImage || service.image,
     image_alt: service.imageAlt,
     highlights: service.highlights,
     seo: service.seo,
@@ -134,6 +139,7 @@ async function getStaticProducts(): Promise<AdminProduct[]> {
   const { products } = await import("@/content/products");
   return products.map((product, sortOrder) => ({
     ...product,
+    featuredImage: product.featuredImage ?? product.image,
     imageAlt: product.imageAlt ?? product.title,
     status: "published",
     isFeatured: [
@@ -154,6 +160,7 @@ async function getStaticProduct(slug: string): Promise<AdminProduct | null> {
   return product
     ? {
         ...product,
+        featuredImage: product.featuredImage ?? product.image,
         imageAlt: product.imageAlt ?? product.title,
         status: "published",
         isFeatured: [
@@ -173,6 +180,7 @@ async function getStaticServices(): Promise<AdminService[]> {
   const { services } = await import("@/content/services");
   return services.map((service, sortOrder) => ({
     ...service,
+    featuredImage: service.featuredImage ?? service.image,
     imageAlt: service.imageAlt ?? service.title,
     status: "published",
     isFeatured: true,
@@ -186,6 +194,7 @@ async function getStaticService(slug: string): Promise<AdminService | null> {
   return service
     ? {
         ...service,
+        featuredImage: service.featuredImage ?? service.image,
         imageAlt: service.imageAlt ?? service.title,
         status: "published",
         isFeatured: true,

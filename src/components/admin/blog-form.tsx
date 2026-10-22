@@ -29,6 +29,7 @@ function toValues(post?: AdminBlog): BlogFormValues {
     authorImage: post?.author.image ?? "",
     authorBio: post?.author.bio ?? "",
     image: post?.image ?? "",
+    featuredImage: post?.featuredImage ?? "",
     imageAlt: post?.imageAlt ?? "",
     tags: (post?.tags ?? []).join(", "),
     metaTitle: post?.seo.metaTitle ?? "",
@@ -110,6 +111,7 @@ export function BlogForm({
         bio: values.authorBio,
       },
       image: values.image,
+      featuredImage: values.featuredImage,
       imageAlt: values.imageAlt,
       tags: values.tags
         .split(",")
@@ -239,6 +241,25 @@ export function BlogForm({
               />
             </Field>
           </div>
+        </AdminCard>
+
+        <AdminCard
+          title="Featured image"
+          description="Shown on blog cards and featured article cards. If blank, the main image is used."
+        >
+          <Field
+            label="Featured image (blog cards)"
+            htmlFor="featuredImage"
+            hint="Recommended ratio: 16:9 landscape; the article card crops to fill."
+          >
+            <ImageUploadField
+              id="featuredImage"
+              value={values.featuredImage}
+              onChange={(src) => set("featuredImage", src)}
+              uploadFolder="blogs/featured"
+              hint={`${BLOG_IMAGE_HINT} · max 2MB`}
+            />
+          </Field>
         </AdminCard>
 
         <AdminCard

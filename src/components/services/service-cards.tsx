@@ -30,10 +30,10 @@ export function ServiceCards({ services }: { services: AdminService[] }) {
                 className="group relative flex h-[470px] flex-col justify-end overflow-hidden rounded-lg"
               >
                 <Image
-                  src={service.image}
-                  alt={service.imageAlt}
+                  src={service.featuredImage || service.image}
+                  alt={service.title}
                   fill
-                  className="object-cover transition duration-500 group-hover:scale-105"
+                  className="object-cover object-center transition duration-500 group-hover:scale-105"
                   sizes="(min-width:768px) 50vw, 100vw"
                 />
                 <div className="relative z-10 flex h-[208px] flex-col gap-3 border border-white/50 bg-white/91 px-7 py-6 backdrop-blur-[10px]">

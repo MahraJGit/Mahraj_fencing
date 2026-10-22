@@ -2,7 +2,7 @@ export const aboutContent = {
   hero: {
     title: "About Mahraj Fencing",
     subtitle:
-      "Trusted fencing contractors for supply, fabrication, branding, and installation across the UAE and Saudi Arabia.",
+      "Trusted Dubai fencing contractors for supply, fabrication, branding, and installation.",
     image: "/images/heroes/about-hero.png",
   },
   chairman: {
@@ -20,8 +20,8 @@ export const aboutContent = {
   introduction: {
     title: "Introduction",
     paragraphs: [
-      "Mahraj Fencing is a trusted name in the construction industry for fencing, steel fabrication, concrete blocks, fence branding, construction signage, and portable site solutions across the Middle East.",
-      "As a leading fence contractor, we supply and install from strategically located operations serving Dubai, Abu Dhabi, Sharjah, and Riyadh, with distribution support across the wider GCC. Our processes follow ISO-aligned quality standards so every programme receives consistent material and site workmanship.",
+      "Mahraj Fencing is a trusted name in Dubai's construction industry for fencing, steel fabrication, concrete blocks, fence branding, construction signage, and portable site solutions.",
+      "As a Dubai fencing contractor, we supply and install perimeter systems for construction, industrial, and commercial sites. Our processes follow ISO-aligned quality standards so every programme receives consistent material and site workmanship.",
       "We go the extra mile on the fencing problems others ignore: temporary hoarding that must shift with the programme, high-security palisade for utilities, branded mesh for mega-projects, and turn-key packages from manufacturing through installation.",
     ],
     image: "/images/profile/steel-plant-yard.jpg",
@@ -30,12 +30,12 @@ export const aboutContent = {
   },
   history: {
     title: "History",
-    lead: "The journey of Mahraj Fencing is rooted in steel, site logistics, and perimeter solutions for demanding GCC projects, growing from contracting support into a full turn-key fencing partner.",
+    lead: "The journey of Mahraj Fencing is rooted in steel, site logistics, and perimeter solutions for demanding Dubai projects, growing from contracting support into a full turn-key fencing partner.",
     milestones: [
       {
         year: "Foundation",
-        title: "Regional steel & site solutions",
-        body: "Mahraj operations began supporting construction and industrial clients with fabricated steel, portable facilities, and site compound systems across the Gulf.",
+        title: "Steel & site solutions in Dubai",
+        body: "Mahraj operations began supporting Dubai construction and industrial clients with fabricated steel, portable facilities, and site compound systems.",
       },
       {
         year: "Expansion",
@@ -49,15 +49,15 @@ export const aboutContent = {
       },
       {
         year: "Today",
-        title: "UAE & KSA coverage",
-        body: "Mahraj Fencing now supports programmes across Dubai, Abu Dhabi, Sharjah, and Riyadh with supply, branding, installation, transport, and shifting, and continues expanding service reach.",
+        title: "Dubai fencing services",
+        body: "Mahraj Fencing supports Dubai projects with fence supply, branding, installation, transport, and shifting.",
       },
     ],
   },
   exhibitions: {
     title: "Exhibitions",
     description:
-      "We meet project teams and partners at regional construction and industrial events across the GCC and beyond.",
+      "We meet project teams and partners at construction and industrial events in Dubai.",
     items: [
       {
         title: "Dubai Exhibition",
@@ -65,13 +65,6 @@ export const aboutContent = {
         image: "/images/gallery/01.jpg",
         summary:
           "Showcasing temporary fencing, branded hoarding, gates, and site cabin packages for mega-project contractors.",
-      },
-      {
-        title: "Regional Construction Expo",
-        location: "GCC",
-        image: "/images/gallery/02.jpg",
-        summary:
-          "Presenting palisade, welded mesh, and anti-climb systems for infrastructure and industrial perimeters.",
       },
     ],
   },
@@ -86,7 +79,7 @@ export const aboutContent = {
       },
       {
         name: "ICV aligned",
-        detail: "Local value contribution practices for regional programmes",
+        detail: "Local value contribution practices for Dubai projects",
       },
       {
         name: "HSE ready",
@@ -101,7 +94,7 @@ export const aboutContent = {
   clients: {
     title: "Our clients",
     description:
-      "We support contractors, developers, utilities, and industrial operators on high-profile programmes across the UAE and KSA.",
+      "We support contractors, developers, utilities, and industrial operators on high-profile projects in Dubai.",
     names: [
       "Tier-1 contractors",
       "Real estate developers",
@@ -116,6 +109,6 @@ export const aboutContent = {
   seo: {
     title: "Best fencing company | About Mahraj Fencing",
     description:
-      "About Mahraj Fencing, trusted fencing contractors for fence supply, steel fabrication, branding, and installation in Dubai, Abu Dhabi, Sharjah, and Riyadh.",
+      "About Mahraj Fencing, trusted Dubai fencing contractors for fence supply, steel fabrication, branding, and installation.",
   },
 } as const;

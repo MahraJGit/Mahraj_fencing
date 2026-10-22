@@ -43,10 +43,10 @@ export async function ProductsSection() {
                 className="group relative flex h-[470px] flex-col justify-end overflow-hidden rounded-lg"
               >
                 <Image
-                  src={product.image}
-                  alt={product.imageAlt}
+                  src={product.featuredImage || product.image}
+                  alt={product.title}
                   fill
-                  className="object-cover transition duration-500 group-hover:scale-105"
+                  className="object-cover object-center transition duration-500 group-hover:scale-105"
                   sizes="(min-width:768px) 33vw, 100vw"
                 />
                 <div className="relative z-10 flex h-[208px] flex-col gap-3 border border-white/50 bg-white/91 px-7 py-6 backdrop-blur-[10px]">
@@ -67,14 +67,25 @@ export async function ProductsSection() {
             <li key={product.slug}>
               <Link
                 href={`/products/${product.slug}`}
-                className="flex items-center justify-between gap-3 rounded-md border border-line p-[18px] text-[15px] font-medium text-ink transition hover:border-brand hover:text-brand"
+                className="group flex items-center gap-4 overflow-hidden rounded-md border border-line bg-white text-[15px] font-medium text-ink transition hover:border-brand hover:text-brand"
               >
-                {product.title}
-                <ArrowRight
-                  className="h-7 w-7 shrink-0 text-brand"
-                  strokeWidth={3.5}
-                  aria-hidden
-                />
+                <span className="relative h-20 w-24 shrink-0 overflow-hidden bg-surface-alt">
+                  <Image
+                    src={product.featuredImage || product.image}
+                    alt=""
+                    fill
+                    className="object-cover object-center transition duration-500 group-hover:scale-105"
+                    sizes="96px"
+                  />
+                </span>
+                <span className="flex flex-1 items-center justify-between gap-3 py-4 pr-4">
+                  {product.title}
+                  <ArrowRight
+                    className="h-7 w-7 shrink-0 text-brand"
+                    strokeWidth={3.5}
+                    aria-hidden
+                  />
+                </span>
               </Link>
             </li>
           ))}

@@ -89,10 +89,10 @@ async function ProductDetailContent({
         <div className="grid gap-10 lg:grid-cols-2">
           <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border">
             <Image
-              src={product.image}
-              alt={product.imageAlt}
+              src={product.featuredImage || product.image}
+              alt={product.title}
               fill
-              className="object-cover"
+              className="object-cover object-center"
               sizes="(max-width:1024px) 100vw, 50vw"
               priority
             />

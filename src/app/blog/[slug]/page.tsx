@@ -119,11 +119,11 @@ async function BlogPostContent({
           </div>
           <div className="relative mt-8 aspect-[16/9] w-full overflow-hidden rounded-lg">
             <Image
-              src={post.image}
-              alt={post.imageAlt}
+              src={post.featuredImage || post.image}
+              alt={post.title}
               fill
               priority
-              className="object-cover"
+              className="object-cover object-center"
               sizes="(min-width: 1312px) 1280px, calc(100vw - 2rem)"
             />
           </div>

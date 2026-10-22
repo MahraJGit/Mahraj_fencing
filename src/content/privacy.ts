@@ -84,7 +84,7 @@ export const privacyContent = {
         "Stop using your information for marketing messages.",
       ],
       after: [
-        "We follow the data protection laws that apply in the UAE and the Kingdom of Saudi Arabia, including the Personal Data Protection Law of each country.",
+        "We follow the data protection laws that apply in the United Arab Emirates.",
       ],
     },
     {
@@ -111,6 +111,6 @@ export const privacyContent = {
   seo: {
     title: "Privacy Policy",
     description:
-      "Privacy Policy for Mahraj Fencing. How we collect, use, and protect personal information in the UAE and Saudi Arabia.",
+      "Privacy Policy for Mahraj Fencing. How we collect, use, and protect personal information in Dubai, United Arab Emirates.",
   },
 } as const;

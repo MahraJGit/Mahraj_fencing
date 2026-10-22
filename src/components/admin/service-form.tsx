@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { RichTextEditor } from "@/components/admin/editor/rich-text-editor";
 import { ImageUploadField } from "@/components/admin/image-upload-field";
+import { parseListItems } from "@/lib/list-items";
 
 function toValues(service?: AdminService): ServiceFormValues {
   return {
@@ -23,6 +24,7 @@ function toValues(service?: AdminService): ServiceFormValues {
         : `<p>${service.description}</p>`
       : "",
     image: service?.image ?? "",
+    featuredImage: service?.featuredImage ?? "",
     imageAlt: service?.imageAlt ?? service?.title ?? "",
     isFeatured: service?.isFeatured ?? false,
     highlights: (service?.highlights ?? []).join("\n"),
@@ -61,12 +63,10 @@ export function ServiceForm({
       summary: values.summary,
       description: values.descriptionHtml,
       image: values.image,
+      featuredImage: values.featuredImage,
       imageAlt: values.imageAlt,
       isFeatured: values.isFeatured,
-      highlights: values.highlights
-        .split("\n")
-        .map((s) => s.trim())
-        .filter(Boolean),
+      highlights: parseListItems(values.highlights),
       seo: {
         title: values.seoTitle || values.title,
         description: values.seoDescription || values.summary,
@@ -172,6 +172,19 @@ export function ServiceForm({
               />
             </Field>
             <Field
+              label="Featured image (service cards)"
+              htmlFor="featuredImage"
+              hint="Optional. If blank, the cover image is used. Recommended ratio: 4:3 landscape; the card crops to fill."
+            >
+              <ImageUploadField
+                id="featuredImage"
+                value={values.featuredImage}
+                onChange={(image) => set("featuredImage", image)}
+                uploadFolder="services/featured"
+                placeholder="/images/services/… or https://…"
+              />
+            </Field>
+            <Field
               label="Image alt text"
               htmlFor="imageAlt"
               hint="Briefly describe the image for screen readers and search engines."
@@ -189,7 +202,7 @@ export function ServiceForm({
             <Field
               label="Highlights"
               htmlFor="highlights"
-              hint="One highlight per line."
+              hint="Paste one highlight per line. Bullet markers are cleaned and saved as separate highlights."
             >
               <Textarea
                 id="highlights"

@@ -2,9 +2,9 @@ export type FaqItem = { question: string; answer: string };
 
 export const generalFaqs: FaqItem[] = [
   {
-    question: "Which areas do you serve?",
+    question: "Which areas in Dubai do you serve?",
     answer:
-      "We supply and install across Dubai, Abu Dhabi, Sharjah, and Riyadh with logistics partners for wider UAE and KSA coverage.",
+      "We supply and install fencing across Dubai for construction, commercial, and industrial sites.",
   },
   {
     question: "Do you handle temporary and permanent fencing?",
