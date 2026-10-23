@@ -29,6 +29,11 @@ export const siteConfig = {
   copyrightYear: 2026,
 } as const;
 
+export const cataloguePdf = {
+  href: "/MAHRAJ_FENCING_CATALOG_UPDATED.pdf",
+  downloadName: "Mahraj-Fencing-Catalogue.pdf",
+} as const;
+
 export type NavItem = {
   label: string;
   href: string;

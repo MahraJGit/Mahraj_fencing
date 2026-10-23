@@ -1,3 +1,5 @@
+import { cataloguePdf } from "./site";
+
 export const aboutContent = {
   hero: {
     title: "About Mahraj Fencing",
@@ -26,7 +28,7 @@ export const aboutContent = {
     ],
     image: "/images/profile/steel-plant-yard.jpg",
     brochureLabel: "Download brochure",
-    brochureHref: "/contact",
+    brochureHref: cataloguePdf.href,
   },
   history: {
     title: "History",
