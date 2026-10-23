@@ -12,6 +12,10 @@ import { Button } from "@/components/ui/button";
 import { RichTextEditor } from "@/components/admin/editor/rich-text-editor";
 import { ImageUploadField } from "@/components/admin/image-upload-field";
 import { parseListItems } from "@/lib/list-items";
+import {
+  HERO_IMAGE_HINT,
+  SERVICE_CONTENT_IMAGE_HINT,
+} from "@/lib/admin/image-guidelines";
 
 function toValues(service?: AdminService): ServiceFormValues {
   return {
@@ -43,13 +47,11 @@ export function ServiceForm({
 }) {
   const router = useRouter();
   const [values, setValues] = useState<ServiceFormValues>(() => toValues(initial));
-  const [saved, setSaved] = useState(false);
   const [pending, setPending] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
   function set<K extends keyof ServiceFormValues>(key: K, value: ServiceFormValues[K]) {
     setValues((prev) => ({ ...prev, [key]: value }));
-    setSaved(false);
     setFormError(null);
   }
 
@@ -76,11 +78,7 @@ export function ServiceForm({
     };
     try {
       await saveAdminService(item, initial?.slug);
-      if (mode === "create") {
-        router.push("/admin/services");
-      } else {
-        setSaved(true);
-      }
+      router.replace("/admin/services");
     } catch (error) {
       setFormError(
         error instanceof Error ? error.message : "Could not save the service.",
@@ -158,13 +156,19 @@ export function ServiceForm({
       <AdminCard title="Media & highlights">
         <div className="space-y-6">
           <div className="grid items-start gap-6 lg:grid-cols-2">
-            <Field label="Cover image" htmlFor="image">
+            <Field
+              label="Content image"
+              htmlFor="image"
+              hint="Shown in the service details section below the hero."
+            >
               <ImageUploadField
                 id="image"
                 required
                 value={values.image}
                 onChange={(image) => set("image", image)}
                 uploadFolder="services"
+                hint={SERVICE_CONTENT_IMAGE_HINT}
+                previewAspectClassName="aspect-[4/3]"
                 onAltFromFile={(alt) => {
                   if (!values.imageAlt.trim()) set("imageAlt", alt);
                 }}
@@ -172,15 +176,16 @@ export function ServiceForm({
               />
             </Field>
             <Field
-              label="Featured image (service cards)"
+              label="Hero & featured image"
               htmlFor="featuredImage"
-              hint="Optional. If blank, the cover image is used. Recommended ratio: 4:3 landscape; the card crops to fill."
+              hint="Used for both the service hero and service cards. If blank, the content image is used."
             >
               <ImageUploadField
                 id="featuredImage"
                 value={values.featuredImage}
                 onChange={(image) => set("featuredImage", image)}
                 uploadFolder="services/featured"
+                hint={HERO_IMAGE_HINT}
                 placeholder="/images/services/… or https://…"
               />
             </Field>
@@ -242,9 +247,6 @@ export function ServiceForm({
         <Button type="button" variant="outline" onClick={() => router.push("/admin/services")}>
           Cancel
         </Button>
-        {saved ? (
-          <span className="text-sm font-medium text-emerald-700">Saved.</span>
-        ) : null}
         {formError ? (
           <span role="alert" className="text-sm font-medium text-red-600">
             {formError}

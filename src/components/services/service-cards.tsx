@@ -27,16 +27,18 @@ export function ServiceCards({ services }: { services: AdminService[] }) {
             <li key={service.slug} id={service.slug}>
               <Link
                 href={`/services/${service.slug}`}
-                className="group relative flex h-[470px] flex-col justify-end overflow-hidden rounded-lg"
+                className="group flex flex-col overflow-hidden rounded-lg border border-border bg-white transition hover:border-brand/40"
               >
-                <Image
-                  src={service.featuredImage || service.image}
-                  alt={service.title}
-                  fill
-                  className="object-cover object-center transition duration-500 group-hover:scale-105"
-                  sizes="(min-width:768px) 50vw, 100vw"
-                />
-                <div className="relative z-10 flex h-[208px] flex-col gap-3 border border-white/50 bg-white/91 px-7 py-6 backdrop-blur-[10px]">
+                <div className="relative aspect-video w-full overflow-hidden bg-surface-alt">
+                  <Image
+                    src={service.featuredImage || service.image}
+                    alt={service.title}
+                    fill
+                    className="object-cover object-center"
+                    sizes="(min-width:768px) 50vw, 100vw"
+                  />
+                </div>
+                <div className="flex min-h-[208px] flex-col gap-3 px-7 py-6">
                   <div className="flex items-center gap-4 font-heading font-bold leading-none">
                     <span className="text-2xl text-brand">
                       {String(index + 1).padStart(2, "0")}

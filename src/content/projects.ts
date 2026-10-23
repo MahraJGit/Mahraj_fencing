@@ -20,7 +20,7 @@ export const projects: Project[] = [
     summary: "2.4 km welded mesh with automated sliding gates.",
     description:
       "Full perimeter upgrade with welded mesh panels, anti-climb toppings, and dual automated sliding gates integrated with access control conduits.",
-    image: "/images/figma/home/hero-photo.png",
+    image: "/images/projects/dubai-logistics-hub-perimeter.png",
     scope: ["Survey & layout", "Panel install", "Gate automation prep"],
     products: ["welded-mesh-fencing", "security-gates", "anti-climb-fencing"],
     seo: {
@@ -36,7 +36,7 @@ export const projects: Project[] = [
     summary: "Temporary fencing with branded mesh and block feet.",
     description:
       "Phased temporary fence lines with interlocking block feet, storm braces, and full-height branded mesh banners swapped per campaign.",
-    image: "/images/figma/home/product-3.png",
+    image: "/images/projects/dubai-mega-project-hoarding.png",
     scope: ["Supply", "Branding", "Shifting across phases"],
     products: ["temporary-fencing", "interlocking-concrete-blocks", "project-signage"],
     seo: {

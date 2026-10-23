@@ -15,12 +15,12 @@ export function ProductCard({ product }: ProductCardProps) {
       href={`/products/${product.slug}`}
       className="group flex flex-col overflow-hidden rounded-lg border border-border bg-background transition duration-300 hover:-translate-y-0.5 hover:border-brand/35"
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-surface-alt">
+      <div className="relative aspect-video overflow-hidden bg-surface-alt">
         <Image
           src={product.featuredImage || product.image}
           alt={product.title}
           fill
-          className="object-cover object-center transition duration-700 group-hover:scale-105"
+          className="object-cover object-center"
           sizes="(max-width:768px) 100vw, 33vw"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink/25 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />

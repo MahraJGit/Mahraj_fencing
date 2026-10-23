@@ -50,7 +50,7 @@ async function FeaturedBlogsContent() {
                     src={post.featuredImage || post.image}
                     alt={post.title}
                     fill
-                    className="object-cover object-center transition duration-500 hover:scale-105"
+                    className="object-cover object-center"
                     sizes="(min-width:1280px) 33vw, (min-width:768px) 50vw, 100vw"
                   />
                 </Link>

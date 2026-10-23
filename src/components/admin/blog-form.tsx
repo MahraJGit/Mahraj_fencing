@@ -13,7 +13,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { RichTextEditor } from "@/components/admin/editor/rich-text-editor";
-import { BLOG_IMAGE_HINT } from "@/lib/admin/blog-image";
+import {
+  ARTICLE_BODY_IMAGE_HINT,
+  AUTHOR_IMAGE_HINT,
+  BLOG_IMAGE_HINT,
+} from "@/lib/admin/image-guidelines";
 import { CheckCircle2, Circle } from "lucide-react";
 
 function toValues(post?: AdminBlog): BlogFormValues {
@@ -132,7 +136,7 @@ export function BlogForm({
       if (initial && initial.slug !== slug) {
         await deleteAdminBlog(initial.slug);
       }
-      router.push("/admin/blogs");
+      router.replace("/admin/blogs");
     } catch (error) {
       setFormError(
         error instanceof Error ? error.message : "Could not save the blog post.",
@@ -250,21 +254,20 @@ export function BlogForm({
           <Field
             label="Featured image (blog cards)"
             htmlFor="featuredImage"
-            hint="Recommended ratio: 16:9 landscape; the article card crops to fill."
           >
             <ImageUploadField
               id="featuredImage"
               value={values.featuredImage}
               onChange={(src) => set("featuredImage", src)}
               uploadFolder="blogs/featured"
-              hint={`${BLOG_IMAGE_HINT} · max 2MB`}
+              hint={BLOG_IMAGE_HINT}
             />
           </Field>
         </AdminCard>
 
         <AdminCard
           title="Content"
-          description="Use the HTML button to insert tables or custom markup."
+          description={`Use the HTML button to insert tables or custom markup. ${ARTICLE_BODY_IMAGE_HINT}`}
         >
           <RichTextEditor
             value={values.bodyHtml}
@@ -283,7 +286,7 @@ export function BlogForm({
                 onAltFromFile={(alt) => {
                   if (!values.imageAlt.trim()) set("imageAlt", alt);
                 }}
-                hint={`${BLOG_IMAGE_HINT} · max 2MB`}
+                hint={BLOG_IMAGE_HINT}
               />
             </Field>
             <Field label="Image alt tag" htmlFor="imageAlt" className="md:col-span-2">
@@ -329,8 +332,9 @@ export function BlogForm({
                 value={values.authorImage}
                 onChange={(src) => set("authorImage", src)}
                 uploadFolder="authors"
-                hint="Square photo works best · max 2MB"
-                previewClassName="max-h-32"
+                hint={AUTHOR_IMAGE_HINT}
+                previewClassName="object-cover"
+                previewAspectClassName="aspect-square max-w-40"
               />
             </Field>
             <Field label="Author bio" htmlFor="authorBio" className="md:col-span-2">

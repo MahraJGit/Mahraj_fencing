@@ -26,7 +26,7 @@ export function PageHero({
 }: PageHeroProps) {
   return (
     <section
-      className="relative isolate flex shrink-0 flex-col overflow-hidden bg-charcoal text-white"
+      className="relative isolate flex shrink-0 flex-col overflow-hidden bg-transparent text-white"
       style={heroScreenStyle}
     >
       <Image

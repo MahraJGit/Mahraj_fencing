@@ -14,6 +14,10 @@ import { Button } from "@/components/ui/button";
 import { RichTextEditor } from "@/components/admin/editor/rich-text-editor";
 import { ImageUploadField } from "@/components/admin/image-upload-field";
 import { parseListItems } from "@/lib/list-items";
+import {
+  HERO_IMAGE_HINT,
+  PRODUCT_IMAGE_HINT,
+} from "@/lib/admin/image-guidelines";
 
 function toValues(product?: AdminProduct): ProductFormValues {
   return {
@@ -48,14 +52,11 @@ export function ProductForm({
 }) {
   const router = useRouter();
   const [values, setValues] = useState<ProductFormValues>(() => toValues(initial));
-  const [editorResetKey, setEditorResetKey] = useState(0);
-  const [saved, setSaved] = useState(false);
   const [pending, setPending] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
   function set<K extends keyof ProductFormValues>(key: K, value: ProductFormValues[K]) {
     setValues((prev) => ({ ...prev, [key]: value }));
-    setSaved(false);
     setFormError(null);
   }
 
@@ -85,14 +86,7 @@ export function ProductForm({
     };
     try {
       await saveAdminProduct(item, initial?.slug);
-      if (mode === "create") {
-        setValues(toValues());
-        setEditorResetKey((key) => key + 1);
-        setSaved(false);
-        router.push("/admin/products");
-      } else {
-        setSaved(true);
-      }
+      router.replace("/admin/products");
     } catch (error) {
       setFormError(
         error instanceof Error ? error.message : "Could not save the product.",
@@ -175,7 +169,6 @@ export function ProductForm({
 
       <AdminCard title="Full description" description="Rich text with HTML blocks for tables and custom markup.">
         <RichTextEditor
-          key={editorResetKey}
           value={values.description}
           onChange={(html) => set("description", html)}
           placeholder="Write the product description..."
@@ -192,6 +185,7 @@ export function ProductForm({
                 value={values.image}
                 onChange={(image) => set("image", image)}
                 uploadFolder="products"
+                hint={HERO_IMAGE_HINT}
                 onAltFromFile={(alt) => {
                   if (!values.imageAlt.trim()) set("imageAlt", alt);
                 }}
@@ -201,13 +195,15 @@ export function ProductForm({
             <Field
               label="Featured image (product cards)"
               htmlFor="featuredImage"
-              hint="Optional. If blank, the cover image is used. Recommended ratio: 4:3 landscape; the card crops to fill."
+              hint="Optional. If blank, the cover image is used."
             >
               <ImageUploadField
                 id="featuredImage"
                 value={values.featuredImage}
                 onChange={(image) => set("featuredImage", image)}
                 uploadFolder="products/featured"
+                hint={PRODUCT_IMAGE_HINT}
+                previewAspectClassName="aspect-[4/3]"
                 placeholder="/images/products/… or https://…"
               />
             </Field>
@@ -267,7 +263,8 @@ export function ProductForm({
                           set("gallery", gallery);
                         }}
                         uploadFolder="products/gallery"
-                        hint="JPG, PNG, WebP, GIF · max 2MB"
+                        hint={PRODUCT_IMAGE_HINT}
+                        previewAspectClassName="aspect-[4/3]"
                         compact
                         previewClassName="max-h-32"
                       />
@@ -350,9 +347,6 @@ export function ProductForm({
         <Button type="button" variant="outline" onClick={() => router.push("/admin/products")}>
           Cancel
         </Button>
-        {saved ? (
-          <span className="text-sm font-medium text-emerald-700">Saved.</span>
-        ) : null}
         {formError ? (
           <span role="alert" className="text-sm font-medium text-red-600">
             {formError}

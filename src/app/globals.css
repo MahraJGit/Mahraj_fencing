@@ -103,9 +103,14 @@ section[data-section].bg-charcoal + section[data-section].bg-charcoal {
 }
 
 .hero-image-overlay {
-  background-image:
-    linear-gradient(90deg, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.60) 50%, rgba(0, 0, 0, 0.32) 100%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.22) 0%, transparent 45%, rgba(0, 0, 0, 0.28) 100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.68) 25%,
+    rgba(0, 0, 0, 0.5) 50%,
+    rgba(0, 0, 0, 0.28) 75%,
+    rgba(0, 0, 0, 0.12) 100%
+  );
 }
 
 .page-hero {

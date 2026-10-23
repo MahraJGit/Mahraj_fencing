@@ -5,6 +5,7 @@ import { Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { ARTICLE_BODY_IMAGE_HINT } from "@/lib/admin/image-guidelines";
 
 type ImageInsertModalProps = {
   open: boolean;
@@ -95,7 +96,7 @@ export function ImageInsertModal({
             Insert image
           </h2>
           <p className="mt-1 text-sm text-body">
-            Upload from your PC or paste an image URL.
+            Upload from your PC or paste an image URL. {ARTICLE_BODY_IMAGE_HINT}
           </p>
         </div>
 

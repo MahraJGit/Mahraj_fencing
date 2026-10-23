@@ -24,7 +24,7 @@ export function AboutIntroduction() {
           </ButtonLink>
         </Reveal>
         <Reveal delay={0.08}>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-charcoal">
+          <div className="relative aspect-video overflow-hidden rounded-lg bg-surface-alt">
             <Image
               src={introduction.image}
               alt="Mahraj Fencing manufacturing and site operations"

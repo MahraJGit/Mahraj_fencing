@@ -61,15 +61,15 @@ export function ProjectsListing() {
               <li key={project.slug}>
                 <Link
                   href={`/projects/${project.slug}`}
-                  className="group flex flex-col overflow-hidden rounded-lg border border-border bg-background sm:flex-row"
+                  className="group flex flex-col overflow-hidden rounded-lg border border-border bg-background transition hover:border-brand/40"
                 >
-                  <div className="relative h-52 shrink-0 sm:h-auto sm:w-72">
+                  <div className="relative aspect-video w-full overflow-hidden bg-surface-alt">
                     <Image
                       src={project.image}
                       alt={project.title}
                       fill
-                      className="object-cover"
-                      sizes="288px"
+                      className="object-cover object-center"
+                      sizes="(min-width:1024px) 50vw, 100vw"
                     />
                   </div>
                   <div className="p-6">

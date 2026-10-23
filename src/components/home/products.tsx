@@ -40,16 +40,18 @@ export async function ProductsSection() {
             <li key={product.slug}>
               <Link
                 href={`/products/${product.slug}`}
-                className="group relative flex h-[470px] flex-col justify-end overflow-hidden rounded-lg"
+                className="group flex flex-col overflow-hidden rounded-lg border border-border bg-white transition hover:border-brand/40"
               >
-                <Image
-                  src={product.featuredImage || product.image}
-                  alt={product.title}
-                  fill
-                  className="object-cover object-center transition duration-500 group-hover:scale-105"
-                  sizes="(min-width:768px) 33vw, 100vw"
-                />
-                <div className="relative z-10 flex h-[208px] flex-col gap-3 border border-white/50 bg-white/91 px-7 py-6 backdrop-blur-[10px]">
+                <div className="relative aspect-video w-full overflow-hidden bg-surface-alt">
+                  <Image
+                    src={product.featuredImage || product.image}
+                    alt={product.title}
+                    fill
+                    className="object-cover object-center"
+                    sizes="(min-width:768px) 33vw, 100vw"
+                  />
+                </div>
+                <div className="flex min-h-[208px] flex-col gap-3 px-7 py-6">
                   <h3 className="font-heading text-[27px] font-bold uppercase leading-none text-ink">
                     {product.title}
                   </h3>
@@ -69,13 +71,13 @@ export async function ProductsSection() {
                 href={`/products/${product.slug}`}
                 className="group flex items-center gap-4 overflow-hidden rounded-md border border-line bg-white text-[15px] font-medium text-ink transition hover:border-brand hover:text-brand"
               >
-                <span className="relative h-20 w-24 shrink-0 overflow-hidden bg-surface-alt">
+                  <span className="relative aspect-video w-28 shrink-0 overflow-hidden bg-surface-alt">
                   <Image
                     src={product.featuredImage || product.image}
                     alt=""
                     fill
-                    className="object-cover object-center transition duration-500 group-hover:scale-105"
-                    sizes="96px"
+                    className="object-cover object-center"
+                    sizes="112px"
                   />
                 </span>
                 <span className="flex flex-1 items-center justify-between gap-3 py-4 pr-4">

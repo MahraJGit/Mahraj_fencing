@@ -30,12 +30,12 @@ export function Applications() {
                 href={`/projects/${project.slug}`}
                 className="group flex flex-col overflow-hidden rounded-[10px] bg-white"
               >
-                <div className="relative h-[240px] md:h-[300px]">
+                <div className="relative aspect-[16/10] w-full overflow-hidden bg-surface-alt">
                   <Image
                     src={project.image}
                     alt={project.title}
                     fill
-                    className="object-cover transition duration-500 group-hover:scale-105"
+                    className="object-cover"
                     sizes="(min-width:768px) 50vw, 100vw"
                   />
                 </div>

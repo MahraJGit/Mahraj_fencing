@@ -20,7 +20,7 @@ export async function generateMetadata(props: ServicePageProps) {
     title: service.seo.title,
     description: service.seo.description,
     path: `/services/${service.slug}`,
-    image: service.image,
+    image: service.featuredImage || service.image,
   });
 }
 
@@ -60,7 +60,7 @@ async function ServiceDetailContent({
       <PageHero
         title={service.title}
         subtitle={service.summary}
-        image={service.image}
+        image={service.featuredImage || service.image}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Services", href: "/services" },
@@ -69,9 +69,9 @@ async function ServiceDetailContent({
       />
       <Section>
         <div className="grid gap-10 lg:grid-cols-2">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
+          <div className="relative aspect-video overflow-hidden rounded-lg bg-surface-alt">
             <Image
-              src={service.featuredImage || service.image}
+              src={service.image}
               alt={service.title}
               fill
               className="object-cover object-center"

@@ -19,6 +19,7 @@ type ImageUploadFieldProps = {
   placeholder?: string;
   hint?: string;
   previewClassName?: string;
+  previewAspectClassName?: string;
   required?: boolean;
   compact?: boolean;
 };
@@ -32,6 +33,7 @@ export function ImageUploadField({
   placeholder = "/images/… or https://…",
   hint = "JPG, PNG, WebP, GIF · max 2MB",
   previewClassName,
+  previewAspectClassName = "aspect-video",
   required = false,
   compact = false,
 }: ImageUploadFieldProps) {
@@ -149,12 +151,17 @@ export function ImageUploadField({
       />
 
       {showPreview ? (
-        <div className="relative overflow-hidden rounded-lg border border-border bg-surface-alt">
+        <div
+          className={cn(
+            "relative overflow-hidden rounded-lg border border-border bg-surface-alt",
+            previewAspectClassName,
+          )}
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={value}
             alt="Preview"
-            className={cn("mx-auto max-h-40 object-contain", previewClassName)}
+            className={cn("h-full w-full object-contain", previewClassName)}
           />
           <Button
             type="button"

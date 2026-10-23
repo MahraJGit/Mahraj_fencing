@@ -87,7 +87,7 @@ async function ProductDetailContent({
       />
       <Section>
         <div className="grid gap-10 lg:grid-cols-2">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border">
+          <div className="relative aspect-video overflow-hidden rounded-lg border border-border bg-surface-alt">
             <Image
               src={product.featuredImage || product.image}
               alt={product.title}

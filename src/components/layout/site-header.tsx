@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import type { NavItem } from "@/content/site";
@@ -23,6 +26,8 @@ export function SiteHeader({
   activePath = "",
   navItems,
 }: SiteHeaderProps) {
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
   return (
     <header
       className={cn(
@@ -60,16 +65,35 @@ export function SiteHeader({
             const itemClass = cn(linkClass, active && activeLinkClass);
 
             return item.children ? (
-              <div key={item.label} className="group relative flex h-full items-center">
+              <div
+                key={item.label}
+                className="relative flex h-full items-center"
+                onMouseEnter={() => setOpenDropdown(item.label)}
+                onMouseLeave={() => setOpenDropdown(null)}
+                onFocusCapture={() => setOpenDropdown(item.label)}
+                onBlurCapture={(event) => {
+                  if (
+                    !event.currentTarget.contains(
+                      event.relatedTarget as Node | null,
+                    )
+                  ) {
+                    setOpenDropdown(null);
+                  }
+                }}
+              >
                 <Link
                   href={item.href}
                   className={itemClass}
                   aria-current={active ? "page" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={openDropdown === item.label}
+                  onClick={() => setOpenDropdown(null)}
                 >
                   {item.label}
                   <ChevronDown
                     className={cn(
-                      "h-4 w-4 opacity-60 transition group-hover:opacity-100",
+                      "h-4 w-4 opacity-60 transition",
+                      openDropdown === item.label && "opacity-100",
                       active && "opacity-100",
                     )}
                   />
@@ -77,8 +101,7 @@ export function SiteHeader({
                 <div
                   className={cn(
                     "invisible absolute left-0 top-[calc(100%+1px)] z-50 w-[306px] overflow-hidden rounded-b-2xl border border-t-0 border-white/20 bg-black/40 opacity-0 shadow-[0_4px_50px_rgba(0,0,0,0.45)] backdrop-blur-xl transition-[visibility,opacity] duration-200",
-                    "group-hover:visible group-hover:opacity-100",
-                    "group-focus-within:visible group-focus-within:opacity-100",
+                    openDropdown === item.label && "visible opacity-100",
                   )}
                 >
                   <ul>
@@ -87,6 +110,7 @@ export function SiteHeader({
                         <Link
                           href={child.href}
                           className="flex min-h-14 flex-col justify-center px-3 py-2 transition hover:bg-white/10 focus-visible:bg-white/10 focus-visible:outline-none"
+                          onClick={() => setOpenDropdown(null)}
                         >
                           <span className="block text-sm font-semibold text-white">
                             {child.label}
